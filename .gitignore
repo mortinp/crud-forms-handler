@@ -1,0 +1,36 @@
+# User specific & automatically generated files #
+#################################################
+#/app/Config/database.php
+/app/tmp
+/lib/Cake/Console/Templates/skel/tmp/
+/plugins
+/vendors
+/build
+/dist
+/tags
+
+/lib/Cake/Console
+/lib/Cake/Test
+/lib/Cake/TestSuite
+/nbproject
+.editorConfig
+build.xml
+build.properties
+travis.yml
+CONTRIBUTING.md
+README.md
+TODO.txt
+yotellevo.backup
+yotellevo.sql
+
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db

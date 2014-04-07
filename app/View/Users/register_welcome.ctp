@@ -1,0 +1,2 @@
+<h1><?php echo __('Gracias por registrarte en <em>YoTeLlevo</em>')?></h1>
+<h3><?php echo __('Ya te enviamos un mensaje a tu correo electrónico con un enlace de confirmación. Revisa tu correo, confirma tu cuenta y comienza a usar <em>YoTeLlevo</em>')?>.</h3>

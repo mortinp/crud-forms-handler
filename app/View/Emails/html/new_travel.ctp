@@ -1,0 +1,1 @@
+<?php echo $this->element('travel', array('travel'=>$travel, 'actions'=>false))?>

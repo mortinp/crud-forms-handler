@@ -54,18 +54,17 @@ class UsersController extends AppController {
             $this->request->data['User']['activation_id'] =  $activation_id;
             $this->request->data['User']['role'] = 'regular';
             if ($this->PendingUser->save($this->request->data['User'])) {
-                /*// Send email and redirect to a welcome page
+                // Send email and redirect to a welcome page
                 $Email = new CakeEmail('desoft');
                 $Email->template('welcome')
                 ->viewVars(array('user_id' => $activation_id))
                 ->emailFormat('html')
                 ->to($this->request->data['User']['username'])
-                ->subject('Your authorization link')
+                ->subject('Tu enlace de confirmación')
                 ->send();
 
-                //return $this->redirect(array('controller' => 'users', 'action' => 'register_welcome'));
-                return $this->render('register_welcome');*/
-                return $this->authorize($activation_id);
+                return $this->render('register_welcome');
+                //return $this->authorize($activation_id);
             }
             $this->setErrorMessage(__('Unable to register this user.'));
         }
@@ -87,7 +86,7 @@ class UsersController extends AppController {
             }
             
             $this->PendingUser->delete($id);
-            $this->setSuccessMessage(__('Has sido autorizado. Entra ahora.'));
+            $this->setSuccessMessage(__('Tu cuenta ha sido confirmada exitosamente. Ahora puedes entrar para crear anuncios de viajes.'));
 
             return $this->redirect(array('controller' => 'users', 'action' => 'login'));
         }

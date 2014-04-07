@@ -13,7 +13,10 @@ class Travel extends AppModel {
     public $belongsTo = array(
         'Locality' => array(
             'fields'=>array('id', 'name')
-        )        
+        ),
+        'User' => array(
+            'fields'=>array('id', 'username', 'role')
+        )
     );
 
     public $validate = array(

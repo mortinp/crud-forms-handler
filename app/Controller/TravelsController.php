@@ -98,20 +98,32 @@ class TravelsController extends AppController {
             }
             
             if($OK) {
-                $drivers = $this->DriverLocality->find('all', array('conditions'=>
+
+                // Send every email to me ;)
+                $Email = new CakeEmail('desoft');
+                $Email->template('new_travel')
+                ->viewVars(array('travel' => $travel))
+                ->emailFormat('html')
+                ->to('mproenza@grm.desoft.cu')
+                ->subject('Nuevo Anuncio de Viaje')
+                ->send();
+                    
+                if($travel['User']['role'] !== 'admin') { // If it wasn't an admin who created the travel
+                    $drivers = $this->DriverLocality->find('all', array('conditions'=>
                             array('DriverLocality.locality_id'=>$travel['Travel']['locality_id'], 
                                 'Driver.active'=>true, 
                                 'Driver.max_people_count >='=>$travel['Travel']['people_count'])));
-                foreach ($drivers as $d) {
-                    // Send email and redirect to a welcome page
-                    $Email = new CakeEmail('desoft');
-                    $Email->template('new_travel')
-                    ->viewVars(array('travel' => $travel))
-                    ->emailFormat('html')
-                    ->to($d['Driver']['username'])
-                    ->subject('Nuevo Anuncio de Viaje')
-                    ->send();
+                    foreach ($drivers as $d) {
+                        $Email = new CakeEmail('desoft');
+                        $Email->template('new_travel')
+                        ->viewVars(array('travel' => $travel))
+                        ->emailFormat('html')
+                        ->to($d['Driver']['username'])
+                        ->subject('Nuevo Anuncio de Viaje')
+                        ->send();
+                    }
                 }
+                
                 //$this->setSuccessMessage('<b>Este anuncio de viaje fue confirmado exitosamente y enviado a varios choferes</b>. Pronto será contactado.');
             }
             

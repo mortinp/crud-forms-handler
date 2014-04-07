@@ -48,7 +48,7 @@ class EmailConfig {
 		'transport' => 'Smtp',
 		'from' => 'martin@ksabes.com',
 		'host' => 'send.one.com',
-		'port' => 25,
+		'port' => 2525,
 		'username' => 'martin@ksabes.com',
 		'password' => 'martin123',
 		'log' => true,

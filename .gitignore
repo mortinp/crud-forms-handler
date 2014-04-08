@@ -16,7 +16,7 @@
 .editorConfig
 build.xml
 build.properties
-travis.yml
+.travis.yml
 CONTRIBUTING.md
 README.md
 TODO.txt

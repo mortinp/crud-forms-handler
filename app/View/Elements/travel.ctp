@@ -68,7 +68,13 @@ $pretty_date = $day.' '.$month.', '.$year.' ('.$day_of_week.')';
             array('controller'=>'travels', 'action'=>'confirm/'.$travel['Travel']['id']), 
                 array('escape'=>false, 'title'=>'Confirmar y Enviar este viaje a los choferes'));?>
         </li>
-        
+    <?php elseif(AuthComponent::user('role') === 'admin'):?>
+        <li style="padding-right: 10px;display: inline-block">
+        <?php echo $this->Html->link(
+            '<i class="glyphicon glyphicon-trash"></i> Eliminar', 
+            array('controller'=>'travels', 'action'=>'delete/'.$travel['Travel']['id']), 
+                array('escape'=>false, 'class'=>'text-danger', 'title'=>'Eliminar este viaje'));?>
+        </li>
     <?php endif?>
         
     </ul>

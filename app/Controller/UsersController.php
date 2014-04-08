@@ -55,7 +55,7 @@ class UsersController extends AppController {
             $this->request->data['User']['role'] = 'regular';
             if ($this->PendingUser->save($this->request->data['User'])) {
                 // Send email and redirect to a welcome page
-                $Email = new CakeEmail('desoft');
+                $Email = new CakeEmail('yotellevo');
                 $Email->template('welcome')
                 ->viewVars(array('user_id' => $activation_id))
                 ->emailFormat('html')
@@ -112,7 +112,7 @@ class UsersController extends AppController {
             $this->request->data['User']['password'] = $newPass;
             if ($this->User->save($this->request->data['User'])) {               
                 // Send email and redirect to a welcome page
-                $Email = new CakeEmail('desoft');
+                $Email = new CakeEmail('yotellevo');
                 $Email->template('recover_password')
                 ->viewVars(array('newPass' => $newPass))
                 ->emailFormat('html')

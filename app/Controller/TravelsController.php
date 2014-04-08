@@ -51,23 +51,7 @@ class TravelsController extends AppController {
 
             $this->request->data['Travel']['user_id'] = $this->Auth->user('id');
             $this->request->data['Travel']['state'] = Travel::$STATE_DEFAULT;
-            if ($this->Travel->save($this->request->data)) {
-                
-                /*// Send notification email
-                $locality = $this->Locality->findById($this->request->data['Travel']['locality_id']);
-                $this->request->data['Locality'] = $locality['Locality'];
-                $drivers = $this->User->find('all', array('conditions'=>array('active'=>true)));
-                foreach ($drivers as $d) {
-                    // Send email and redirect to a welcome page
-                    $Email = new CakeEmail('desoft');
-                    $Email->template('new_travel')
-                    ->viewVars(array('travel' => $this->request->data))
-                    ->emailFormat('html')
-                    ->to($d['User']['username'])
-                    ->subject('Nuevo Anuncio de Viaje')
-                    ->send();
-                }*/
-                
+            if ($this->Travel->save($this->request->data)) {                
                 $this->setSuccessMessage('Este viaje ha sido creado exitosamente.');
                 
                 $id = $this->Travel->getLastInsertID();
@@ -100,7 +84,7 @@ class TravelsController extends AppController {
             if($OK) {
 
                 // Send every email to me ;)
-                $Email = new CakeEmail('desoft');
+                $Email = new CakeEmail('yotellevo');
                 $Email->template('new_travel')
                 ->viewVars(array('travel' => $travel))
                 ->emailFormat('html')
@@ -114,7 +98,7 @@ class TravelsController extends AppController {
                                 'Driver.active'=>true, 
                                 'Driver.max_people_count >='=>$travel['Travel']['people_count'])));
                     foreach ($drivers as $d) {
-                        $Email = new CakeEmail('desoft');
+                        $Email = new CakeEmail('yotellevo');
                         $Email->template('new_travel')
                         ->viewVars(array('travel' => $travel))
                         ->emailFormat('html')

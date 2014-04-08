@@ -70,6 +70,20 @@ class EmailConfig {
 		//'charset' => 'utf-8',
 		//'headerCharset' => 'utf-8',
 	);
+        
+        public $yotellevo = array(
+		'transport' => 'Smtp',
+		'from' => array('mproenza@grm.desoft.cu' => 'YoTeLlevo'),
+		'host' => 'data',
+		'port' => 25,
+		'timeout' => 30,
+		//'username' => 'mproenza',
+		//'password' => 'iammartin13',
+		'client' => null,
+		'log' => false,
+		//'charset' => 'utf-8',
+		//'headerCharset' => 'utf-8',
+	);
 
 	public $fast = array(
 		'from' => 'you@localhost',

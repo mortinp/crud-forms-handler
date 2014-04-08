@@ -14,6 +14,7 @@ if($isLoggedIn) {
         $splitEmail = explode('@', $user['username']);
         $pretty_user_name = $splitEmail[0];
     }
+    if($role === 'admin') $pretty_user_name.= ' (<b>admin</b>)';
     //$pretty_user_date = date('M j, Y', strtotime($user['created']));
 }
 
@@ -23,7 +24,7 @@ if($isLoggedIn) {
     <head>        
         <?php echo $this->Html->charset(); ?>
         <title>
-            <?php echo "YoTeLlevo | Encuentra un chofer con carro que te lleve" ?>
+            <?php echo "YoTeLlevo | Encuentra un chofer con carro que te lleve a cualquier lado" ?>
         </title>
         <?php
         // META
@@ -70,7 +71,7 @@ if($isLoggedIn) {
                         <ul class="nav navbar-nav">
                             <?php if ($isLoggedIn) :?>
                             
-                                <?php if($role == 'regular') :?>
+                                <?php if($role === 'regular' || $role === 'admin') :?>
                                     <li><?php echo $this->Html->link(__('<i class="glyphicon glyphicon-bell"></i> Mis anuncios'), array('controller' => 'travels', 'action' => 'index'), array('escape'=>false));?></li>
                                     <li><?php echo $this->Html->link(__('<i class="glyphicon glyphicon-flag"></i> <big><b>Anunciar viaje</b></big>'), array('controller' => 'travels', 'action' => 'add'), array('escape'=>false));?></li> 
                                 <?php endif;?> 

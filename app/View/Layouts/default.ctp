@@ -43,7 +43,7 @@ if($isLoggedIn) {
         $this->Html->script('jquery', array('inline' => false));
         //$this->Html->script('prettify', array('inline' => false));        
         $this->Html->script('bootstrap', array('inline' => false));
-        $this->Html->script('jquery-ui', array('inline' => false));
+        //$this->Html->script('jquery-ui', array('inline' => false));
         
 
         echo $this->fetch('meta');

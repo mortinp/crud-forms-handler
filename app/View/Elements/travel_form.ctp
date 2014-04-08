@@ -44,7 +44,7 @@ $this->Html->css('vitalets-bootstrap-datepicker/datepicker', array('inline' => f
 
 //JS
 $this->Html->script('jquery', array('inline' => false));   
-$this->Html->script('jquery-ui', array('inline' => false)); 
+//$this->Html->script('jquery-ui', array('inline' => false)); 
 $this->Html->script('bootstrap', array('inline' => false));
 $this->Html->script('vitalets-bootstrap-datepicker/bootstrap-datepicker', array('inline' => false));
 $this->Html->script('vitalets-bootstrap-datepicker/locales/bootstrap-datepicker.es', array('inline' => false));

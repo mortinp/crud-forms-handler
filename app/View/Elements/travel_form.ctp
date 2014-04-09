@@ -47,13 +47,13 @@ else
 <?php
 // CSS
 $this->Html->css('bootstrap', array('inline' => false));
-$this->Html->css('vitalets-bootstrap-datepicker/datepicker', array('inline' => false));
+$this->Html->css('vitalets-bootstrap-datepicker/datepicker.min', array('inline' => false));
 
 //JS
 $this->Html->script('jquery', array('inline' => false));
 //$this->Html->script('jquery-ui', array('inline' => false)); 
 $this->Html->script('bootstrap', array('inline' => false));
-$this->Html->script('vitalets-bootstrap-datepicker/bootstrap-datepicker', array('inline' => false));
+$this->Html->script('vitalets-bootstrap-datepicker/bootstrap-datepicker.min', array('inline' => false));
 $this->Html->script('vitalets-bootstrap-datepicker/locales/bootstrap-datepicker.es', array('inline' => false));
 
 $this->Html->script('jquery-validation-1.10.0/dist/jquery.validate.min', array('inline' => false));

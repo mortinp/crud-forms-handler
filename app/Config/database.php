@@ -60,51 +60,49 @@
  * For Sql Server : http://msdn.microsoft.com/en-us/library/ms190356.aspx
  */
 class DATABASE_CONFIG {
+    
+    public $mysql = array(
+        'datasource' => 'Database/Mysql',
+        'persistent' => false,
+        'host' => 'localhost',
+        'login' => 'root',
+        'password' => '',
+        'database' => 'yotellevo',
+        'prefix' => '',
+        //'encoding' => 'utf8',
+    );
 
-	public $default = array(
-		'datasource' => 'Database/Mysql',
-		'persistent' => false,
-		'host' => 'localhost',
-		'login' => 'user',
-		'password' => 'password',
-		'database' => 'database_name',
-		'prefix' => '',
-		//'encoding' => 'utf8',
-	);
-
-	public $mysql = array(
-		'datasource' => 'Database/Mysql',
-		'persistent' => false,
-		'host' => 'localhost',
-		'login' => 'root',
-		'password' => '',
-		'database' => 'yotellevo',
-		'prefix' => '',
-		//'encoding' => 'utf8',
-	);
-	
-	public $mongodb = array(
-		'datasource' => 'Mongodb.MongodbSource',
-		'persistent' => false,
-		'host' => 'localhost',
-		'port' => 27017,
-		//'login' => 'user',
-		//'password' => 'password',
-		'database' => 'pqmtest',
-		//'prefix' => '',
-		//'encoding' => 'utf8',
-	);
-        
-        public $postgres = array(
-            'datasource' => 'Database/Postgres',
-            'persistent' => false,
-            'host' => 'localhost',
-            'port' => '5432',
-            'login' => 'yotellevo',
-            'password' => 'yotellevo',
-            'database' => 'yotellevo',
-            'schema' => 'public',
-            'prefix' => '',
-            'encoding' => ''
-        );
+    /*public $default = array(
+        'datasource' => 'Database/Mysql',
+        'persistent' => false,
+        'host' => 'localhost',
+        'login' => 'user',
+        'password' => 'password',
+        'database' => 'database_name',
+        'prefix' => '',
+        //'encoding' => 'utf8',
+    );
+    public $mongodb = array(
+        'datasource' => 'Mongodb.MongodbSource',
+        'persistent' => false,
+        'host' => 'localhost',
+        'port' => 27017,
+        //'login' => 'user',
+        //'password' => 'password',
+        'database' => 'pqmtest',
+        //'prefix' => '',
+        //'encoding' => 'utf8',
+    );
+    public $postgres = array(
+        'datasource' => 'Database/Postgres',
+        'persistent' => false,
+        'host' => 'localhost',
+        'port' => '5432',
+        'login' => 'yotellevo',
+        'password' => 'yotellevo',
+        'database' => 'yotellevo',
+        'schema' => 'public',
+        'prefix' => '',
+        'encoding' => ''
+    );*/
 }

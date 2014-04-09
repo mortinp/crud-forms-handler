@@ -67,7 +67,7 @@ $this->Html->script('jquery-validation-1.10.0/localization/messages_es', array('
         $('.datepicker').datepicker({
             format: "dd/mm/yyyy",
             language: 'es',
-            startDate: new Date(),
+            startDate: 'today',
             todayBtn: "linked",
             autoclose: true,
             todayHighlight: true

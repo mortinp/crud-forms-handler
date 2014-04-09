@@ -34,7 +34,7 @@ if($isLoggedIn) {
         //$this->Html->css('prettify', array('inline' => false));
         $this->Html->css('bootstrap', array('inline' => false));        
         //$this->Html->css('jquery-ui', array('inline' => false));
-        //$this->Html->css('common/font-awesome.min', array('inline' => false));
+        $this->Html->css('common/font-awesome.min', array('inline' => false));
         //$this->Html->script('default', array('inline' => false));
         $this->Html->css('default', array('inline' => false));
         

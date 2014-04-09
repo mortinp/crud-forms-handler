@@ -1,12 +1,16 @@
-<div class="container">
+<?php 
+$isLoggedIn = AuthComponent::user('id') ? true : false;
+?>
+
+<div class="container" style="/*background-color: lightblue*/">
     <div class="row">
         <div class="col-md-6">
             <h1><big><i class="glyphicon glyphicon-road"></i> YoTeLlevo</big></h1>
             <h1><small>La mejor manera de viajar en Cuba si no tienes carro</small></h1>
             <div class="text-muted">
-                <b><em>YoTeLlevo</em> te permite encontrar un chofer con carro para que te lleve a cualquier parte.</b> Este tipo de acuerdo se realiza 
+                <big><b><em>YoTeLlevo</em> te permite encontrar un chofer con carro para que te lleve a cualquier parte.</b> Este tipo de acuerdo se realiza 
                 actualmente con intermediarios o corredores; <em>YoTeLlevo</em> ahora es el intermediario, con la diferencia de que 
-                <b><em>YoTeLlevo</em> es gratis</b> -puedes hacer todos los anuncios que desees, sin costo alguno.
+                <b><em>YoTeLlevo</em> es gratis</b>: puedes hacer todos los anuncios que desees, sin costo alguno.</big>
             </div>
             <h1><small class="text-info">Deja de buscar choferes con carro por ahí. Anúnciate en <em>YoTeLlevo</em> y espera a que un chofer te contacte para llevarte.</small></h1>
         </div>
@@ -23,14 +27,23 @@
                 <?php echo $this->Html->link("<i class='glyphicon glyphicon-flag'></i> Crea un anuncio de viaje", array('controller'=>'travels', 'action'=>'add'), array('escape'=>false))?>
                 </big>
             </div>
+            <div class="text-muted" style="padding: 40px;">
+                <big><!--<i class="icon-quote-left"></i> -->
+                    <div style="position: absolute;margin-left: -10px"><big><b>"</b></big></div> 
+                    Con <em>YoTeLlevo</em> las personas no dependen de nadie que les gestione sus viajes. 
+                    Uno mismo puede gestionárselos entrando a la aplicación y publicando un anuncio.
+                    Los choferes tampoco dependen de nadie, porque reciben las notificaciones directamente en su correo electrónico
+                    <big><b>"</b></big><!-- <i class="icon-quote-right"></i> -->
+                    <span style="/*color: #000*/">&ndash; <a href="http://twitter.com/martinproenza" style="text-decoration: none">Martín</a>, creador de <em>YoTeLlevo</em></span>
+                </big>
+            </div>
         </div>
     </div>
 </div>
 
 <br/>
-<br/>
 
-<div class="container">
+<div class="container" style="/*background-color: lightcoral*/">
     <div class="row">
         <div class="col-md-6">
             <h1>Viajero</h1>
@@ -51,7 +64,7 @@
                     <li style="padding-bottom: 15px"><i class="glyphicon glyphicon-phone-alt" style="margin-left: -20px"></i> Espera a ser contactado por uno de nuestros choferes para acordar los términos del viaje</li>
                 </ul>
                 <div style="margin:20px"><big><b>Finalmente, haz tu viaje el día acordado, en los términos acordados</b></big></div>
-                <div><big><?php echo $this->Html->link("<i class='glyphicon glyphicon-flag'></i> Crea un Anuncio de Viaje ahora", array('controller'=>'travels', 'action'=>'add'), array('escape'=>false))?></big></div>
+                <div style="margin:20px"><big><?php echo $this->Html->link("<i class='glyphicon glyphicon-flag'></i> Crea un anuncio de viaje ahora", array('controller'=>'travels', 'action'=>'add'), array('escape'=>false))?></big></div>
             </div>
         </div>
         <div class="col-md-6">
@@ -73,11 +86,29 @@
                     <li style="padding-bottom: 15px"><i class="glyphicon glyphicon-phone-alt" style="margin-left: -20px"></i> Contacta con los interesados en viajar usando los contactos especificados en el anuncio de viaje, y acuerda los términos del viaje</li>
                 </ul>
                 <div style="margin:20px"><big><b>Finalmente, lleva al viajero a su destino cumpliendo los términos acordados</b></big></div>
-                <div><big><?php echo $this->Html->link("<i class='glyphicon glyphicon-earphone'></i> Contáctanos para registrarte como chofer ahora", array('controller'=>'pages', 'action'=>'display', 'contact'), array('escape'=>false))?></big></div>
+                <div style="margin:20px"><big><?php echo $this->Html->link("<i class='glyphicon glyphicon-earphone'></i> Contáctanos para registrarte como chofer ahora", array('controller'=>'pages', 'action'=>'display', 'contact'), array('escape'=>false))?></big></div>
             </div>
         </div>
     </div>
 </div>
+
+<br/>
+<br/>
+<br/>
+
+<?php if(!$isLoggedIn):?>
+<div class="container" style="/*background-color: yellowgreen*/">
+    <div class="row">
+        <div class="col-md-6">
+            <legend class="text-muted">
+                <!--Entra a tu cuenta para ver tus anuncios de viajes, o crear el primer anuncio si aún no tienes.-->
+                <b>¿No tienes una cuenta todavía?</b> Regístrate ahora: 
+            </legend>
+            <?php echo $this->element('register_form')?>
+        </div>        
+    </div>
+</div>
+<?php endif?>
 
 
 <?php $this->Html->css('home', null, array('inline' => false));?>

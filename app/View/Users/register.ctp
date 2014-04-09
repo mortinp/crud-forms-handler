@@ -2,15 +2,7 @@
     <div class="col-md-4 col-md-offset-2">
         <?php echo $this->Session->flash('auth'); ?>
         <legend><?php echo __('Regístrate (o ' . $this->Html->link('Entra', array('controller' => 'users', 'action' => 'login')) . ' si ya tienes cuenta)'); ?></legend>
-        <?php echo $this->Form->create('User', array('controller' => 'users', 'action' => 'register')); ?>
-        <fieldset>
-            <?php
-            echo $this->Form->input('username', array('label' => 'Correo electrónico', 'type' => 'email'));
-            echo $this->Form->input('password', array('label'=> 'Contraseña'));
-            echo $this->Form->submit(__('Registrarse'));
-            ?>
-        </fieldset>
-        <?php echo $this->Form->end(); ?>
+        <?php echo $this->element('register_form') ?>
         
         <!--<br/>
         <div class="alert alert-info">Los choferes no se registran directamente.</div>-->

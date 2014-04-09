@@ -77,10 +77,6 @@ if($isLoggedIn) {
                                 <?php if($role === 'regular' || $role === 'admin') :?>
                                     <li><?php echo $this->Html->link(__('<i class="glyphicon glyphicon-bell"></i> Mis anuncios'), array('controller' => 'travels', 'action' => 'index'), array('escape'=>false));?></li>
                                     <li><?php echo $this->Html->link(__('<i class="glyphicon glyphicon-flag"></i> <big><b>Anunciar viaje</b></big>'), array('controller' => 'travels', 'action' => 'add'), array('escape'=>false));?></li> 
-                                    
-                                    <?php if ($role === 'admin') :?>
-                                    <li><div class="alert alert-info">Los anuncion creados por los administradores NO son enviados a ningún chofer</div></li>
-                                    <?php endif?>
                                 <?php endif;?> 
                                 
                             <?php else: ?>
@@ -115,8 +111,23 @@ if($isLoggedIn) {
                     </div><!-- /.navbar-collapse -->
                 </div>
             </nav>
-
-
+            
+            <?php if ($role === 'admin') :?>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="alert alert-info alert-dismissable">
+                        <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                        Los anuncios creados por los administradores <b>NO</b> son enviados a ningún chofer.
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="alert alert-info alert-dismissable">
+                        <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                        Puedes eliminar viajes confirmados porque eres administrador.
+                    </div>
+                </div>
+            </div>
+            <?php endif?>
 
 
             <div id="content" class="container-fluid">

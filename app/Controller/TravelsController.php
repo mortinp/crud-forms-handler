@@ -87,17 +87,19 @@ class TravelsController extends AppController {
                             array('DriverLocality.locality_id'=>$travel['Travel']['locality_id'], 
                                 'Driver.active'=>true, 
                                 'Driver.max_people_count >='=>$travel['Travel']['people_count'])));
-
+                
+                $belongs_to_admin = $travel['User']['role'] === 'admin';
+                
                 // Send every email to me ;)
                 $Email = new CakeEmail('yotellevo');
                 $Email->template('new_travel')
-                ->viewVars(array('travel' => $travel, 'drivers'=>$drivers, 'to_admin'=>true))
+                ->viewVars(array('travel'=>$travel, 'drivers'=>$drivers, 'sent_to_admin'=>true, 'belongs_to_admin'=>$belongs_to_admin))
                 ->emailFormat('html')
                 ->to('mproenza@grm.desoft.cu')
                 ->subject('Nuevo Anuncio de Viaje')
                 ->send();
                     
-                if($travel['User']['role'] !== 'admin') { // If it wasn't an admin who created the travel
+                if(!$belongs_to_admin) { // If it wasn't an admin who created the travel
                     foreach ($drivers as $d) {
                         $Email = new CakeEmail('yotellevo');
                         $Email->template('new_travel')

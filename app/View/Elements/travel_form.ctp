@@ -23,12 +23,6 @@ else
         <?php
         echo $this->Form->create('Travel', array('default' => !$do_ajax, 'url' => array('controller' => 'travels', 'action' => $form_action), 'style' => $style, 'id' => 'TravelForm'));
         ?>
-        <!--<div class='ui-widget ui-helper-hidden' id='errorblock-div1'>
-            <div class='ui-state-error ui-corner-all' style='padding: 0pt 0.7em;' id='errorblock-div2' style='display:none;'>
-                <p><span class='ui-icon ui-icon-alert' style='float: left; margin-right: 0.3em;'></span><strong>Alert:</strong> Errors detected!</p>
-                <ul></ul>
-            </div>
-        </div>-->
     <fieldset>
         <?php
         echo $this->Form->input('locality_id', array('type' => 'select', 'options' => $localities,
@@ -69,33 +63,20 @@ $this->Html->script('jquery-validation-1.10.0/localization/messages_es', array('
 <script type="text/javascript">
     $(document).ready(function() {
         $('.popover-info').popover({html:true});
-        /*$(document).on('mousedown', function (e) {
-            $('.popover-info').popover('hide');
-        });*/
         
         $('.datepicker').datepicker({
             format: "dd/mm/yyyy",
             language: 'es',
             startDate: new Date(),
-            //startDate: "2012-01-01",
-            //endDate: "2015-01-01",
             todayBtn: "linked",
             autoclose: true,
             todayHighlight: true
         });
         
         $('#TravelForm').validate({
-            //errorContainer: "#errorblock-div1, #errorblock-div2",
-            //errorLabelContainer: "#errorblock-div2 ul",
             wrapper: 'div',
             errorClass: 'text-danger',
             errorElement: 'div'
-            //rules: {destination:"required"},
-            /*messages: {
-                destination: {
-                    required: "El destino no puede estar vacío."
-                }
-            }*/
         });
     })
 </script>

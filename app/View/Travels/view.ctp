@@ -87,7 +87,7 @@ $this->Html->script('common/ajax-forms', array('inline' => false));
     var weekDays = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
     
     $(document).ready(function() {
-        _ajaxifyForm($("#TravelViewForm"), null, "travel", function(obj) {
+        _ajaxifyForm($("#TravelForm"), null, "travel", function(obj) {
             $('#travel-origin-label').text($("#TravelLocalityId option:selected").text());
             $('#travel-destination-label').text(obj.destination);            
             

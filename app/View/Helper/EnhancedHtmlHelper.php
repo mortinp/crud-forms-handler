@@ -7,7 +7,7 @@ class EnhancedHtmlHelper extends HtmlHelper {
     private $_cssAliases = array(
         'bootstrap'=>array(
             'debug'=>'common/bootstrap-3.1.1-dist/css/bootstrap.min',
-            'release'=>'http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.js'
+            'release'=>'common/bootstrap-3.1.1-dist/css/bootstrap.min'/*'http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.js'*/
         ),
         'jquery-ui'=>array(
             'debug'=>'common/jquery-ui-1.10.0.custom',
@@ -30,7 +30,7 @@ class EnhancedHtmlHelper extends HtmlHelper {
     private $_scriptAliases = array(
         'bootstrap'=>array(
             'debug'=>'common/bootstrap-3.1.1-dist/js/bootstrap.min',
-            'release'=>'http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js'
+            'release'=>'common/bootstrap-3.1.1-dist/js/bootstrap.min'/*'http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js'*/
         ),
         'jquery'=>array(
             'debug'=>'common/jquery-1.9.0.min',

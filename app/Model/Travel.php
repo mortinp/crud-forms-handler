@@ -23,32 +23,32 @@ class Travel extends AppModel {
         'destination' => array(
             'notEmpty' => array(
                 'rule' => array('notEmpty'),
-                'message' => 'A description is required'
+                'message' => 'El destino no puede estar vacío.'
             )
         ),
         'date' => array(
             'isDate' => array(
                 'rule' => array('date', array('dmy', 'ymd')),
-                'message' => 'La fecha tiene un formato incorrecto',
+                'message' => 'La fecha tiene un formato incorrecto.',
                 'required' => true
             )
         ),
         'people_count' => array(
             'isNumber' => array(
                 'rule' => 'numeric',
-                'message' => 'La cantidad de personas debe ser un número entero',
+                'message' => 'La cantidad de personas debe ser un número entero.',
                 'required' => true
             ),
             'notZero' => array(
                 'rule' => array('comparison', '>=', 1),
-                'message' => 'La cantidad de personas no puede ser 0',
+                'message' => 'La cantidad de personas no puede ser 0.',
                 'required' => true
             )
         ),
         'contact' => array(
             'notEmpty' => array(
                 'rule' => array('notEmpty'),
-                'message' => 'Debe escribir la forma de contacto'
+                'message' => 'Debe escribir la forma de contacto.'
             )
         )
     );

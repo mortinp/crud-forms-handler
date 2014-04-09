@@ -40,9 +40,12 @@ if($isLoggedIn) {
         
         
         //JS
-        $this->Html->script('jquery', array('inline' => false));
-        //$this->Html->script('prettify', array('inline' => false));        
-        $this->Html->script('bootstrap', array('inline' => false));
+        //if($this->here !== '/yotellevo/' && $this->here !== '/yotellevo/pages/home') {
+            $this->Html->script('jquery', array('inline' => false));
+            $this->Html->script('bootstrap', array('inline' => false));
+            
+        //}
+        //$this->Html->script('prettify', array('inline' => false));
         //$this->Html->script('jquery-ui', array('inline' => false));
         
 

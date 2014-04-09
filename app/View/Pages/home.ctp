@@ -97,16 +97,16 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
 <br/>
 
 <?php if(!$isLoggedIn):?>
-<div class="container" style="/*background-color: yellowgreen*/">
+<div class="container" style="background-color: lightblue">
     <div class="row">
         <div class="col-md-6">
             <legend class="text-muted">
-                <!--Entra a tu cuenta para ver tus anuncios de viajes, o crear el primer anuncio si aún no tienes.-->
                 <b>¿No tienes una cuenta todavía?</b> Regístrate ahora: 
             </legend>
             <?php echo $this->element('register_form')?>
         </div>        
     </div>
+    <br/>
 </div>
 <?php endif?>
 

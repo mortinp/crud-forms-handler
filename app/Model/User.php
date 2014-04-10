@@ -20,11 +20,11 @@ class User extends AppModel {
                 'rule' => array('notEmpty'),
                 'message' => 'La contraseña es obligatoria.'
             ),
-            'minLength' => array(
+            /*'minLength' => array(
                 'rule' => array('minLength', 7),
                 'message' => 'La contraseña debe tener al menor 7 caracteres.',
                 'required' => true
-            )
+            )*/
         ),
         'role' => array(
             'valid' => array(

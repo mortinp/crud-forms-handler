@@ -1,5 +1,10 @@
 <?php
 $isConfirmed = Travel::isConfirmed($travel['Travel']['state']);
+
+if($isConfirmed) {
+    $pretty_drivers_count = $travel['Travel']['drivers_sent_count'].' chofer';
+    if($travel['Travel']['drivers_sent_count'] > 1) $pretty_drivers_count .= 'es';
+}
 ?>
 
 <div class="row">
@@ -29,7 +34,7 @@ $isConfirmed = Travel::isConfirmed($travel['Travel']['state']);
             </div>
         <?php else:?>
             <div class="alert alert-info">
-                <b>Este anuncio de viaje fue confirmado exitosamente y enviado a varios choferes</b>. Pronto será contactado.
+                <b>Este anuncio de viaje fue confirmado exitosamente y enviado a <?php echo $pretty_drivers_count?></b>. Pronto será contactado.
             </div>
         <?php endif;?>
         

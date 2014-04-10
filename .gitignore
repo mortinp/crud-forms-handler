@@ -13,7 +13,7 @@
 #/app/tmp/cache/persistent/**
 #/app/tmp/cache/views/**
 
-/lib/Cake/Console
+#/lib/Cake/Console
 
 /lib/Cake/Test
 /lib/Cake/TestSuite

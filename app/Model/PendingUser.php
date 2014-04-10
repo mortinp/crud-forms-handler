@@ -9,20 +9,25 @@ class PendingUser extends AppModel {
         'username' => array(
             'email' => array(
                 'rule' => array('notEmpty'),
-                'message' => 'An email is required',
+                'message' => 'El correo electrónico es obligatorio.',
                 'required' => true
             )
         ),
         'password' => array(
             'required' => array(
                 'rule' => array('notEmpty'),
-                'message' => 'A password is required'
+                'message' => 'La contraseña es obligatoria.'
+            ),
+            'minLength' => array(
+                'rule' => array('minLength', 7),
+                'message' => 'La contraseña debe tener al menor 7 caracteres.',
+                'required' => true
             )
         ),
         'role' => array(
             'valid' => array(
                 'rule' => array('inList', array('admin', 'driver', 'regular')),
-                'message' => 'Please enter a valid role',
+                'message' => 'Por favor, entre un rol válido.',
                 'allowEmpty' => false
             )
         ),

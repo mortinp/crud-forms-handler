@@ -77,8 +77,8 @@ if($isLoggedIn) {
                                 <?php if($role === 'regular' || $role === 'admin') :?>
                                     <li><?php echo $this->Html->link(__('<i class="glyphicon glyphicon-bell"></i> Mis anuncios'), array('controller' => 'travels', 'action' => 'index'), array('escape'=>false));?></li>
                                     <li><?php echo $this->Html->link(__('<i class="glyphicon glyphicon-flag"></i> <big><b>Anunciar viaje</b></big>'), array('controller' => 'travels', 'action' => 'add'), array('escape'=>false));?></li> 
-                                <?php endif;?> 
-                                
+                                <?php endif;?>
+                                    
                             <?php else: ?>
                                 <li><?php echo $this->Html->link(__('<i class="glyphicon glyphicon-home"></i> Inicio'), array('controller' => 'pages', 'action' => 'home'), array('escape'=>false));?></li>
                             <?php endif;?>            
@@ -113,7 +113,7 @@ if($isLoggedIn) {
             </nav>
             
             <?php if ($role === 'admin') :?>
-            <div class="row">
+            <!--<div class="row">
                 <div class="col-md-6">
                     <div class="alert alert-info alert-dismissable">
                         <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
@@ -126,7 +126,7 @@ if($isLoggedIn) {
                         Puedes eliminar viajes confirmados porque eres administrador.
                     </div>
                 </div>
-            </div>
+            </div>-->
             <?php endif?>
 
 

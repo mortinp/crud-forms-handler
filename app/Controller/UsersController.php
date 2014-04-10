@@ -7,13 +7,10 @@ class UsersController extends AppController {
     
     public $uses = array('User', 'PendingUser');
 
-    //public $layout = 'users';
-
     public function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->allow('register');
         $this->Auth->allow('register_welcome');
-        //$this->Auth->allow('add');
     }
 
     public function isAuthorized($user) {
@@ -66,13 +63,9 @@ class UsersController extends AppController {
                 return $this->render('register_welcome');
                 //return $this->authorize($activation_id);
             }
-            $this->setErrorMessage(__('Unable to register this user.'));
+            $this->setErrorMessage(__('Ocurrió un error registrando su usuario. Intente de nuevo'));
         }
     }
-
-    /*public function register_welcome() {
-        // Show view only
-    }*/
 
     public function authorize($activation_id) {
         $pending_user = $this->PendingUser->find('first', array('conditions'=>array('activation_id'=>$activation_id)));
@@ -140,9 +133,6 @@ class UsersController extends AppController {
                 $this->setErrorMessage('Ocurrió un problema guardando la información. Intenta de nuevo.');
             }
         } else {
-            // Find user to complete password field
-            //$user = $this->User->findById($this->Auth->user('id'));
-            //$user['User']['password'] = ''; // TODO: unhash password
             $this->request->data['User'] = $this->Auth->user();
         }
     }

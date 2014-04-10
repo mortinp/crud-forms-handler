@@ -16,7 +16,7 @@ class TravelsController extends AppController {
             if($this->Auth->user('role') == 'regular') return true;
         }
 
-        if (in_array($this->action, array('edit', 'remove', 'view', 'confirm', 'delete'))) {
+        if (in_array($this->action, array('edit', 'view', 'confirm', 'delete'))) {
             if(isset ($this->request->params['pass'][0])) {
                 $id = $this->request->params['pass'][0];
                 if ($this->Travel->isOwnedBy($id, $user['id'])) {
@@ -71,48 +71,60 @@ class TravelsController extends AppController {
         if($travel != null) {
             $OK = true;
             if(Travel::isConfirmed($travel['Travel']['state'])) {
-                $this->setErrorMessage('Este viaje ya ha sido confirmado.'); // Confirmed or Solved
+                $this->setErrorMessage('Este viaje ya ha sido confirmado.');
                 $OK = false;
             }
             
-            $travel['Travel']['state'] = Travel::$STATE_CONFIRMED;
-            if(!$this->Travel->save($travel)) {
-                $this->setErrorMessage('Ocurrió un error confirmando el viaje. Intenta de nuevo.');
+            $drivers = $this->DriverLocality->find('all', array('conditions'=>
+                            array('DriverLocality.locality_id'=>$travel['Travel']['locality_id'], 
+                                'Driver.active'=>true, 
+                                'Driver.max_people_count >='=>$travel['Travel']['people_count'])));
+            
+            if (count($drivers) > 0) {
+                $travel['Travel']['state'] = Travel::$STATE_CONFIRMED;
+                $travel['Travel']['drivers_sent_count'] = count($drivers);
+                if(!$this->Travel->save($travel)) {
+                    $this->setErrorMessage('Ocurrió un error confirmando el viaje. Intenta de nuevo.');
+                    $OK = false;
+                }
+            } else {
+                $this->setErrorMessage('No hay choferes para atender este viaje. Intente confirmarlo más tarde. Ya estamos trabajando para resolver este problema.');
                 $OK = false;
             }
             
             if($OK) {
-                
-                $drivers = $this->DriverLocality->find('all', array('conditions'=>
-                            array('DriverLocality.locality_id'=>$travel['Travel']['locality_id'], 
-                                'Driver.active'=>true, 
-                                'Driver.max_people_count >='=>$travel['Travel']['people_count'])));
-                
                 $belongs_to_admin = $travel['User']['role'] === 'admin';
                 
-                // Send every email to me ;)
-                $Email = new CakeEmail('yotellevo');
-                $Email->template('new_travel')
-                ->viewVars(array('travel'=>$travel, 'drivers'=>$drivers, 'sent_to_admin'=>true, 'belongs_to_admin'=>$belongs_to_admin))
-                ->emailFormat('html')
-                ->to('mproenza@grm.desoft.cu')
-                ->subject('Nuevo Anuncio de Viaje')
-                ->send();
-                    
-                if(!$belongs_to_admin) { // If it wasn't an admin who created the travel
+                if(!$belongs_to_admin) {
+                    $drivers_sent_count = 0;
                     foreach ($drivers as $d) {
                         $Email = new CakeEmail('yotellevo');
                         $Email->template('new_travel')
                         ->viewVars(array('travel' => $travel))
                         ->emailFormat('html')
                         ->to($d['Driver']['username'])
-                        ->subject('Nuevo Anuncio de Viaje')
-                        ->send();
+                        ->subject('Nuevo Anuncio de Viaje');
+                        try {
+                            $Email->send();
+                        } catch ( Exception $e ) {
+                            if($drivers_sent_count < 1) {
+                                // ERROR
+                            }
+                        }
+                        
+                        $drivers_sent_count++;
                     }
                 }
-                
-                //$this->setSuccessMessage('<b>Este anuncio de viaje fue confirmado exitosamente y enviado a varios choferes</b>. Pronto será contactado.');
             }
+            
+            // Always send an email to me ;)
+            $Email = new CakeEmail('yotellevo');
+            $Email->template('new_travel')
+            ->viewVars(array('travel'=>$travel, 'admin'=>array('drivers'=>$drivers)))
+            ->emailFormat('html')
+            ->to('mproenza@grm.desoft.cu')
+            ->subject('Nuevo Anuncio de Viaje')
+            ->send();
             
             return $this->redirect(array('action'=>'view/'.$travel['Travel']['id']));
         }

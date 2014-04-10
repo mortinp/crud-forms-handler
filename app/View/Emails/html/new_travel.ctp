@@ -3,7 +3,7 @@
 <br/>
 <br/>
 
-<?php if(isset ($sent_to_admin) && $sent_to_admin == true):?>
+<?php if(isset ($send_to_admin) && $send_to_admin == true):?>
     <p>
         Usted recibió este correo porque es Administrador de <a href='<?php echo $this->Html->url('/', true)?>'><em>YoTeLlevo</em></a>.
     </p>

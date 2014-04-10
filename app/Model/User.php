@@ -11,20 +11,25 @@ class User extends AppModel {
         'username' => array(
             'email' => array(
                 'rule' => array('notEmpty'),
-                'message' => 'El correo electrónico es obligatorio',
+                'message' => 'El correo electrónico es obligatorio.',
                 'required' => true
             )
         ),
         'password' => array(
             'required' => array(
                 'rule' => array('notEmpty'),
-                'message' => 'La contraseña es obligatoria'
+                'message' => 'La contraseña es obligatoria.'
+            ),
+            'minLength' => array(
+                'rule' => array('minLength', 7),
+                'message' => 'La contraseña debe tener al menor 7 caracteres.',
+                'required' => true
             )
         ),
         'role' => array(
             'valid' => array(
                 'rule' => array('inList', array('admin', 'driver', 'regular')),
-                'message' => 'Por favor, entre un rol válido',
+                'message' => 'Por favor, entre un rol válido.',
                 'allowEmpty' => false
             )
         ),

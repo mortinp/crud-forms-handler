@@ -1,19 +1,20 @@
 # User specific & automatically generated files #
 #################################################
 #/app/Config/database.php
-/lib/Cake/Console/Templates/skel/tmp/
-/plugins
-/vendors
+#/lib/Cake/Console/Templates/skel/tmp/
+#/plugins
+#/vendors
 /build
 /dist
 /tags
 
-/app/tmp/logs/*
-/app/tmp/cache/models/*
-/app/tmp/cache/persistent/*
-/app/tmp/cache/views/*
+#/app/tmp/logs/**
+#/app/tmp/cache/models/**
+#/app/tmp/cache/persistent/**
+#/app/tmp/cache/views/**
 
 /lib/Cake/Console
+
 /lib/Cake/Test
 /lib/Cake/TestSuite
 /nbproject

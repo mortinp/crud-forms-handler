@@ -127,7 +127,7 @@ class TravelsController extends AppController {
             // Always send an email to me ;)
             $Email = new CakeEmail('yotellevo');
             $Email->template('new_travel')
-            ->viewVars(array('travel'=>$travel, 'admin'=>array('drivers'=>$drivers)))
+            ->viewVars(array('travel'=>$travel, 'admin'=>array('drivers'=>$drivers, 'notified_count'=>$drivers_sent_count)))
             ->emailFormat('html')
             ->to('mproenza@grm.desoft.cu')
             ->subject('Nuevo Anuncio de Viaje');

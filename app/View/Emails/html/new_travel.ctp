@@ -3,16 +3,16 @@
 <br/>
 <br/>
 
-<?php if(isset ($send_to_admin) && $send_to_admin == true):?>
+<?php if(isset ($admin)):?>
     <p>
         Usted recibió este correo porque es Administrador de <a href='<?php echo $this->Html->url('/', true)?>'><em>YoTeLlevo</em></a>.
     </p>
-    <?php if(isset ($drivers) && count($drivers) > 0):?>
+    <?php if(isset ($admin['drivers']) && count($admin['drivers']) > 0):?>
         <p>    
             Se encontraron los siguientes choferes para notificar:
             <ul>
                 <?php
-                foreach ($drivers as $d) {
+                foreach ($admin['drivers'] as $d) {
                     echo '<li>'.$d['Driver']['username'].'</li>';
                 }
                 ?>

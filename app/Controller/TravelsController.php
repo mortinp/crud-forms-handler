@@ -80,6 +80,9 @@ class TravelsController extends AppController {
                                 'Driver.active'=>true, 
                                 'Driver.max_people_count >='=>$travel['Travel']['people_count'])));
             
+            $datasource = $this->Travel->getDataSource();
+            $datasource->begin();
+            
             if (count($drivers) > 0) {
                 $travel['Travel']['state'] = Travel::$STATE_CONFIRMED;
                 $travel['Travel']['drivers_sent_count'] = count($drivers);
@@ -108,7 +111,8 @@ class TravelsController extends AppController {
                             $Email->send();
                         } catch ( Exception $e ) {
                             if($drivers_sent_count < 1) {
-                                // ERROR
+                                $this->setErrorMessage('Ocurrió un error enviando el viaje a los choferes. Intenta de nuevo.');
+                                $OK = false;
                             }
                         }
                         
@@ -117,14 +121,21 @@ class TravelsController extends AppController {
                 }
             }
             
+            if($OK) $datasource->commit();
+            else $datasource->rollback();
+            
             // Always send an email to me ;)
             $Email = new CakeEmail('yotellevo');
             $Email->template('new_travel')
             ->viewVars(array('travel'=>$travel, 'admin'=>array('drivers'=>$drivers)))
             ->emailFormat('html')
             ->to('mproenza@grm.desoft.cu')
-            ->subject('Nuevo Anuncio de Viaje')
-            ->send();
+            ->subject('Nuevo Anuncio de Viaje');
+            try {
+                $Email->send();
+            } catch ( Exception $e ) {
+                // TODO: Should I do something here???
+            }
             
             return $this->redirect(array('action'=>'view/'.$travel['Travel']['id']));
         }

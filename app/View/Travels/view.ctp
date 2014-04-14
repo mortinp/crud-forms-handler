@@ -34,7 +34,7 @@ if($isConfirmed) {
             </div>
         <?php else:?>
             <div class="alert alert-info">
-                <b>Este anuncio de viaje fue confirmado exitosamente y enviado a <?php echo $pretty_drivers_count?></b>. Pronto será contactado.
+                <b>Este anuncio de viaje fue confirmado exitosamente y enviado a <big><?php echo $pretty_drivers_count?></big></b>. Pronto serás contactado.
             </div>
         <?php endif;?>
         

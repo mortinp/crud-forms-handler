@@ -24,12 +24,14 @@ build.properties
 .travis.yml
 CONTRIBUTING.md
 README.md
-TODO.txt
 yotellevo.backup
 yotellevo.sql
 yotellevo.zip
-deploy.txt
 
+
+/docs
+#deploy.txt
+#TODO.txt
 
 # OS generated files #
 ######################

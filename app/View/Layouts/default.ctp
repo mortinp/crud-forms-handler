@@ -80,7 +80,7 @@ if($isLoggedIn) {
                                 <?php endif;?>
                                     
                             <?php else: ?>
-                                <li><?php echo $this->Html->link(__('<i class="glyphicon glyphicon-home"></i> Inicio'), array('controller' => 'pages', 'action' => 'home'), array('escape'=>false));?></li>
+                                <!--<li><?php echo $this->Html->link(__('<i class="glyphicon glyphicon-home"></i> Inicio'), array('controller' => 'pages', 'action' => 'home'), array('escape'=>false));?></li>-->
                             <?php endif;?>            
                         </ul>
 
@@ -112,7 +112,7 @@ if($isLoggedIn) {
                 </div>
             </nav>
             
-            <?php if ($role === 'admin') :?>
+            <?php if ($isLoggedIn && $role === 'admin') :?>
             <!--<div class="row">
                 <div class="col-md-6">
                     <div class="alert alert-info alert-dismissable">

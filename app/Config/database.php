@@ -69,7 +69,7 @@ class DATABASE_CONFIG {
         'password' => '',
         'database' => 'yotellevo',
         'prefix' => '',
-        //'encoding' => 'utf8',
+        'encoding' => 'utf8',
     );
 
     /*public $default = array(

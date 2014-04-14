@@ -111,9 +111,12 @@ class UsersController extends AppController {
             
             
             $newPass = substr(str_shuffle("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 1).substr(md5(time()),1);
-            
             $this->request->data['User']['id'] = $user['User']['id']; // Poner id para que el save() lo que haga sea modificar
             $this->request->data['User']['password'] = $newPass;
+            
+            $datasource = $this->User->getDataSource();
+            $datasource->begin();
+            
             if ($this->User->save($this->request->data['User'])) {               
                 // Send email and redirect to a welcome page
                 $Email = new CakeEmail('yotellevo');
@@ -121,9 +124,15 @@ class UsersController extends AppController {
                 ->viewVars(array('newPass' => $newPass))
                 ->emailFormat('html')
                 ->to($this->request->data['User']['username'])
-                ->subject('Tu Nueva Contraseña')
-                ->send();
-
+                ->subject('Tu Nueva Contraseña');
+                try {
+                    $Email->send();
+                } catch ( Exception $e ) {
+                    $datasource->rollback();
+                    $this->setErrorMessage('Ocurrió un error recuperando su contraseña. Intente de nuevo.');
+                    return;
+                }
+                $datasource->commit();
                 return $this->render('password_changed');
                 //return $this->authorize($activation_id);
             }

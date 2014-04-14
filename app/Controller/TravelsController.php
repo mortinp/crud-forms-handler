@@ -32,7 +32,9 @@ class TravelsController extends AppController {
         $travels = $this->Travel->find('all', array('conditions' => 
             array('user_id' => $this->Auth->user('id')/*, 'state'=>Travel::$STATE_UNCONFIRMED*/)));
         
-        $this->set('travels', $travels);        
+        $this->set('travels', $travels); 
+        
+        $localities = $this->Locality->find('list');
         /*if(empty ($travels)) */$this->set('localities', $this->Locality->find('list'));
     }
 
@@ -106,7 +108,7 @@ class TravelsController extends AppController {
                         ->viewVars(array('travel' => $travel))
                         ->emailFormat('html')
                         ->to($d['Driver']['username'])
-                        ->subject('Nuevo Anuncio de Viaje');
+                        ->subject('Nuevo Anuncio de Viaje (#'.$travel['Travel']['id'].')');
                         try {
                             $Email->send();
                         } catch ( Exception $e ) {
@@ -130,7 +132,7 @@ class TravelsController extends AppController {
             ->viewVars(array('travel'=>$travel, 'admin'=>array('drivers'=>$drivers, 'notified_count'=>$drivers_sent_count)))
             ->emailFormat('html')
             ->to('mproenza@grm.desoft.cu')
-            ->subject('Nuevo Anuncio de Viaje');
+            ->subject('Nuevo Anuncio de Viaje (#'.$travel['Travel']['id'].')');
             try {
                 $Email->send();
             } catch ( Exception $e ) {

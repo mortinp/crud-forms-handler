@@ -1,3 +1,5 @@
+<?php App::uses('CakeTime', 'Utility')?>
+
 <?php
 // INIT
 if (!isset($actions)) $actions = true;
@@ -15,29 +17,34 @@ $day_of_week = $days_es[date('w', $date_converted)];
 $year = date('Y', $date_converted);
 $pretty_date = $day.' '.$month.', '.$year.' ('.$day_of_week.')';
 //$pretty_date = date('j F, Y (l)', strtotime($travel['Travel']['date']));
+
+$expired = CakeTime::isPast($date_converted) && !CakeTime::isToday($date_converted);
 ?>
 
 <?php
     $notice = array();
-    if($travel['Travel']['state'] == Travel::$STATE_CONFIRMED) {
+    if($expired) {
+        $notice['color'] = 'lightcoral';
+        $notice['label'] = 'Expirado';
+    } else if($travel['Travel']['state'] == Travel::$STATE_CONFIRMED) {
         $notice['color'] = 'lightskyblue';
         $notice['label'] = 'Confirmado';
-    }
-    else if($travel['Travel']['state'] == Travel::$STATE_UNCONFIRMED) {
-        $notice['color'] = 'lightcoral';
+    } else if($travel['Travel']['state'] == Travel::$STATE_UNCONFIRMED) {
+        $notice['color'] = 'goldenrod';
         $notice['label'] = 'Sin confirmar';
     }
 ?>
 
+<?php if($expired) echo '<s>'?>
+
 <legend>
    
-    <small><i title="<?php echo $notice['label']?>" class="glyphicon glyphicon-flag" style="margin-left:-20px;color:<?php echo $notice['color']?>;display: inline-block"></i></small> 
+    <small style="/*color: */"><i title="<?php echo $notice['label']?>" class="glyphicon glyphicon-flag" style="margin-left:-20px;color:<?php echo $notice['color']?>;display: inline-block"></i></small> 
     
     <big><span id='travel-origin-label'><?php echo $travel['Locality']['name']?></span> - 
         <span id='travel-destination-label'><?php echo $travel['Travel']['destination']?></span>
     </big> 
     <small class="text-muted"><span id='travel-prettypeoplecount-label'><?php echo $pretty_people_count?></span></small>
-    
 </legend>
     
 <p><b>Día del viaje:</b> <span id='travel-date-label'><?php echo $pretty_date?></span></p>
@@ -46,12 +53,14 @@ $pretty_date = $day.' '.$month.', '.$year.' ('.$day_of_week.')';
 <?php if($actions):?>
     <ul style="list-style-type: none;padding:0px">
         
+        <?php if(!$expired):?>
         <li style="padding-right: 10px;display: inline-block">
         <?php echo $this->Html->link(
                 '<i class="glyphicon glyphicon-eye-open"></i> Ver', 
                 array('controller'=>'travels', 'action'=>'view/'.$travel['Travel']['id']), 
                 array('escape'=>false, 'class'=>'text-warning', 'title'=>'Ver este viaje'));?>
         </li>
+        <?php endif?>
         
     <?php if(!Travel::isConfirmed($travel['Travel']['state'])):?>
         
@@ -62,12 +71,14 @@ $pretty_date = $day.' '.$month.', '.$year.' ('.$day_of_week.')';
                 array('escape'=>false, 'class'=>'text-danger', 'title'=>'Eliminar este viaje'));?>
         </li>
         
+        <?php if(!$expired):?>
         <li style="padding-right: 10px;display: inline-block">
         <?php echo $this->Html->link(
             '<i class="glyphicon glyphicon-envelope"></i> <b>Confirmar</b>', 
             array('controller'=>'travels', 'action'=>'confirm/'.$travel['Travel']['id']), 
                 array('escape'=>false, 'title'=>'Confirmar y Enviar este viaje a los choferes'));?>
         </li>
+        <?php endif?>
     <?php elseif(AuthComponent::user('role') === 'admin'):?>
         <li style="padding-right: 10px;display: inline-block">
         <?php echo $this->Html->link(
@@ -79,3 +90,5 @@ $pretty_date = $day.' '.$month.', '.$year.' ('.$day_of_week.')';
         
     </ul>
 <?php endif?>
+
+<?php if($expired) echo '</s>'?>

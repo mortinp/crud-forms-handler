@@ -55,7 +55,7 @@ class UsersController extends AppController {
             $datasource->begin();
             
             if ($this->PendingUser->save($this->request->data['User'])) {
-                // Send email and redirect to a welcome page
+                /*// Send email and redirect to a welcome page
                 $Email = new CakeEmail('yotellevo');
                 $Email->template('welcome')
                 ->viewVars(array('user_id' => $activation_id))
@@ -68,11 +68,11 @@ class UsersController extends AppController {
                     $datasource->rollback();
                     $this->setErrorMessage('Ocurrió un error registrando su usuario. Intente de nuevo.');
                     return;
-                }
+                }*/
 
                 $datasource->commit();
-                return $this->render('register_welcome');
-                //return $this->authorize($activation_id);
+                //return $this->render('register_welcome');
+                return $this->authorize($activation_id);
             }
             $this->setErrorMessage(__('Ocurrió un error registrando su usuario. Intente de nuevo'));
         }

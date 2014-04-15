@@ -1,4 +1,5 @@
 <?php App::uses('CakeTime', 'Utility')?>
+<?php App::uses('Travel', 'Model')?>
 
 <?php
 // INIT

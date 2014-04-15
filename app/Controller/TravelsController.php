@@ -103,20 +103,31 @@ class TravelsController extends AppController {
                 if(!$belongs_to_admin) {
                     $drivers_sent_count = 0;
                     foreach ($drivers as $d) {
-                        $Email = new CakeEmail('yotellevo');
-                        $Email->template('new_travel')
-                        ->viewVars(array('travel' => $travel))
-                        ->emailFormat('html')
-                        ->to($d['Driver']['username'])
-                        ->subject('Nuevo Anuncio de Viaje (#'.$travel['Travel']['id'].')');
-                        try {
-                            $Email->send();
-                        } catch ( Exception $e ) {
-                            if($drivers_sent_count < 1) {
-                                $this->setErrorMessage('Ocurrió un error enviando el viaje a los choferes. Intenta de nuevo.');
-                                $OK = false;
+                        if(Configure::read('enqueue_mail')) {
+                            ClassRegistry::init('EmailQueue.EmailQueue')->enqueue(
+                                    $d['Driver']['username'], 
+                                    array('travel' => $travel), 
+                                    array(
+                                        'template'=>'new_travel', 
+                                        'format'=>'html',
+                                        'subject'=>'Nuevo Anuncio de Viaje (#'.$travel['Travel']['id'].')',
+                                        'config'=>'yotellevo'));
+                        } else {
+                            $Email = new CakeEmail('yotellevo');
+                            $Email->template('new_travel')
+                            ->viewVars(array('travel' => $travel))
+                            ->emailFormat('html')
+                            ->to($d['Driver']['username'])
+                            ->subject('Nuevo Anuncio de Viaje (#'.$travel['Travel']['id'].')');
+                            try {
+                                $Email->send();
+                            } catch ( Exception $e ) {
+                                if($drivers_sent_count < 1) {
+                                    $this->setErrorMessage('Ocurrió un error enviando el viaje a los choferes. Intenta de nuevo.');
+                                    $OK = false;
+                                }
                             }
-                        }
+                        }                        
                         
                         $drivers_sent_count++;
                     }
@@ -126,17 +137,28 @@ class TravelsController extends AppController {
             if($OK) $datasource->commit();
             else $datasource->rollback();
             
-            // Always send an email to me ;)
-            $Email = new CakeEmail('yotellevo');
-            $Email->template('new_travel')
-            ->viewVars(array('travel'=>$travel, 'admin'=>array('drivers'=>$drivers, 'notified_count'=>$drivers_sent_count)))
-            ->emailFormat('html')
-            ->to('mproenza@grm.desoft.cu')
-            ->subject('Nuevo Anuncio de Viaje (#'.$travel['Travel']['id'].')');
-            try {
-                $Email->send();
-            } catch ( Exception $e ) {
-                // TODO: Should I do something here???
+            if(Configure::read('enqueue_mail')) {
+                ClassRegistry::init('EmailQueue.EmailQueue')->enqueue(
+                        'mproenza@grm.desoft.cu',
+                        array('travel'=>$travel, 'admin'=>array('drivers'=>$drivers, 'notified_count'=>$drivers_sent_count)), 
+                        array(
+                            'template'=>'new_travel', 
+                            'format'=>'html',
+                            'subject'=>'Nuevo Anuncio de Viaje (#'.$travel['Travel']['id'].')',
+                            'config'=>'yotellevo'));
+            } else {
+                // Always send an email to me ;)
+                $Email = new CakeEmail('yotellevo');
+                $Email->template('new_travel')
+                ->viewVars(array('travel'=>$travel, 'admin'=>array('drivers'=>$drivers, 'notified_count'=>$drivers_sent_count)))
+                ->emailFormat('html')
+                ->to('mproenza@grm.desoft.cu')
+                ->subject('Nuevo Anuncio de Viaje (#'.$travel['Travel']['id'].')');
+                try {
+                    $Email->send();
+                } catch ( Exception $e ) {
+                    // TODO: Should I do something here???
+                }
             }
             
             return $this->redirect(array('action'=>'view/'.$travel['Travel']['id']));

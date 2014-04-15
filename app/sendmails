@@ -1,0 +1,3 @@
+#!/bin/bash
+
+"Console/cake" EmailQueue.Sender

@@ -2,6 +2,14 @@
 $isLoggedIn = AuthComponent::user('id') ? true : false;
 ?>
 
+<p>
+    <small>¿Ya sabes qué es <em>YoTeLlevo</em>? 
+    <?php echo $this->Html->link(__('Entra'), array('controller' => 'users', 'action' => 'login')) ?> 
+    o 
+    <?php echo $this->Html->link(__('Regístrate'), array('controller' => 'users', 'action' => 'register')) ?>
+    </small>
+</p>
+
 <div class="container" style="/*background-color: lightblue*/">
     <div class="row">
         <div class="col-md-6">

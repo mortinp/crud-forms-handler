@@ -1,3 +1,5 @@
+<?php App::uses('AuthComponent', 'Controller/Component')?>
+
 <?php echo $this->element('travel', array('travel'=>$travel, 'actions'=>false))?>
 
 <br/>

@@ -2,6 +2,7 @@
 $isLoggedIn = AuthComponent::user('id') ? true : false;
 ?>
 
+<?php if(!$isLoggedIn) :?>
 <p>
     <small>¿Ya sabes qué es <em>YoTeLlevo</em>? 
     <?php echo $this->Html->link(__('Entra'), array('controller' => 'users', 'action' => 'login')) ?> 
@@ -9,6 +10,7 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
     <?php echo $this->Html->link(__('Regístrate'), array('controller' => 'users', 'action' => 'register')) ?>
     </small>
 </p>
+<?php endif?>
 
 <div class="container" style="/*background-color: lightblue*/">
     <div class="row">
@@ -39,8 +41,9 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
                 <big><!--<i class="icon-quote-left"></i> -->
                     <div style="position: absolute;margin-left: -10px"><big><b>"</b></big></div> 
                     Con <em>YoTeLlevo</em> las personas no dependen de nadie que les gestione sus viajes. 
-                    Uno mismo puede gestionárselos entrando a la aplicación y publicando un anuncio.
-                    Los choferes tampoco dependen de nadie, porque reciben las notificaciones directamente en su correo electrónico
+                    Uno mismo puede gestionárselos entrando a la página web y publicando un anuncio. 
+                    Es tan fácil como llenar los datos de un formulario, enviarlo, y esperar a que los mismos choferes te contacten. 
+                    Y es gratis
                     <big><b>"</b></big><!-- <i class="icon-quote-right"></i> -->
                     <span style="/*color: #000*/">&ndash; <a href="http://twitter.com/martinproenza" style="text-decoration: none">Martín</a>, creador de <em>YoTeLlevo</em></span>
                 </big>

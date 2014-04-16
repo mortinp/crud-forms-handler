@@ -25,7 +25,7 @@ if($isConfirmed) {
         
         <?php if(!$isConfirmed):?>
             <div class="alert alert-info">
-                <span class="text-warning">Este viaje está sin confirmar.</span> Los choferes NO lo contactarán hasta que confirme este viaje 
+                <span class="text-warning">Este viaje está sin confirmar.</span> Los choferes NO te contactarán hasta que confirmes este viaje 
                 <div>
                     &mdash; <?php echo $this->Html->link('<i class="glyphicon glyphicon-envelope"></i> Confirmar viaje ahora', 
                         array('controller'=>'travels', 'action'=>'confirm/'.$travel['Travel']['id']), 
@@ -52,22 +52,22 @@ if($isConfirmed) {
                 <li style="padding-bottom: 15px">
                     <i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> 
                     Este viaje está sin confirmar y no ha sido enviado a ningún chofer todavía.
-                    <b>Hasta que confirme este viaje, su anuncio no será atendido</b>.
+                    <b>Hasta que confirmes este viaje, tu anuncio no será atendido</b>.
                 </li>
                 <li style="padding-bottom: 15px">
                     <i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> 
-                    <b>Usted puede hacer modificaciones a los datos del viaje antes de confirmalo</b>.
-                    Al confirmarlo, ya no podrá hacer cambios al anuncio.
+                    <b>Puedes hacer modificaciones a los datos del viaje antes de confirmalo</b>.
+                    Al confirmarlo, ya no podrás hacer cambios al anuncio.
                 </li>
                 <li style="padding-bottom: 15px">
                     <i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> 
-                    Al confirmar el viaje, varios choferes que pudieran atenderlo serán notificados.
-                    <b>Los choferes interesados contactarán con usted por la vía que usted indique en los contactos</b>.
+                    Al confirmar el viaje, varios choferes que pudieran atenderte serán notificados.
+                    <b>Los choferes interesados contactarán contigo por la vía que indiques en los contactos</b>.
                 </li>
                 <li style="padding-bottom: 15px">
                     <i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> 
-                    <b>Asegúrese de que los datos del viaje son correctos antes de confirmarlo</b>. Esto evita que los choferes sean
-                    notificados y usted contactado equivocadamente.
+                    <b>Asegúrate de que los datos del viaje son correctos antes de confirmarlo</b>. Esto evita que los choferes sean
+                    notificados y tú contactado equivocadamente.
                 </li>
             </ul>
             

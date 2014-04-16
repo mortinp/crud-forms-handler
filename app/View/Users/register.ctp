@@ -28,7 +28,7 @@
             </li>
             <li style="padding-bottom: 15px">
                 <i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> 
-                <b>Su dirección de correo en ningún caso será revelada</b> sin su consentimiento. Vea nuestros 
+                <b>Su dirección de correo en ningún caso será revelada</b>. Vea nuestros 
                 <?php echo $this->Html->link('Términos de uso', array('controller'=>'pages', 'action'=>'display', 'use_terms'))?>.
             </li>
             <li style="padding-bottom: 15px">

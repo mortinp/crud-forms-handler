@@ -4,7 +4,7 @@ App::uses('CakeEmail', 'Network/Email');
 
 class TravelsController extends AppController {
     
-    public $uses = array('Travel', 'Locality', 'User', 'DriverLocality');
+    public $uses = array('Travel', 'Locality', 'User', 'DriverLocality', 'Province');
     
     /*public function beforeFilter() {
         parent::beforeFilter();
@@ -34,14 +34,13 @@ class TravelsController extends AppController {
         
         $this->set('travels', $travels); 
         
-        $localities = $this->Locality->find('list');
-        /*if(empty ($travels)) */$this->set('localities', $this->Locality->find('list'));
+        $this->set('localities', $this->Locality->getAsList());
     }
 
     public function view($id) {
         $travel = $this->Travel->findById($id);
         
-        $this->set('localities', $this->Locality->find('list'));
+        $this->set('localities', $this->Locality->getAsList());
         $this->set('travel', $travel);
         
         $this->request->data = $travel;
@@ -60,11 +59,11 @@ class TravelsController extends AppController {
                 return $this->redirect(array('action' => 'view/' . $id));
             }
             $this->setErrorMessage(__('Error al crear el viaje'));
-            $this->set('localities', $this->Locality->find('list'));
+            $this->set('localities', $this->Locality->getAsList());
             return;
         }
         
-        $this->set('localities', $this->Locality->find('list'));
+        $this->set('localities', $this->Locality->getAsList());
     }
     
     public function confirm($id) {

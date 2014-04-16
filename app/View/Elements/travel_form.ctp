@@ -25,7 +25,7 @@ else
         ?>
     <fieldset>
         <?php
-        echo $this->Form->input('locality_id', array('type' => 'select', 'options' => $localities,
+        echo $this->Form->input('locality_id', array('type' => 'select', 'options' => $localities, 'showParents' => true,
             'label' => __('Origen del viaje') . ' 
         <small><a class="popover-info" href="#!" data-container="body" data-toggle="popover" data-placement="bottom" 
             data-content="Para que un origen de viaje aparezca en esta lista, <b>debe haber choferes registrados para ese origen</b>, de tal forma que los viajeros puedan ser atendidos. Los orígenes de viaje se adicionan en cuanto se registra el primer chofer para ese origen.">¿Por qué mi <em>origen de viaje</em> no aparece aquí?</a>

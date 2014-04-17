@@ -54,7 +54,11 @@ class AppController extends Controller {
     );
 
     public function beforeFilter() {
-        $this->Auth->allow('display', 'login', 'register', 'authorize', 'logout', 'recover_password');
+        $this->Auth->allow('display');
+        
+        $isLoggedIn = AuthComponent::user('id') ? true : false;
+        if($isLoggedIn) $this->Auth->allow('logout');
+        else $this->Auth->allow('login', 'register', 'authorize', 'recover_password');
     }
 
     public function isAuthorized($user) {

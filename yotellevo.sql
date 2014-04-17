@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 17-04-2014 a las 12:34:24
+-- Tiempo de generación: 17-04-2014 a las 13:03:24
 -- Versión del servidor: 5.5.16
 -- Versión de PHP: 5.3.8
 
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `drivers` (
   `active` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 --
 -- Volcado de datos para la tabla `drivers`
@@ -43,7 +43,9 @@ CREATE TABLE IF NOT EXISTS `drivers` (
 INSERT INTO `drivers` (`id`, `username`, `password`, `max_people_count`, `active`) VALUES
 (5, 'nelson@ksabes.com', 'f83bf0b762b0eb17c78b944c77d1d3eb3149bc81', 4, 0),
 (6, 'mproenza@grm.desoft.cu', '11d73e76166b34c786ff3227813b3a467818c264', 4, 1),
-(7, 'eduartd@nauta.cu', 'b074e2f38af8d33d8026b4facf2a6bfc03e4f77f', 4, 0);
+(7, 'eduartd@nauta.cu', 'b074e2f38af8d33d8026b4facf2a6bfc03e4f77f', 4, 0),
+(8, 'wary@dps.grm.sld.cu', 'f1ed9dc220787b7570dd4bf76f0b29205e55562a', 4, 0),
+(9, 'rricardo@grm.desoft.cu', '2773b7ee46895cf2b2f38fcb80f1403c1f136ec0', 4, 0);
 
 -- --------------------------------------------------------
 

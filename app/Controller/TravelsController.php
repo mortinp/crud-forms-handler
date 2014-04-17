@@ -96,11 +96,12 @@ class TravelsController extends AppController {
                 $OK = false;
             }
             
+            $drivers_sent_count = 0;
+            
             if($OK) {
                 $belongs_to_admin = $travel['User']['role'] === 'admin';
-                
                 if(!$belongs_to_admin) {
-                    $drivers_sent_count = 0;
+                    
                     foreach ($drivers as $d) {
                         if(Configure::read('enqueue_mail')) {
                             ClassRegistry::init('EmailQueue.EmailQueue')->enqueue(

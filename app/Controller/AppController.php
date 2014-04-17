@@ -47,7 +47,7 @@ class AppController extends Controller {
         'Session',
         'Auth' => array(
             'loginRedirect' => array('controller' => 'travels', 'action' => 'index'),
-            'logoutRedirect' => array('controller' => 'pages', 'action' => 'home'),
+            'logoutRedirect' => '/',
             'authorize' => array('Controller'),
             'authError' => '<div class="alert alert-danger">Debes entrar a la aplicación antes de realizar esta acción.</div>'
         )

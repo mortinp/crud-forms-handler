@@ -3,12 +3,18 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 17-04-2014 a las 17:36:25
+-- Tiempo de generación: 17-04-2014 a las 19:06:55
 -- Versión del servidor: 5.5.16
 -- Versión de PHP: 5.3.8
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Base de datos: `yotellevo`
@@ -36,7 +42,6 @@ CREATE TABLE IF NOT EXISTS `drivers` (
 --
 
 INSERT INTO `drivers` (`id`, `username`, `password`, `max_people_count`, `active`) VALUES
-(5, 'nelson@ksabes.com', 'f83bf0b762b0eb17c78b944c77d1d3eb3149bc81', 4, 0),
 (6, 'mproenza@grm.desoft.cu', '11d73e76166b34c786ff3227813b3a467818c264', 4, 1),
 (7, 'eduartd@nauta.cu', 'b074e2f38af8d33d8026b4facf2a6bfc03e4f77f', 4, 0),
 (8, 'wary@dps.grm.sld.cu', 'f1ed9dc220787b7570dd4bf76f0b29205e55562a', 4, 0),
@@ -64,8 +69,6 @@ CREATE TABLE IF NOT EXISTS `driver_localities` (
 --
 
 INSERT INTO `driver_localities` (`id`, `driver_id`, `locality_id`) VALUES
-(6, 5, 1),
-(7, 5, 2),
 (8, 6, 1),
 (9, 6, 2),
 (10, 6, 3),
@@ -289,3 +292,7 @@ ALTER TABLE `localities`
 ALTER TABLE `travels`
   ADD CONSTRAINT `travels_ibfk_1` FOREIGN KEY (`locality_id`) REFERENCES `localities` (`id`),
   ADD CONSTRAINT `travels_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

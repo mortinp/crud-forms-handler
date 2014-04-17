@@ -67,7 +67,7 @@ if($isLoggedIn) {
                             <span class="icon-bar"></span>
                         </button>
                         <div class="navbar-brand"><i class="glyphicon glyphicon-road"></i> YoTeLlevo</div>
-                        <!--<big><?php echo $this->Html->link('<i class="glyphicon glyphicon-road"></i> YoTeLlevo', array('controller' => 'pages', 'action' => 'home'), array('class' => 'navbar-brand', 'escape' => false));?></big>-->
+                        <!--<big><?php echo $this->Html->link('<i class="glyphicon glyphicon-road"></i> YoTeLlevo', '/', array('class' => 'navbar-brand', 'escape' => false));?></big>-->
                     </div>
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -80,7 +80,7 @@ if($isLoggedIn) {
                                 <?php endif;?>
                                     
                             <?php else: ?>
-                                <!--<li><?php echo $this->Html->link(__('<i class="glyphicon glyphicon-home"></i> Inicio'), array('controller' => 'pages', 'action' => 'home'), array('escape'=>false));?></li>-->
+                                <!--<li><?php echo $this->Html->link(__('<i class="glyphicon glyphicon-home"></i> Inicio'), '/', array('escape'=>false));?></li>-->
                             <?php endif;?>            
                         </ul>
 
@@ -137,7 +137,7 @@ if($isLoggedIn) {
 
             <div id="footer">
                 <div class="container-fluid">
-                    <p class="text-muted" style="margin: 20px 0;"><?php echo __('Creado por ').$this->Html->link('YoTeLlevo&trade;', array('controller' => 'pages', 'action' => 'home'), array('escape' => false)); ?></p>
+                    <p class="text-muted" style="margin: 20px 0;"><?php echo __('Creado por ').$this->Html->link('YoTeLlevo&trade;', '/', array('escape' => false)); ?></p>
                 </div>
             </div>
         </div>

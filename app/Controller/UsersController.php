@@ -90,9 +90,12 @@ class UsersController extends AppController {
             }
             
             $this->PendingUser->delete($id);
-            $this->setSuccessMessage(__('Tu cuenta ha sido confirmada exitosamente. Ahora puedes entrar para crear anuncios de viajes.'));
-
-            return $this->redirect(array('controller' => 'users', 'action' => 'login'));
+            
+            /*$this->setSuccessMessage(__('Tu cuenta ha sido confirmada exitosamente. Ahora puedes entrar para crear anuncios de viajes.'));
+            return $this->redirect(array('controller' => 'users', 'action' => 'login'));*/
+            $this->setSuccessMessage(__('Tu cuenta ha sido registrada exitosamente. Ahora puedes comenzar a crear anuncios de viajes.'));
+            $this->login();
+            
         }
         
         $this->setErrorMessage("Ocurrió un error activando su cuenta, o el link usado ha expirado (tal vez ya usaste este link)");

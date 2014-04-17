@@ -1,4 +1,6 @@
-<?php App::uses('AuthComponent', 'Controller/Component')?>
+<?php 
+if(!isset ($creator_role)) $creator_role = 'regular';
+?>
 
 <?php echo $this->element('travel', array('travel'=>$travel, 'actions'=>false))?>
 
@@ -21,7 +23,7 @@
             </ul>
         </p>
         <p>
-            <?php if(AuthComponent::user('role') === 'regular'):?>
+            <?php if($creator_role === 'regular'):?>
                 Se notificaron exitosamente <b><?php echo $admin['notified_count']?></b> choferes.
             <?php else:?>
                 Este viaje fue creado por un administrador, por lo cual <b>no fue enviado realmente a ningún chofer</b>.

@@ -53,7 +53,7 @@ class TravelsController extends AppController {
             $this->request->data['Travel']['user_id'] = $this->Auth->user('id');
             $this->request->data['Travel']['state'] = Travel::$STATE_DEFAULT;
             if ($this->Travel->save($this->request->data)) {                
-                $this->setSuccessMessage('Este viaje ha sido creado exitosamente.');
+                $this->setSuccessMessage('Este viaje ha sido creado exitosamente, pero <b>NO ha sido enviado a ningún chofer todavía</b>. Confírmelo para enviar a los choferes.');
                 
                 $id = $this->Travel->getLastInsertID();
                 return $this->redirect(array('action' => 'view/' . $id));
@@ -149,7 +149,7 @@ class TravelsController extends AppController {
                 // Always send an email to me ;)
                 $Email = new CakeEmail('yotellevo');
                 $Email->template('new_travel')
-                ->viewVars(array('travel'=>$travel, 'admin'=>array('drivers'=>$drivers, 'notified_count'=>$drivers_sent_count)))
+                ->viewVars(array('travel'=>$travel, 'admin'=>array('drivers'=>$drivers, 'notified_count'=>$drivers_sent_count, 'creator_role'=>$travel['User']['role'])))
                 ->emailFormat('html')
                 ->to('mproenza@grm.desoft.cu')
                 ->subject('Nuevo Anuncio de Viaje (#'.$travel['Travel']['id'].')');

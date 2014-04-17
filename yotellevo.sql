@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 17-04-2014 a las 19:06:55
+-- Tiempo de generación: 17-04-2014 a las 21:00:40
 -- Versión del servidor: 5.5.16
 -- Versión de PHP: 5.3.8
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `drivers` (
   `active` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Volcado de datos para la tabla `drivers`
@@ -45,7 +45,8 @@ INSERT INTO `drivers` (`id`, `username`, `password`, `max_people_count`, `active
 (6, 'mproenza@grm.desoft.cu', '11d73e76166b34c786ff3227813b3a467818c264', 4, 1),
 (7, 'eduartd@nauta.cu', 'b074e2f38af8d33d8026b4facf2a6bfc03e4f77f', 4, 0),
 (8, 'wary@dps.grm.sld.cu', 'f1ed9dc220787b7570dd4bf76f0b29205e55562a', 4, 0),
-(9, 'rricardo@grm.desoft.cu', '2773b7ee46895cf2b2f38fcb80f1403c1f136ec0', 4, 0);
+(9, 'rricardo@grm.desoft.cu', '2773b7ee46895cf2b2f38fcb80f1403c1f136ec0', 4, 0),
+(10, 'nelson@ksabes.com', 'f83bf0b762b0eb17c78b944c77d1d3eb3149bc81', 4, 1);
 
 -- --------------------------------------------------------
 
@@ -62,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `driver_localities` (
   UNIQUE KEY `id` (`id`),
   KEY `driver_localities_driver_fk` (`driver_id`),
   KEY `driver_localities_locality_fk` (`locality_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
 
 --
 -- Volcado de datos para la tabla `driver_localities`
@@ -76,7 +77,11 @@ INSERT INTO `driver_localities` (`id`, `driver_id`, `locality_id`) VALUES
 (12, 7, 1),
 (13, 7, 2),
 (14, 7, 3),
-(15, 7, 4);
+(15, 7, 4),
+(16, 10, 1),
+(17, 10, 2),
+(18, 10, 3),
+(19, 10, 4);
 
 -- --------------------------------------------------------
 
@@ -221,7 +226,7 @@ CREATE TABLE IF NOT EXISTS `travels` (
   UNIQUE KEY `id` (`id`),
   KEY `travels_locality_fk` (`locality_id`),
   KEY `travels_user_fk` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=57 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=59 ;
 
 --
 -- Volcado de datos para la tabla `travels`
@@ -236,7 +241,9 @@ INSERT INTO `travels` (`id`, `locality_id`, `destination`, `date`, `people_count
 (53, 3, 'd sdad', '2014-04-26', 3, 'd sdsd', 0, 9, 'C', 1),
 (54, 2, 'sdfsd fsd', '2014-04-19', 3, 'fds fsdf', 0, 10, 'C', 1),
 (55, 3, 'fg dfgdfg', '2014-04-19', 3, 'gdf gdfg', 0, 10, 'C', 1),
-(56, 1, 'fd fsdfds', '2014-04-26', 4, 'fd fsdfd', 0, 10, 'C', 1);
+(56, 1, 'fd fsdfds', '2014-04-26', 4, 'fd fsdfd', 0, 10, 'C', 1),
+(57, 2, 'ds dsds', '2014-04-18', 3, 'd sdsds', 0, 1, 'C', 1),
+(58, 1, 'fdsf sdfsdf', '2014-04-26', 3, 'a ddfsdasdas asddasd', 0, 11, 'C', 2);
 
 -- --------------------------------------------------------
 
@@ -255,7 +262,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `created` date NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
 -- Volcado de datos para la tabla `users`
@@ -264,10 +271,10 @@ CREATE TABLE IF NOT EXISTS `users` (
 INSERT INTO `users` (`id`, `username`, `password`, `role`, `active`, `display_name`, `created`) VALUES
 (1, 'ttt@ttt.ttt', '3a49921023b6c1d0a53cc864581e91f5f0e05109', 'regular', 1, 'martin', '0000-00-00'),
 (3, 'mproenza@grm.desoft.cu', '60dd56fce363a2e493ae60bfdc64a9dffb0b227b', 'admin', 1, '', '0000-00-00'),
-(4, 'nelson@ksabes.com', 'f83bf0b762b0eb17c78b944c77d1d3eb3149bc81', 'admin', 1, '', '0000-00-00'),
 (5, 'yyy@yyy.yyy', '204fd5ba3dc199156254911fc8d088f6f20962fa', 'regular', 1, '', '2014-04-15'),
 (9, 'eee@eee.eee', '022518aa84a1861c62c3ceb61dd34c7bfa2160b2', 'regular', 1, '', '2014-04-17'),
-(10, 'iii@iii.iii', '66d6f31dd91638bcfaf4c636818827fc20209d52', 'regular', 1, '', '2014-04-17');
+(10, 'iii@iii.iii', '66d6f31dd91638bcfaf4c636818827fc20209d52', 'regular', 1, '', '2014-04-17'),
+(11, 'nelson@ksabes.com', 'f83bf0b762b0eb17c78b944c77d1d3eb3149bc81', 'regular', 0, '', '2014-04-17');
 
 --
 -- Restricciones para tablas volcadas

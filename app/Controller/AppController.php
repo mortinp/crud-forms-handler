@@ -68,14 +68,7 @@ class AppController extends Controller {
         );        
         
         // Allow all static pages
-        $this->Auth->allow('display');
-        
-        $isLoggedIn = AuthComponent::user('id') ? true : false;
-        if($isLoggedIn) {
-            //$this->Auth->deny('display');
-            $this->Auth->allow('logout');
-        }
-        else $this->Auth->allow('login', 'register', 'register_welcome', 'authorize', 'recover_password');
+        $this->Auth->allow('display');        
     }
 
     public function isAuthorized($user) {

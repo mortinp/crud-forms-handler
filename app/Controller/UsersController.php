@@ -9,6 +9,11 @@ class UsersController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
+        
+        if($this->Auth->loggedIn()) {
+            $this->Auth->allow('logout');
+        }
+        else $this->Auth->allow('login', 'register', 'register_welcome', 'authorize', 'recover_password');
     }
 
     public function isAuthorized($user) {

@@ -25,14 +25,11 @@ $expired = CakeTime::isPast($date_converted) && !CakeTime::isToday($date_convert
 <?php
     $notice = array();
     if($expired) {
-        $notice['color'] = 'lightcoral';
-        $notice['label'] = 'Expirado';
-    } else if($travel['Travel']['state'] == Travel::$STATE_CONFIRMED) {
-        $notice['color'] = 'lightskyblue';
-        $notice['label'] = 'Confirmado';
-    } else if($travel['Travel']['state'] == Travel::$STATE_UNCONFIRMED) {
-        $notice['color'] = 'goldenrod';
-        $notice['label'] = 'Sin confirmar';
+        $notice['color'] = Travel::$STATE['E']['color'];
+        $notice['label'] = Travel::$STATE['E']['label'];
+    } else {
+        $notice['color'] = Travel::$STATE[$travel['Travel']['state']]['color'];
+        $notice['label'] = Travel::$STATE[$travel['Travel']['state']]['label'];
     }
 ?>
 

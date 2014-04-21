@@ -9,25 +9,12 @@ if($isConfirmed) {
 
 <div class="row">
     <div class="col-md-6 col-md-offset-1"> 
-        <div id="travel">
-            <?php echo $this->element('travel', array('actions'=>false))?>
-            <?php if(!$isConfirmed):?><a title="Edita este viaje" href="#!" class="edit-travel">&ndash; Editar</a><?php endif?>
-        </div>
-        <?php if(!$isConfirmed):?>
-        <div id='travel-form' style="display:none">
-            <legend>Edita los datos de este viaje antes de confirmar <a href="#!" class="cancel-edit-travel">&ndash; no editar</a></legend>
-            <?php echo $this->element('travel_form', array('do_ajax' => true, 'form_action' => 'edit/' . $travel['Travel']['id'])); ?>
-            <br/>
-        </div>
-        <?php endif?>
-        
-        <br/>
-        
         <?php if(!$isConfirmed):?>
             <div class="alert alert-info">
-                <span class="text-warning">Este viaje está sin confirmar.</span> Los choferes NO te contactarán hasta que confirmes este viaje. 
+                Este viaje <b>NO HA SIDO ENVIADO A LOS CHOFERES</b> todavía, pues está <span style="color:<?php echo Travel::$STATE[$travel['Travel']['state']]['color']?>"><b>sin confirmar</b></span>.
+                
                 <div>
-                    <big>
+                    &mdash;<big>
                         <?php echo $this->Html->link('<i class="glyphicon glyphicon-envelope"></i> Confirmar viaje ahora', 
                         array('controller'=>'travels', 'action'=>'confirm/'.$travel['Travel']['id']), 
                         array('escape'=>false, 'class'=>'alert-link', 'title'=>'Confirmar y Enviar este viaje a los choferes'))?>
@@ -40,6 +27,19 @@ if($isConfirmed) {
             </div>
         <?php endif;?>
         
+        <div id="travel">
+            <?php echo $this->element('travel', array('actions'=>false))?>
+            <?php if(!$isConfirmed):?><a title="Edita este viaje" href="#!" class="edit-travel">&ndash; Editar</a><?php endif?>
+        </div>
+        <?php if(!$isConfirmed):?>
+        <div id='travel-form' style="display:none">
+            <legend>Edita los datos de este viaje antes de confirmar <a href="#!" class="cancel-edit-travel">&ndash; no editar</a></legend>
+            <?php echo $this->element('travel_form', array('do_ajax' => true, 'form_action' => 'edit/' . $travel['Travel']['id'])); ?>
+            <br/>
+        </div>
+        <?php endif?>
+        
+        <br/>        
         
         <br/>
         <?php echo $this->Html->link("<i class='glyphicon glyphicon-bell'></i> <big>Ver todos mis anuncios</big>", array('controller'=>'travels', 'action'=>'index'), array('escape'=>false))?>

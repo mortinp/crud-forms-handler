@@ -2,6 +2,12 @@
 App::uses('AppModel', 'Model');
 class Travel extends AppModel {
     
+    public static $STATE = array(
+        'U' => array('color'=>'goldenrod', 'label'=>'Sin Confirmar'),
+        'C' => array('color'=>'lightskyblue', 'label'=>'Confirmado'),
+        'E' => array('color'=>'lightcoral', 'label'=>'Expirado'),
+    );
+    
     public static $STATE_UNCONFIRMED = 'U';
     public static $STATE_CONFIRMED = 'C';
     public static $STATE_SOLVED = 'S';

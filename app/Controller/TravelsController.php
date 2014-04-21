@@ -125,6 +125,7 @@ class TravelsController extends AppController {
                                 if($drivers_sent_count < 1) {
                                     $this->setErrorMessage('Ocurrió un error enviando el viaje a los choferes. Intenta de nuevo.');
                                     $OK = false;
+                                    continue;
                                 }
                             }
                         }                        
@@ -137,6 +138,7 @@ class TravelsController extends AppController {
             if($OK) $datasource->commit();
             else $datasource->rollback();
             
+            // Always send an email to me ;) 
             if(Configure::read('enqueue_mail')) {
                 ClassRegistry::init('EmailQueue.EmailQueue')->enqueue(
                         'mproenza@grm.desoft.cu',
@@ -147,7 +149,6 @@ class TravelsController extends AppController {
                             'subject'=>'Nuevo Anuncio de Viaje (#'.$travel['Travel']['id'].')',
                             'config'=>'yotellevo'));
             } else {
-                // Always send an email to me ;)
                 $Email = new CakeEmail('yotellevo');
                 $Email->template('new_travel')
                 ->viewVars(array('travel'=>$travel, 'admin'=>array('drivers'=>$drivers, 'notified_count'=>$drivers_sent_count, 'creator_role'=>$travel['User']['role'])))

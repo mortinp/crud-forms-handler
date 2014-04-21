@@ -49,16 +49,33 @@ class AppController extends Controller {
             'loginRedirect' => array('controller' => 'travels', 'action' => 'index'),
             'logoutRedirect' => '/',
             'authorize' => array('Controller'),
-            'authError' => '<div class="alert alert-danger">Debes entrar a la aplicación antes de realizar esta acción.</div>'
-        )
+            'authError' => '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>No tienes permisos para realizar esta acción.</div>'
+        ),
+        'Cookie'
     );
 
     public function beforeFilter() {
+        // Cookie login
+        $this->Auth->authenticate = array(
+            'Cookie' => array(
+                'fields' => array(
+                    'username' => 'username',
+                    'password' => 'password'
+                ),
+                'userModel' => 'User',
+            ),
+            'Form'
+        );        
+        
+        // Allow all static pages
         $this->Auth->allow('display');
         
         $isLoggedIn = AuthComponent::user('id') ? true : false;
-        if($isLoggedIn) $this->Auth->allow('logout');
-        else $this->Auth->allow('login', 'register', 'authorize', 'recover_password');
+        if($isLoggedIn) {
+            //$this->Auth->deny('display');
+            $this->Auth->allow('logout');
+        }
+        else $this->Auth->allow('login', 'register', 'register_welcome', 'authorize', 'recover_password');
     }
 
     public function isAuthorized($user) {

@@ -9,8 +9,6 @@ class UsersController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('register');
-        $this->Auth->allow('register_welcome');
     }
 
     public function isAuthorized($user) {
@@ -23,11 +21,38 @@ class UsersController extends AppController {
     public function login() {
         if ($this->request->is('post')) {
             if ($this->Auth->login()) {
+                $this->_setCookie($this->Auth->user('id'));
+                
+                if(AuthComponent::user('role') === 'admin') return $this->redirect(array('action'=>'index'));
+                return $this->redirect($this->Auth->redirect());
+            } else {
+                $this->setErrorMessage(__('El usuario o la contraseña son inválidos. Intenta de nuevo.'));
+            }
+        }
+        if ($this->Auth->loggedIn() || $this->Auth->login()) {
+            return $this->redirect($this->Auth->redirectUrl());
+        }
+        
+        
+        /*if ($this->request->is('post')) {
+            if ($this->Auth->login()) {
                 if(AuthComponent::user('role') === 'admin') return $this->redirect(array('action'=>'index'));
                 return $this->redirect($this->Auth->redirect());
             }
             $this->setErrorMessage(__('El usuario o la contraseña son inválidos. Intenta de nuevo.'));
+        }*/
+    }
+    
+    protected function _setCookie($id) {
+        if (!$this->request->data('User.remember_me')) {
+            return false;
         }
+        $data = array(
+            'username' => $this->request->data('User.username'),
+            'password' => $this->request->data('User.password')
+        );
+        $this->Cookie->write('User', $data, true, '+2 week');
+        return true;
     }
 
     public function logout() {

@@ -66,8 +66,8 @@ if($isLoggedIn) {
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <div class="navbar-brand"><i class="glyphicon glyphicon-road"></i> YoTeLlevo</div>
-                        <!--<big><?php echo $this->Html->link('<i class="glyphicon glyphicon-road"></i> YoTeLlevo', '/', array('class' => 'navbar-brand', 'escape' => false));?></big>-->
+                        <!--<div class="navbar-brand"><i class="glyphicon glyphicon-road"></i> YoTeLlevo</div>-->
+                        <big><?php echo $this->Html->link('<i class="glyphicon glyphicon-road"></i> YoTeLlevo', '/', array('class' => 'navbar-brand', 'escape' => false));?></big>
                     </div>
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -112,6 +112,9 @@ if($isLoggedIn) {
                 </div>
             </nav>
             
+            
+            <?php echo $this->Session->flash('auth'); ?>
+            
             <?php if ($isLoggedIn && $role === 'admin') :?>
             <!--<div class="row">
                 <div class="col-md-6">
@@ -137,7 +140,10 @@ if($isLoggedIn) {
 
             <div id="footer">
                 <div class="container-fluid">
-                    <p class="text-muted" style="margin: 20px 0;"><?php echo __('Creado por ').$this->Html->link('YoTeLlevo&trade;', '/', array('escape' => false)); ?></p>
+                    <p class="text-muted" style="margin: 20px 0;">
+                        Creado por <a href="http://ksabes.com">Casabe&trade;</a>
+                    <!--<?php echo __('Creado por ').$this->Html->link('YoTeLlevo&trade;', '/', array('escape' => false)); ?>-->
+                    </p>
                 </div>
             </div>
         </div>

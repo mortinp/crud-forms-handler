@@ -44,9 +44,13 @@
     </div>
         
 <?php else :?>
-    <div class="col-md-6 col-md-offset-3">
+    <div class="col-md-6 col-md-offset-1">
         <legend>No tienes ningún anuncio de viaje. Crea uno ahora</legend>
         <?php echo $this->element('travel_form')?>
+    </div>
+    
+    <div class="col-md-3 col-md-offset-1">  
+        <?php echo $this->element('travel_tips'); ?>
     </div>
 
 <?php endif; ?>

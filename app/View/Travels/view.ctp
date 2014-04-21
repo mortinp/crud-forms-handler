@@ -25,11 +25,13 @@ if($isConfirmed) {
         
         <?php if(!$isConfirmed):?>
             <div class="alert alert-info">
-                <span class="text-warning">Este viaje está sin confirmar.</span> Los choferes NO te contactarán hasta que confirmes este viaje 
+                <span class="text-warning">Este viaje está sin confirmar.</span> Los choferes NO te contactarán hasta que confirmes este viaje. 
                 <div>
-                    &mdash; <?php echo $this->Html->link('<i class="glyphicon glyphicon-envelope"></i> Confirmar viaje ahora', 
+                    <big>
+                        <?php echo $this->Html->link('<i class="glyphicon glyphicon-envelope"></i> Confirmar viaje ahora', 
                         array('controller'=>'travels', 'action'=>'confirm/'.$travel['Travel']['id']), 
                         array('escape'=>false, 'class'=>'alert-link', 'title'=>'Confirmar y Enviar este viaje a los choferes'))?>
+                    </big>
                 </div>
             </div>
         <?php else:?>

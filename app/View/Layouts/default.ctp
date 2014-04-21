@@ -140,10 +140,23 @@ if($isLoggedIn) {
 
             <div id="footer">
                 <div class="container-fluid">
-                    <p class="text-muted" style="margin: 20px 0;">
-                        Creado por <a href="http://ksabes.com">Casabe&trade;</a>
-                    <!--<?php echo __('Creado por ').$this->Html->link('YoTeLlevo&trade;', '/', array('escape' => false)); ?>-->
-                    </p>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <p class="text-muted" style="margin: 20px 0;">
+                                Creado por <a href="http://ksabes.com">Casabe&trade;</a>
+                            <!--<?php echo __('Creado por ').$this->Html->link('YoTeLlevo&trade;', '/', array('escape' => false)); ?>-->
+                            </p>
+                        </div>
+                        <div class="col-md-3">
+                            <p class="text-muted" style="margin: 20px 0;">
+                               <?php echo $this->Html->link('Contactos', array('controller'=>'pages', 'action'=>'display', 'contact')); ?>
+                                |
+                               <?php echo $this->Html->link('Términos de Uso', array('controller'=>'pages', 'action'=>'display', 'use_terms')); ?>
+                            </p>
+                            
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
         </div>

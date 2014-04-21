@@ -89,6 +89,10 @@ class AppController extends Controller {
         $this->Session->setFlash($message, 'error_message');
     }
     
+    protected function setInfoMessage($message) {
+        $this->Session->setFlash($message, 'info_message');
+    }
+    
     protected function setWarningMessage($message) {
         $this->Session->setFlash($message, 'warning_message');
     }

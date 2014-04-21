@@ -141,17 +141,19 @@ if($isLoggedIn) {
             <div id="footer">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <p class="text-muted" style="margin: 20px 0;">
                                 Creado por <a href="http://ksabes.com">Casabe&trade;</a>
                             <!--<?php echo __('Creado por ').$this->Html->link('YoTeLlevo&trade;', '/', array('escape' => false)); ?>-->
                             </p>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-8" style="text-align: center">
                             <p class="text-muted" style="margin: 20px 0;">
                                <?php echo $this->Html->link('Contactos', array('controller'=>'pages', 'action'=>'display', 'contact')); ?>
                                 |
                                <?php echo $this->Html->link('Términos de Uso', array('controller'=>'pages', 'action'=>'display', 'use_terms')); ?>
+                                |
+                               <?php echo $this->Html->link('Preguntas Frecuentes', array('controller'=>'pages', 'action'=>'display', 'faq')); ?>
                             </p>
                             
                         </div>

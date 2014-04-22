@@ -11,7 +11,7 @@ if($isConfirmed) {
     <div class="col-md-6 col-md-offset-1"> 
         <?php if(!$isConfirmed):?>
             <div class="alert alert-info">
-                Este viaje <b>NO HA SIDO ENVIADO A LOS CHOFERES</b> todavía, pues está <span style="color:<?php echo Travel::$STATE[$travel['Travel']['state']]['color']?>"><b>sin confirmar</b></span>.
+                Este viaje <span class="text-danger"><b>NO HA SIDO ENVIADO A LOS CHOFERES</b></span> todavía, pues está <span style="color:<?php echo Travel::$STATE[$travel['Travel']['state']]['color']?>"><b>sin confirmar</b></span>.
                 
                 <div>
                     &mdash;<big>
@@ -82,6 +82,7 @@ if($isConfirmed) {
 $this->Html->script('jquery', array('inline' => false));
     
 $this->Js->set('travel', $travel);
+$this->Js->set('travels_preferences', Travel::$preferences);
 echo $this->Js->writeBuffer(array('inline' => false));
 
 $this->Html->script('common/ajax-forms', array('inline' => false));
@@ -107,8 +108,27 @@ $this->Html->script('common/ajax-forms', array('inline' => false));
             if(obj.people_count > 1) prettyPeopleCount += 's';
             $('#travel-prettypeoplecount-label').text(prettyPeopleCount);
             
-            $('#travel-contact-label').text(obj.contact);
+            var prefDiv = $('#preferences-place');
+            prefDiv.empty();
+            if(hasPreferences(obj)) {
+                prefDiv.append("<p><b>Preferencias:</b> <span id='travel-preferences-label'></span></p>");
+                
+                var prefLabel = $('#travel-preferences-label');
+                prefLabel.text('');
+                var sep = '';
+                for(var p in window.app.travels_preferences) {
+                    if(obj[p] == "1") {
+                        prefLabel.text(prefLabel.text() + sep + window.app.travels_preferences[p]);
+                        sep = ', ';
+                    }
+                }
+                prefDiv.show();
+            } else {
+                prefDiv.empty();
+                prefDiv.hide();
+            }
             
+            $('#travel-contact-label').text(obj.contact);
             
             $('#travel-form, #travel').toggle();
         });
@@ -118,5 +138,14 @@ $this->Html->script('common/ajax-forms', array('inline' => false));
             $('#travel-form, #travel').toggle();
         });
     });
+    
+    function hasPreferences(obj) {
+        for(var p in window.app.travels_preferences) {
+            if(obj[p] == "1") {
+                return true;
+            }
+        }
+        return false;
+    }
 </script>
 <?php endif?>

@@ -110,6 +110,20 @@ class BootstrapFormHelper extends FormHelper {
         $output .= $this->input($fieldName, $options);
         return $output;
     }
+    
+    public function checkbox_group(array $checkboxes, $options = array()) {
+        $header = 'Options';
+        if(isset ($options['header'])) $header = $options['header'];
+        
+        echo '<div style="clear:both;height:100%;overflow:auto;padding-bottom:10px">';
+        echo '<div><label>'.$header.'</label></div>';
+        //echo '<div>';
+        foreach ($checkboxes as $field => $label) {
+            echo '<div style="padding-right:10px;float:left">'.$this->checkbox($field).' '.$label.'</div>';
+        }
+        //echo '</div>';
+        echo '</div>';
+    }
 }
 
 ?>

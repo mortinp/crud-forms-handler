@@ -95,7 +95,7 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
                     <li style="padding-bottom: 15px"><i class="glyphicon glyphicon-phone-alt" style="margin-left: -20px"></i> Espera a ser contactado por uno de nuestros choferes para acordar los términos del viaje</li>
                 </ul>
                 <div style="margin:20px"><big><b>Finalmente, haz tu viaje el día acordado, en los términos acordados</b></big></div>
-                <div style="margin:20px"><big><?php echo $this->Html->link("<i class='glyphicon glyphicon-flag'></i> Crea un anuncio de viaje ahora", array('controller'=>'travels', 'action'=>'add'), array('escape'=>false))?></big></div>
+                <!--<div style="margin:20px"><big><?php echo $this->Html->link("<i class='glyphicon glyphicon-flag'></i> Crea un anuncio de viaje ahora", array('controller'=>'travels', 'action'=>'add'), array('escape'=>false))?></big></div>-->
             </div>
         </div>
         <div class="col-md-6">

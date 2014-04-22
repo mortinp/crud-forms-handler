@@ -14,6 +14,11 @@ class Travel extends AppModel {
     
     public static $STATE_DEFAULT = 'U';
     
+    public static $preferences = array(
+        'need_modern_car'=>'Carro Moderno',
+        'need_air_conditioner'=>'Aire Acondicionado'
+    );
+    
     public $order = 'Travel.id DESC';
     
     public $belongsTo = array(

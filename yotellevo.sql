@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 21-04-2014 a las 19:51:12
+-- Tiempo de generación: 22-04-2014 a las 03:09:12
 -- Versión del servidor: 5.5.16
 -- Versión de PHP: 5.3.8
 
@@ -36,6 +36,8 @@ CREATE TABLE IF NOT EXISTS `drivers` (
   `password` varchar(250) NOT NULL,
   `max_people_count` int(11) NOT NULL,
   `active` tinyint(1) NOT NULL,
+  `has_modern_car` tinyint(1) NOT NULL,
+  `has_air_conditioner` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
@@ -44,11 +46,11 @@ CREATE TABLE IF NOT EXISTS `drivers` (
 -- Volcado de datos para la tabla `drivers`
 --
 
-INSERT INTO `drivers` (`id`, `username`, `password`, `max_people_count`, `active`) VALUES
-(7, 'eduartd@nauta.cu', 'b074e2f38af8d33d8026b4facf2a6bfc03e4f77f', 4, 0),
-(8, 'wary@dps.grm.sld.cu', 'f1ed9dc220787b7570dd4bf76f0b29205e55562a', 4, 0),
-(9, 'rricardo@grm.desoft.cu', '2773b7ee46895cf2b2f38fcb80f1403c1f136ec0', 4, 0),
-(10, 'nelson@ksabes.com', 'f83bf0b762b0eb17c78b944c77d1d3eb3149bc81', 4, 1);
+INSERT INTO `drivers` (`id`, `username`, `password`, `max_people_count`, `active`, `has_modern_car`, `has_air_conditioner`) VALUES
+(7, 'eduartd@nauta.cu', 'b074e2f38af8d33d8026b4facf2a6bfc03e4f77f', 4, 0, 0, 0),
+(8, 'wary@dps.grm.sld.cu', 'f1ed9dc220787b7570dd4bf76f0b29205e55562a', 4, 0, 1, 1),
+(9, 'rricardo@grm.desoft.cu', '2773b7ee46895cf2b2f38fcb80f1403c1f136ec0', 4, 0, 1, 0),
+(10, 'nelson@ksabes.com', 'f83bf0b762b0eb17c78b944c77d1d3eb3149bc81', 4, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -194,15 +196,25 @@ CREATE TABLE IF NOT EXISTS `travels` (
   `date` date NOT NULL,
   `people_count` int(11) NOT NULL,
   `contact` text NOT NULL,
-  `need_loggage` tinyint(1) NOT NULL,
   `user_id` bigint(20) unsigned NOT NULL,
   `state` char(1) NOT NULL,
   `drivers_sent_count` int(10) unsigned NOT NULL,
+  `need_modern_car` tinyint(1) NOT NULL,
+  `need_air_conditioner` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   KEY `travels_locality_fk` (`locality_id`),
   KEY `travels_user_fk` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=61 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=66 ;
+
+--
+-- Volcado de datos para la tabla `travels`
+--
+
+INSERT INTO `travels` (`id`, `locality_id`, `destination`, `date`, `people_count`, `contact`, `user_id`, `state`, `drivers_sent_count`, `need_modern_car`, `need_air_conditioner`) VALUES
+(63, 3, 'dsffd', '2014-04-24', 3, 'fdsfd', 1, 'U', 0, 0, 0),
+(64, 1, 'dafdsf', '2014-04-25', 3, 'dfdsfsdf', 1, 'U', 0, 1, 1),
+(65, 4, 'fdafdsfds', '2014-04-26', 1, 'fds fdsfsdfdsfd', 1, 'U', 0, 0, 1);
 
 -- --------------------------------------------------------
 

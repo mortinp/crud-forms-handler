@@ -20,6 +20,14 @@ $pretty_date = $day.' '.$month.', '.$year.' ('.$day_of_week.')';
 //$pretty_date = date('j F, Y (l)', strtotime($travel['Travel']['date']));
 
 $expired = CakeTime::isPast($date_converted) && !CakeTime::isToday($date_converted);
+
+$hasPreferences = false;
+foreach (Travel::$preferences as $key => $value) {
+    if($travel['Travel'][$key]) {
+       $hasPreferences = true;
+       break;
+    }
+}
 ?>
 
 <?php
@@ -46,6 +54,25 @@ $expired = CakeTime::isPast($date_converted) && !CakeTime::isToday($date_convert
 </legend>
     
 <p><b>Día del viaje:</b> <span id='travel-date-label'><?php echo $pretty_date?></span></p>
+
+<div id="preferences-place">
+<?php if($hasPreferences):?>
+    <p><b>Preferencias:</b>
+        <span id='travel-preferences-label'>
+        <?php
+            $sep = '';
+            foreach (Travel::$preferences as $key => $value) {
+                if($travel['Travel'][$key]) {
+                    echo $sep.$value;
+                    $sep = ', ';
+                }
+            }
+         ?>
+        </span>
+    </p>
+<?php endif?>
+</div>
+
 <p><b>Contactos:</b> <span id='travel-contact-label'><?php echo $travel['Travel']['contact']?></span></p>
 
 <?php if($actions):?>

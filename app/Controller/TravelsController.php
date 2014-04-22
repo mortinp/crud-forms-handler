@@ -76,10 +76,14 @@ class TravelsController extends AppController {
                 $OK = false;
             }
             
-            $drivers = $this->DriverLocality->find('all', array('conditions'=>
-                            array('DriverLocality.locality_id'=>$travel['Travel']['locality_id'], 
-                                'Driver.active'=>true, 
-                                'Driver.max_people_count >='=>$travel['Travel']['people_count'])));
+            $drivers_conditions = array(
+                'DriverLocality.locality_id'=>$travel['Travel']['locality_id'], 
+                'Driver.active'=>true, 
+                'Driver.max_people_count >='=>$travel['Travel']['people_count']);
+            if($travel['Travel']['need_modern_car']) $drivers_conditions['Driver.has_modern_car'] = true;
+            if($travel['Travel']['need_air_conditioner']) $drivers_conditions['Driver.has_air_conditioner'] = true;
+            
+            $drivers = $this->DriverLocality->find('all', array('conditions'=>$drivers_conditions));
             
             $datasource = $this->Travel->getDataSource();
             $datasource->begin();

@@ -3,6 +3,7 @@
     <li style="padding-bottom: 15px"><i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> Selecciona en la lista el lugar de origen del viaje (por ejemplo, el municipio donde vives).</li>
     <li style="padding-bottom: 15px"><i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> El destino puede ser cualquier lugar que desees: un aeropuerto, una provincia o municipio, un lugar de esparcimiento y recreación, o donde sea que deseas viajar.</li>
     <li style="padding-bottom: 15px"><i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> Especifica la fecha y la cantidad de personas que van a viajar.</li>
+    <li style="padding-bottom: 15px"><i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> Selecciona las características especiales (carro moderno y/o aire acondicionado) en caso que necesites alguna.</li>
     <li style="padding-bottom: 15px"><i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> <b>Lo más importante</b>: especifica la forma en que quieres que los choferes te contacten. <b>La mejor forma es un número de teléfono</b>, pero puede ser cualquier otra vía: correo electrónico, la dirección particular, etc.</li>
 </ul>
 

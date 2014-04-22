@@ -20,7 +20,9 @@ class ContactsController extends AppController {
     }
 
     public function contact() {
-        if ($this->request->is('post')) {            
+        if ($this->request->is('post')) {  
+            
+            if($this->Auth->loggedIn()) $this->request->data['Contact']['email'] = AuthComponent::user('username');
                         
             $Email = new CakeEmail('yotellevo');
             $Email->template('contact')

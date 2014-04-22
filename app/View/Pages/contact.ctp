@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <legend>
-                <div><big>Contactos</big></div>
+                <div><big>Contáctanos</big></div>
                 <div><small class="text-muted">
                     <p>
                         Escríbenos para saber tu opinión o sugerencia sobre <em>YoTeLlevo</em>.

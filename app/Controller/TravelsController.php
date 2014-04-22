@@ -146,7 +146,7 @@ class TravelsController extends AppController {
             if(Configure::read('enqueue_mail')) {
                 ClassRegistry::init('EmailQueue.EmailQueue')->enqueue(
                         'mproenza@grm.desoft.cu',
-                        array('travel'=>$travel, 'admin'=>array('drivers'=>$drivers, 'notified_count'=>$drivers_sent_count)), 
+                        array('travel'=>$travel, 'admin'=>array('drivers'=>$drivers, 'notified_count'=>$drivers_sent_count), 'creator_role'=>$travel['User']['role']), 
                         array(
                             'template'=>'new_travel', 
                             'format'=>'html',
@@ -155,7 +155,7 @@ class TravelsController extends AppController {
             } else {
                 $Email = new CakeEmail('yotellevo');
                 $Email->template('new_travel')
-                ->viewVars(array('travel'=>$travel, 'admin'=>array('drivers'=>$drivers, 'notified_count'=>$drivers_sent_count, 'creator_role'=>$travel['User']['role'])))
+                ->viewVars(array('travel'=>$travel, 'admin'=>array('drivers'=>$drivers, 'notified_count'=>$drivers_sent_count), 'creator_role'=>$travel['User']['role']))
                 ->emailFormat('html')
                 ->to('mproenza@grm.desoft.cu')
                 ->subject('Nuevo Anuncio de Viaje (#'.$travel['Travel']['id'].')');

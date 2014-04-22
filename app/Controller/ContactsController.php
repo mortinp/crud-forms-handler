@@ -5,6 +5,12 @@ App::uses('CakeEmail', 'Network/Email');
 
 class ContactsController extends AppController {
     
+    public function beforeFilter() {
+        parent::beforeFilter();
+        
+        $this->Auth->allow('contact');
+    }
+    
     public function isAuthorized($user) {
         if (in_array($this->action, array('contact'))) {
             return true;
@@ -27,7 +33,7 @@ class ContactsController extends AppController {
             } catch ( Exception $e ) {
                 $this->setErrorMessage('Ocurrió un error recibiendo tu mensaje. Intenta de nuevo.');
             }
-            $this->setInfoMessage('Mensaje recibido.');
+            $this->setInfoMessage('Ya recibimos tu mensaje.');
             return $this->redirect(array('controller'=>'pages', 'action'=>'contact'));
         }
     }

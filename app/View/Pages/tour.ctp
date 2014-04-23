@@ -1,17 +1,27 @@
 <?php App::uses('Travel', 'Model')?>
 
+<?php
+$isLoggedIn = AuthComponent::user('id') ? true : false;
+?>
+
 <div class="container">
     <div class="row">
         <div class="col-md-6">
             <legend><big>¿Cómo usar <em>YoTeLlevo</em>?</big></legend>
             
-            <p>
-                Lo primero que tienes que hacer para usar <em>YoTeLlevo</em> es <b>registrarte</b> en el formulario de la derecha. 
-                Este es un paso que se realiza una sola vez y quedas registrado como usuario de <em>YoTeLlevo</em> hasta que tú mismo decidas dejar de serlo.
-            </p>
+            <?php if($isLoggedIn):?>
+                <p>
+                    <b>Ya cumpliste el primer paso!!!</b> Ya estás registrado en <em>YoTeLlevo</em> como <b><?php echo AuthComponent::user('username')?></b>.
+                </p>
+            <?php else:?>
+                <p>
+                    Lo primero que tienes que hacer para usar <em>YoTeLlevo</em> es <b>registrarte</b> en el formulario de la derecha. 
+                    Este es un paso que se realiza una sola vez y quedas registrado como usuario de <em>YoTeLlevo</em> hasta que tú mismo decidas dejar de serlo.
+                </p>
+            <?php endif?>
             
             <p>
-                En cuanto te hayas registrado en <em>YoTeLLevo</em>, puedes <b>crear un anuncio de viaje</b>. 
+                Una vez registrado en <em>YoTeLLevo</em>, puedes <b>crear un anuncio de viaje</b>. 
                 Para crearlo, tienes que llenar un formulario como este:
             </p>
             
@@ -60,17 +70,21 @@
                 Ah, algo que también es bueno que sepas: en <em>YoTeLlevo</em> puedes crear todos los anuncios de viaje que quieras, de forma <big><b>gratis</b></big>.
             </p>
 
-            <div style="background-color: lightblue;padding:10px">
-                <p><b>¿Te gustaría usar <em>YoTeLlevo</em>? Regístrate ahora:</b></p>
+            <?php if(!$isLoggedIn):?>
+                <div style="background-color: lightblue;padding:10px">
+                    <p><b>¿Te gustaría usar <em>YoTeLlevo</em>? Regístrate ahora:</b></p>
 
-                <p><?php echo $this->element('register_form')?></p>                
-            </div>
-            <p><big>o <?php echo $this->Html->link('Entra', array('controller'=>'users', 'action'=>'login'))?> si ya tienes una cuenta.</big></p>
+                    <p><?php echo $this->element('register_form')?></p>                
+                </div>
+                <p><big>o <?php echo $this->Html->link('Entra', array('controller'=>'users', 'action'=>'login'))?> si ya tienes una cuenta.</big></p>
+            <?php endif?>
         </div>
         
-        <div class="col-md-4 col-md-offset-1">
-            <p><b>¿Te gustaría usar <em>YoTeLlevo</em>? Regístrate ahora:</b></p>   
-            <?php echo $this->element('register_form')?>
-        </div>
+        <?php if(!$isLoggedIn):?>
+            <div class="col-md-5 col-md-offset-1">
+                <p><b>¿Te gustaría usar <em>YoTeLlevo</em>? Regístrate ahora:</b></p>   
+                <?php echo $this->element('register_form')?>
+            </div>
+        <?php endif;?>
     </div>
 </div>

@@ -66,8 +66,8 @@ if($isLoggedIn) {
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <!--<div class="navbar-brand"><i class="glyphicon glyphicon-road"></i> YoTeLlevo</div>-->
-                        <big><?php echo $this->Html->link('<i class="glyphicon glyphicon-road"></i> YoTeLlevo', '/', array('class' => 'navbar-brand', 'escape' => false));?></big>
+                        <div class="navbar-brand"><i class="glyphicon glyphicon-road"></i> YoTeLlevo</div>
+                        <!--<big><?php echo $this->Html->link('<i class="glyphicon glyphicon-road"></i> YoTeLlevo', '/', array('class' => 'navbar-brand', 'escape' => false));?></big>-->
                     </div>
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -80,7 +80,7 @@ if($isLoggedIn) {
                                 <?php endif;?>
                                     
                             <?php else: ?>
-                                <!--<li><?php echo $this->Html->link(__('<i class="glyphicon glyphicon-home"></i> Inicio'), '/', array('escape'=>false));?></li>-->
+                                <li><?php echo $this->Html->link(__('<i class="glyphicon glyphicon-home"></i> Inicio'), '/', array('escape'=>false));?></li>
                             <?php endif;?>            
                         </ul>
 
@@ -149,6 +149,8 @@ if($isLoggedIn) {
                         </div>
                         <div class="col-md-6" style="text-align: center">
                             <p class="text-muted" style="margin: 20px 0;">
+                                <?php echo $this->Html->link('¿Cómo usarlo?', array('controller'=>'pages', 'action'=>'display', 'tour')); ?>
+                                |
                                <?php echo $this->Html->link('Contactar', array('controller'=>'pages', 'action'=>'display', 'contact')); ?>
                                 |
                                <?php echo $this->Html->link('Términos de Uso', array('controller'=>'pages', 'action'=>'display', 'use_terms')); ?>

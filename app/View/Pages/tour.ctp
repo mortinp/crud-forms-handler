@@ -11,7 +11,7 @@
             </p>
             
             <p>
-                En cuanto te hayas registrado en <em>YoTeLLevo</em>, puedes crear un anuncio de viaje. 
+                En cuanto te hayas registrado en <em>YoTeLLevo</em>, puedes <b>crear un anuncio de viaje</b>. 
                 Para crearlo, tienes que llenar un formulario como este:
             </p>
             

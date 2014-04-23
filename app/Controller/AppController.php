@@ -49,7 +49,7 @@ class AppController extends Controller {
             'loginRedirect' => array('controller' => 'travels', 'action' => 'index'),
             'logoutRedirect' => '/',
             'authorize' => array('Controller'),
-            'authError' => '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>No tienes permisos para realizar esta acción.</div>'
+            'authError' => '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>No tienes permisos para realizar esa acción o visitar esa página.</div>'
         ),
         'Cookie'
     );

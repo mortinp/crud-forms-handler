@@ -20,7 +20,9 @@ class ContactsController extends AppController {
     }
 
     public function contact() {
-        if ($this->request->is('post')) {  
+        if ($this->request->is('post')) { 
+            
+            $OK = true;
             
             if($this->Auth->loggedIn()) $this->request->data['Contact']['email'] = AuthComponent::user('username');
                         
@@ -34,8 +36,11 @@ class ContactsController extends AppController {
                 $Email->send();
             } catch ( Exception $e ) {
                 $this->setErrorMessage('Ocurrió un error recibiendo tu mensaje. Intenta de nuevo.');
+                $OK = false;
             }
-            $this->setInfoMessage('Ya recibimos tu mensaje.');
+            
+            if($OK) $this->setInfoMessage('Ya recibimos tu mensaje.');
+            
             return $this->redirect(array('controller'=>'pages', 'action'=>'contact'));
         }
     }

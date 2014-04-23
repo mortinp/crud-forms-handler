@@ -17,7 +17,7 @@ class Locality extends AppModel {
             }
         }*/
         
-        // 3
+        /*// 3
         $localities = $this->find('list', array(
             "fields" => array("Locality.id", "Locality.name", "Province.name"),
             "joins" => array(
@@ -29,7 +29,23 @@ class Locality extends AppModel {
                 )
             ),
             //"order" => array() // whatever ordering you want
-        ));
+        ));*/
+        
+        $localities = Cache::read('localities');
+        if (!$localities) {
+            $localities = $this->find('list', array(
+                "fields" => array("Locality.id", "Locality.name", "Province.name"),
+                "joins" => array(
+                    array(
+                        "table" => "provinces",
+                        "alias" => "Province",
+                        "type" => "INNER",
+                        "conditions" => array("Province.id = Locality.province_id")
+                    )
+                )
+            ));
+            Cache::write('localities', $localities);
+        }
         
         return $localities;
     }

@@ -87,7 +87,7 @@ class PagesController extends AppController {
         } else {
             // Try to authenticate
             if ($this->Auth->login()) {
-                $this->setInfoMessage('Has entrado a <em>YoTeLlevo</em> con el usuario '.$this->Auth->user('username'));
+                $this->setInfoMessage('Has entrado a <em>YoTeLlevo</em> con el usuario <b>'.$this->Auth->user('username').'</b>');
                 if(AuthComponent::user('role') === 'admin') return $this->redirect(array('action'=>'index'));
                 return $this->redirect($this->Auth->redirect());
             }

@@ -6,7 +6,7 @@
         echo $this->Form->input('username', array('type'=>'text'));
         echo $this->Form->input('password');
         echo $this->Form->input('role', array(
-            'options' => array('driver' => 'Chofer', 'admin' => 'Admin')
+            'options' => array('regular' => 'Regular', 'admin' => 'Admin')
         ));
         echo $this->Form->submit(__('Salvar'));
         ?>

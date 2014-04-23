@@ -17,8 +17,20 @@ class Driver extends AppModel {
                 'rule' => array('notEmpty'),
                 'message' => 'La contraseña es obligatoria'
             )
+        ),
+        'contact_name' => array(
+            'required' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'El nombre de contacto obligatorio'
+            )
+        ),
+        'max_people_count' => array(
+            'isNumber' => array(
+                'rule' => 'numeric',
+                'message' => 'La cantidad de personas debe ser un número entero.',
+                'required' => true
         )        
-    );
+    ));
 
     public function beforeSave($options = array()) {
         if (isset($this->data[$this->alias]['password'])) {

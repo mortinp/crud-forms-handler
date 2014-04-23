@@ -14,7 +14,7 @@ class ContactsController extends AppController {
     public function isAuthorized($user) {
         if (in_array($this->action, array('contact'))) {
             return true;
-        } 
+        }
 
         return parent::isAuthorized($user);
     }

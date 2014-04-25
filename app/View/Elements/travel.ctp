@@ -45,12 +45,14 @@ foreach (Travel::$preferences as $key => $value) {
 
 <legend>
    
-    <small style="/*color: */"><i title="<?php echo $notice['label']?>" class="glyphicon glyphicon-flag" style="margin-left:-20px;color:<?php echo $notice['color']?>;display: inline-block"></i></small> 
+    <small><i title="<?php echo $notice['label']?>" class="glyphicon glyphicon-flag" style="margin-left:-20px;color:<?php echo $notice['color']?>;display: inline-block"></i></small>
     
     <big><span id='travel-origin-label'><?php echo $travel['Locality']['name']?></span> - 
         <span id='travel-destination-label'><?php echo $travel['Travel']['destination']?></span>
     </big> 
     <small class="text-muted"><span id='travel-prettypeoplecount-label'><?php echo $pretty_people_count?></span></small>
+    
+    <span><small style="color:<?php echo $notice['color']?>">(<?php echo $notice['label']?>)</small></span>
 </legend>
     
 <p><b>Día del viaje:</b> <span id='travel-date-label'><?php echo $pretty_date?></span></p>
@@ -99,7 +101,7 @@ foreach (Travel::$preferences as $key => $value) {
         <?php if(!$expired):?>
         <li style="padding-right: 10px;display: inline-block">
         <?php echo $this->Html->link(
-            '<i class="glyphicon glyphicon-envelope"></i> <b>Confirmar</b>', 
+            '<i class="glyphicon glyphicon-envelope"></i> <big><b>Confirmar</b></big>', 
             array('controller'=>'travels', 'action'=>'confirm/'.$travel['Travel']['id']), 
                 array('escape'=>false, 'title'=>'Confirmar y Enviar este viaje a los choferes'));?>
         </li>

@@ -28,7 +28,7 @@ else
         <b>Verifica tu cuenta de correo electrónico</b> para crear más anuncios de viajes. 
         El formulario de viajes permanecerá desactivado hasta que verifiques tu cuenta. 
         <div>
-            <big><b><?php echo $this->Html->link('<i class="glyphicon glyphicon-ok"></i> Confirmar cuenta', array('controller'=>'users', 'action'=>'send_confirm_email'), array('escape'=>false))?></b></big>
+            <big><b><?php echo $this->Html->link('<i class="glyphicon glyphicon-ok"></i> Verificar cuenta', array('controller'=>'users', 'action'=>'send_confirm_email'), array('escape'=>false))?></b></big>
             <div><small>(Enviaremos un correo a <b><?php echo AuthComponent::user('username')?></b> con las instrucciones)</small></div>
         </div>        
     </div>

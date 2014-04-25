@@ -13,7 +13,7 @@ class TravelsController extends AppController {
     
     public function isAuthorized($user) {
         if (in_array($this->action, array('index', 'add'))) {
-            if($this->Auth->user('role') == 'regular') return true;
+            if($this->Auth->user('role') === 'regular' || $this->Auth->user('role') === 'tester') return true;
         }
 
         if (in_array($this->action, array('edit', 'view', 'confirm', 'delete'))) {
@@ -200,10 +200,21 @@ class TravelsController extends AppController {
     }
 
     public function delete($tId) {
-        if ($this->Travel->delete($tId)) {
-            return $this->redirect(array('action' => 'index'));
+        $travel = $this->Travel->findById($tId);
+        if($travel != null) {
+            if($travel['Travel']['state'] == Travel::$STATE_UNCONFIRMED || AuthComponent::user('role') === 'admin') {
+                if ($this->Travel->delete($tId)) {
+                    return $this->redirect(array('action' => 'index'));
+                } else {
+                    $this->setErrorMessage(__('Ocurrió un error eliminando el viaje. Intenta de nuevo.'));
+                }
+            } else {
+                $this->setErrorMessage(__('Este viaje no se puede eliminar porque ya está confirmado.'));
+            }            
+        } else {
+            $this->setErrorMessage(__('Este viaje no existe.'));
         }
-        $this->setErrorMessage(__('Ocurrió un error eliminando el viaje. Intenta de nuevo.'));
+        
         $this->redirect($this->referer());
     }
 }

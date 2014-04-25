@@ -5,7 +5,7 @@ App::uses('CakeEmail', 'Network/Email');
 
 class UsersController extends AppController {
     
-    public $uses = array('User', 'PendingUser', 'UserInteraction');
+    public $uses = array('User', /*'PendingUser',*/ 'UserInteraction');
 
     public function beforeFilter() {
         parent::beforeFilter();
@@ -13,7 +13,7 @@ class UsersController extends AppController {
         if($this->Auth->loggedIn()) {
             $this->Auth->allow('logout', 'send_confirm_email');
         }
-        else $this->Auth->allow('login', 'register', 'register_welcome', 'authorize', 'recover_password', 'confirm_email');
+        else $this->Auth->allow('login', 'register', 'register_welcome', /*'authorize',*/ 'recover_password', 'confirm_email');
     }
 
     public function isAuthorized($user) {
@@ -46,24 +46,26 @@ class UsersController extends AppController {
     public function register() {
         if ($this->request->is('post')) {
             if($this->User->loginExists($this->request->data['User']['username'])) {
-                $this->setErrorMessage(__('Este correo electrónico ya está en uso. Escribe una dirección diferente.'));
+                $this->setErrorMessage(__('Este correo electrónico ya está registrado en <em>YoTeLlevo</em>. Escribe una dirección diferente o 
+                    <a href="/yotellevo/users/login">entra con tu cuenta</a>.'));// TODO: esta direccion estatica es un hack
                 return $this->redirect($this->referer());
             }
-            if($this->PendingUser->loginExists($this->request->data['User']['username'])) {
+            /*if($this->PendingUser->loginExists($this->request->data['User']['username'])) {
                 $this->setErrorMessage(__('Este correo electrónico ya está registrado, pero no ha sido autorizado. Por favor, autoriza tu cuenta usando el link que enviamos a su correo electrónico.'));
                 return $this->redirect($this->referer());
-            }
+            }*/
             
-            $this->PendingUser->create();
+            //$this->PendingUser->create();
             
-            $activation_id = $this->getWeirdString();//substr(str_shuffle("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 1).substr(md5(time()),1);
-            $this->request->data['User']['activation_id'] =  $activation_id;
+            //$activation_id = $this->getWeirdString();//substr(str_shuffle("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 1).substr(md5(time()),1);
+            //$this->request->data['User']['activation_id'] =  $activation_id;
             $this->request->data['User']['role'] = 'regular';
+            $this->request->data['User']['active'] = true;
             
-            $datasource = $this->PendingUser->getDataSource();
+            $datasource = $this->User->getDataSource();
             $datasource->begin();
             
-            if ($this->PendingUser->save($this->request->data['User'])) {
+            if ($this->User->save($this->request->data['User'])) {
                 /*// Send email and redirect to a welcome page
                 $Email = new CakeEmail('yotellevo');
                 $Email->template('welcome')
@@ -81,13 +83,16 @@ class UsersController extends AppController {
 
                 $datasource->commit();
                 //return $this->render('register_welcome');
-                return $this->authorize($activation_id);
+                //return $this->authorize($activation_id);
+                $this->setSuccessMessage(__('Tu cuenta ha sido registrada exitosamente. Ahora puedes comenzar a crear anuncios de viajes.'));
+                $this->login();
             }
+            $datasource->rollback();
             $this->setErrorMessage(__('Ocurrió un error registrando su usuario. Intente de nuevo'));
         }
     }
 
-    public function authorize($activation_id) {
+    /*public function authorize($activation_id) {
         $pending_user = $this->PendingUser->find('first', array('conditions'=>array('activation_id'=>$activation_id)));
         if($pending_user != null) {
             $id = $pending_user['PendingUser']['id'];
@@ -100,15 +105,14 @@ class UsersController extends AppController {
             
             $this->PendingUser->delete($id);
             
-            /*$this->setSuccessMessage(__('Tu cuenta ha sido confirmada exitosamente. Ahora puedes entrar para crear anuncios de viajes.'));
-            return $this->redirect(array('controller' => 'users', 'action' => 'login'));*/
             $this->setSuccessMessage(__('Tu cuenta ha sido registrada exitosamente. Ahora puedes comenzar a crear anuncios de viajes.'));
+            //return $this->redirect(array('controller' => 'users', 'action' => 'login'));
             $this->login();
             
         }
         
         $this->setErrorMessage("Ocurrió un error activando su cuenta, o el link usado ha expirado (tal vez ya usaste este link)");
-    }
+    }*/
     
     public function recover_password() {
         if ($this->request->is('post')) {
@@ -295,6 +299,7 @@ class UsersController extends AppController {
     public function add() {
         if ($this->request->is('post')) {
             $this->User->create();
+            $this->request->data['User']['active'] = true;
             if ($this->User->save($this->request->data)) {
                 $this->Session->setFlash(__('The user has been saved'));
                 return $this->redirect(array('controller'=>'travels','action' => 'index'));

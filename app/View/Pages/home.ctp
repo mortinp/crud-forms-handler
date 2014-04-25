@@ -114,7 +114,6 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
 
 <br/>
 <br/>
-<br/>
 
 <?php if(!$isLoggedIn):?>
 <div class="container" style="background-color: lightblue">

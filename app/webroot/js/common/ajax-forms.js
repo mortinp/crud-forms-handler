@@ -1,3 +1,5 @@
+var aliases = {travel: 'viaje'};
+
 function _ajaxifyForm(form, obj, alias, onSuccess) {
     if(obj != null) setupFormForEdit(form, obj, alias);
     
@@ -16,7 +18,9 @@ function _ajaxifyForm(form, obj, alias, onSuccess) {
                     
                     var upperAlias = alias[0].toUpperCase() + alias.substring(1);
                     
-                    messageDiv.empty().append($("<div class='alert alert-success'>Los datos del <b>" + upperAlias + "</b> fueron salvados exitosamente.</div>"));
+                    var prettyAlias = upperAlias;
+                    if(aliases[alias] != undefined && aliases[alias] != null) prettyAlias = aliases[alias];
+                    messageDiv.empty().append($("<div class='alert alert-success'>Los datos del <b>" + prettyAlias + "</b> fueron salvados exitosamente.</div>"));
                     setTimeout(function(){
                         messageDiv.empty();
                     }, 5000);

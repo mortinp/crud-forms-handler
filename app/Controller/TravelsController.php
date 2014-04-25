@@ -103,8 +103,8 @@ class TravelsController extends AppController {
             $drivers_sent_count = 0;
             
             if($OK) {
-                $belongs_to_admin = $travel['User']['role'] === 'admin';
-                if(!$belongs_to_admin) {
+                $send_to_drivers = $travel['User']['role'] === 'regular' /*$travel['User']['role'] === 'admin' || $travel['User']['role'] === 'tester'*/;
+                if($send_to_drivers) {
                     
                     foreach ($drivers as $d) {
                         if(Configure::read('enqueue_mail')) {
@@ -204,6 +204,7 @@ class TravelsController extends AppController {
             return $this->redirect(array('action' => 'index'));
         }
         $this->setErrorMessage(__('Ocurrió un error eliminando el viaje. Intenta de nuevo.'));
+        $this->redirect($this->referer());
     }
 }
 

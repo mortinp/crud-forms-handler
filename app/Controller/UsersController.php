@@ -5,13 +5,13 @@ App::uses('CakeEmail', 'Network/Email');
 
 class UsersController extends AppController {
     
-    public $uses = array('User', 'PendingUser');
+    public $uses = array('User', 'PendingUser', 'UserInteraction');
 
     public function beforeFilter() {
         parent::beforeFilter();
         
         if($this->Auth->loggedIn()) {
-            $this->Auth->allow('logout');
+            $this->Auth->allow('logout', 'confirm_email', 'send_confirm_email');
         }
         else $this->Auth->allow('login', 'register', 'register_welcome', 'authorize', 'recover_password');
     }
@@ -37,27 +37,6 @@ class UsersController extends AppController {
         if ($this->Auth->loggedIn() || $this->Auth->login()) {
             return $this->redirect($this->Auth->redirectUrl());
         }
-        
-        
-        /*if ($this->request->is('post')) {
-            if ($this->Auth->login()) {
-                if(AuthComponent::user('role') === 'admin') return $this->redirect(array('action'=>'index'));
-                return $this->redirect($this->Auth->redirect());
-            }
-            $this->setErrorMessage(__('El usuario o la contraseña son inválidos. Intenta de nuevo.'));
-        }*/
-    }
-    
-    protected function _setCookie($id) {
-        if (!$this->request->data('User.remember_me')) {
-            return false;
-        }
-        $data = array(
-            'username' => $this->request->data('User.username'),
-            'password' => $this->request->data('User.password')
-        );
-        $this->Cookie->write('User', $data, true, '+2 week');
-        return true;
     }
 
     public function logout() {
@@ -77,7 +56,7 @@ class UsersController extends AppController {
             
             $this->PendingUser->create();
             
-            $activation_id = substr(str_shuffle("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 1).substr(md5(time()),1);
+            $activation_id = $this->getWeirdString();//substr(str_shuffle("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 1).substr(md5(time()),1);
             $this->request->data['User']['activation_id'] =  $activation_id;
             $this->request->data['User']['role'] = 'regular';
             
@@ -143,7 +122,7 @@ class UsersController extends AppController {
             }
             
             
-            $newPass = substr(str_shuffle("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 1).substr(md5(time()),1);
+            $newPass = $this->getWeirdString();//substr(str_shuffle("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 1).substr(md5(time()),1);
             $this->request->data['User']['id'] = $user['User']['id']; // Poner id para que el save() lo que haga sea modificar
             $this->request->data['User']['password'] = $newPass;
             
@@ -189,6 +168,106 @@ class UsersController extends AppController {
             $this->request->data['User'] = $this->Auth->user();
         }
     }
+    
+    public function send_confirm_email() {
+        $interaction = $this->UserInteraction->find('first', array('conditions'=>array(
+            'user_id'=>AuthComponent::user('id'),
+            'interaction_due'=>'confirm email',
+            'expired'=>false)));
+        
+        $datasource = $this->User->getDataSource();
+        $datasource->begin();
+        
+        $OK = true;
+        if($interaction != null) {
+            $code = $interaction['UserInteraction']['interaction_code'];
+        } else {
+            $code = $this->getWeirdString();
+            
+            $interaction = array('UserInteraction');
+            $interaction['UserInteraction']['user_id'] = AuthComponent::user('id');
+            $interaction['UserInteraction']['interaction_due'] = 'confirm email';
+            $interaction['UserInteraction']['expired'] = false;
+            $interaction['UserInteraction']['interaction_code'] = $code;
+            
+            if(!$this->UserInteraction->save($interaction)) $OK = false;
+        }
+        
+        if($OK) {
+            // Send email and redirect to a welcome page
+            $Email = new CakeEmail('yotellevo');
+            $Email->template('email_confirmation')
+            ->viewVars(array('confirmation_code' => $code))
+            ->emailFormat('html')
+            ->to(AuthComponent::user('username'))
+            ->subject('Confirmación de correo');
+            try {
+                $Email->send();
+            } catch ( Exception $e ) {
+                $OK = false;
+            }
+        }        
+        
+        if($OK) {
+            $datasource->commit();
+        }else {
+            $datasource->rollback();
+            $this->setErrorMessage('Ocurrió un error confirmando su cuenta. Intente de nuevo.');
+            
+        }
+        $this->redirect($this->referer());
+    }
+    
+    public function confirm_email($confirmation_code) {
+        $interaction = $this->UserInteraction->find('first', array('conditions'=>array(
+            'interaction_due'=>'confirm email',
+            'expired'=>false,
+            'interaction_code'=>$confirmation_code)));
+        
+        $datasource = $this->User->getDataSource();
+        $datasource->begin();
+        
+        $OK = true;
+        if($interaction != null) {
+            $interaction['UserInteraction']['expired'] = true;
+            if(!$this->UserInteraction->save($interaction)) $OK = false;
+            
+            if($OK) {
+                $user = $this->User->findById($interaction['UserInteraction']['user_id']);
+                if($user != null) {
+                    $user['User']['email_confirmed'] = true;
+                    $this->User->id = $interaction['UserInteraction']['user_id'];
+                    if($this->User->saveField('email_confirmed', '1')) {
+                        if($this->Auth->loggedIn()) {
+                            $this->Auth->logout();
+                        }
+                        if ($this->Auth->login($user['User'])) {
+                            $this->_setCookie($this->Auth->user('id'));
+                        } else {
+                            $OK = false;
+                        }
+                    } else {
+                        $OK = false;
+                    }
+                }
+            }
+        } else {
+            $this->setErrorMessage('Esta url es inválida para confirmar tu cuenta de correo electrónico.');
+            $OK = false;
+        }
+        
+        if($OK) {
+            $datasource->commit();
+            $this->setInfoMessage('Su cuenta fue confirmada exitosamente.');
+            if(AuthComponent::user('role') === 'admin') return $this->redirect(array('action'=>'index'));
+            return $this->redirect($this->referer($this->Auth->redirect()));
+        } else {
+            $datasource->rollback();
+            $this->setErrorMessage('Ocurrió un error confirmando tu cuenta de correo electrónico. Intenta de nuevo.');
+            return $this->redirect($this->referer(array('controller'=>'pages', 'action'=>'home')));
+        }
+    }
+    
     
     public function index() {
         $this->User->recursive = 0;
@@ -245,6 +324,28 @@ class UsersController extends AppController {
         }
         $this->Session->setFlash(__('User was not deleted'));
         return $this->redirect(array('action' => 'index'));
+    }
+    
+    
+    
+    /**
+     * AUX
+     */
+    
+    private function getWeirdString() {
+        return substr(str_shuffle("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 1).substr(md5(time()),1);
+    }
+    
+    protected function _setCookie($id) {
+        if (!$this->request->data('User.remember_me')) {
+            return false;
+        }
+        $data = array(
+            'username' => $this->request->data('User.username'),
+            'password' => $this->request->data('User.password')
+        );
+        $this->Cookie->write('User', $data, true, '+2 week');
+        return true;
     }
 }
 

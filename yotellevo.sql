@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 23-04-2014 a las 20:08:39
+-- Tiempo de generación: 25-04-2014 a las 14:31:54
 -- Versión del servidor: 5.5.16
 -- Versión de PHP: 5.3.8
 
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `drivers` (
   `contact_name` varchar(250) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
 -- Volcado de datos para la tabla `drivers`
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `driver_localities` (
   UNIQUE KEY `id` (`id`),
   KEY `driver_localities_driver_fk` (`driver_id`),
   KEY `driver_localities_locality_fk` (`locality_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=32 ;
 
 --
 -- Volcado de datos para la tabla `driver_localities`
@@ -86,7 +86,11 @@ INSERT INTO `driver_localities` (`id`, `driver_id`, `locality_id`) VALUES
 (24, 9, 1),
 (25, 9, 2),
 (26, 9, 3),
-(27, 9, 4);
+(27, 9, 4),
+(28, 11, 1),
+(29, 11, 2),
+(30, 11, 3),
+(31, 11, 4);
 
 -- --------------------------------------------------------
 
@@ -156,7 +160,7 @@ CREATE TABLE IF NOT EXISTS `pending_users` (
   `activation_id` varchar(250) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -198,11 +202,20 @@ CREATE TABLE IF NOT EXISTS `travels` (
   `drivers_sent_count` int(10) unsigned NOT NULL,
   `need_modern_car` tinyint(1) NOT NULL,
   `need_air_conditioner` int(11) NOT NULL,
+  `created` date NOT NULL,
+  `modified` date NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   KEY `travels_locality_fk` (`locality_id`),
   KEY `travels_user_fk` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=74 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+
+--
+-- Volcado de datos para la tabla `travels`
+--
+
+INSERT INTO `travels` (`id`, `locality_id`, `destination`, `date`, `people_count`, `contact`, `user_id`, `state`, `drivers_sent_count`, `need_modern_car`, `need_air_conditioner`, `created`, `modified`) VALUES
+(11, 1, 'xvv xcfc', '2014-04-26', 3, 'fd fsdfs sdfsdfdf', 3, 'U', 0, 0, 1, '2014-04-24', '2014-04-24');
 
 -- --------------------------------------------------------
 
@@ -218,19 +231,40 @@ CREATE TABLE IF NOT EXISTS `users` (
   `role` varchar(200) NOT NULL,
   `active` tinyint(1) NOT NULL,
   `display_name` varchar(200) NOT NULL,
+  `email_confirmed` tinyint(1) NOT NULL DEFAULT '0',
+  `travel_count` int(11) NOT NULL,
   `created` date NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `role`, `active`, `display_name`, `created`) VALUES
-(1, 'ttt@ttt.ttt', '3a49921023b6c1d0a53cc864581e91f5f0e05109', 'regular', 1, 'martin', '0000-00-00'),
-(3, 'mproenza@grm.desoft.cu', '60dd56fce363a2e493ae60bfdc64a9dffb0b227b', 'admin', 1, '', '0000-00-00'),
-(11, 'nelson@ksabes.com', 'f83bf0b762b0eb17c78b944c77d1d3eb3149bc81', 'regular', 1, '', '2014-04-17');
+INSERT INTO `users` (`id`, `username`, `password`, `role`, `active`, `display_name`, `email_confirmed`, `travel_count`, `created`) VALUES
+(1, 'ttt@ttt.ttt', '3a49921023b6c1d0a53cc864581e91f5f0e05109', 'regular', 1, 'martin', 0, 0, '0000-00-00'),
+(3, 'mproenza@grm.desoft.cu', '60dd56fce363a2e493ae60bfdc64a9dffb0b227b', 'admin', 1, '', 0, 1, '0000-00-00'),
+(11, 'nelson@ksabes.com', 'f83bf0b762b0eb17c78b944c77d1d3eb3149bc81', 'regular', 1, '', 0, 0, '2014-04-17');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `user_interactions`
+--
+
+DROP TABLE IF EXISTS `user_interactions`;
+CREATE TABLE IF NOT EXISTS `user_interactions` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL,
+  `interaction_code` varchar(250) COLLATE latin1_bin NOT NULL,
+  `interaction_due` varchar(250) COLLATE latin1_bin NOT NULL,
+  `expired` tinyint(1) NOT NULL DEFAULT '0',
+  `created` date NOT NULL,
+  `modified` date NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_bin AUTO_INCREMENT=5 ;
 
 --
 -- Restricciones para tablas volcadas

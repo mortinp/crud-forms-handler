@@ -34,7 +34,7 @@ if($isConfirmed) {
         <?php if(!$isConfirmed):?>
         <div id='travel-form' style="display:none">
             <legend>Edita los datos de este viaje antes de confirmar <a href="#!" class="cancel-edit-travel">&ndash; no editar</a></legend>
-            <?php echo $this->element('travel_form', array('do_ajax' => true, 'form_action' => 'edit/' . $travel['Travel']['id'])); ?>
+            <?php echo $this->element('travel_form', array('do_ajax' => true, 'form_action' => 'edit/' . $travel['Travel']['id'], 'intent'=>'edit')); ?>
             <br/>
         </div>
         <?php endif?>

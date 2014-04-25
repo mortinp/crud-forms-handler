@@ -26,7 +26,8 @@ class Travel extends AppModel {
             'fields'=>array('id', 'name')
         ),
         'User' => array(
-            'fields'=>array('id', 'username', 'role')
+            'fields'=>array('id', 'username', 'role'),
+            'counterCache'=>true
         )
     );
 
@@ -83,6 +84,20 @@ class Travel extends AppModel {
             }
         }
         return $results;
+    }
+    
+    public function afterSave($created, array $options = array()) {
+        parent::afterSave($created, $options);
+        
+        if($created) {
+            CakeSession::write('Auth.User.travel_count', CakeSession::read('Auth.User.travel_count') + 1);
+        }
+    }
+    
+    public function afterDelete() {
+        parent::afterDelete();
+            
+        CakeSession::write('Auth.User.travel_count', CakeSession::read('Auth.User.travel_count') - 1);
     }
         
     public function dateFormatAfterFind($date) {

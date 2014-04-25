@@ -29,7 +29,7 @@ else
         El formulario de viajes permanecerá desactivado hasta que verifiques tu cuenta. 
         <div>
             <big><b><?php echo $this->Html->link('<i class="glyphicon glyphicon-ok"></i> Confirmar cuenta', array('controller'=>'users', 'action'=>'send_confirm_email'), array('escape'=>false))?></b></big>
-            <div><small>(enviaremos un correo a <b><?php echo AuthComponent::user('username')?>)</b></small></div>
+            <div><small>(Enviaremos un correo a <b><?php echo AuthComponent::user('username')?></b> con las instrucciones)</small></div>
         </div>        
     </div>
 <?php else:?>

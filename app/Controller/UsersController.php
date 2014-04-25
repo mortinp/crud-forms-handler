@@ -11,9 +11,9 @@ class UsersController extends AppController {
         parent::beforeFilter();
         
         if($this->Auth->loggedIn()) {
-            $this->Auth->allow('logout', 'confirm_email', 'send_confirm_email');
+            $this->Auth->allow('logout', 'send_confirm_email');
         }
-        else $this->Auth->allow('login', 'register', 'register_welcome', 'authorize', 'recover_password');
+        else $this->Auth->allow('login', 'register', 'register_welcome', 'authorize', 'recover_password', 'confirm_email');
     }
 
     public function isAuthorized($user) {
@@ -210,10 +210,10 @@ class UsersController extends AppController {
         
         if($OK) {
             $datasource->commit();
+            $this->setInfoMessage('Se envió un correo a tu cuenta con un enlace para verificarla. Revisa tu correo y sigue las instrucciones.');
         }else {
             $datasource->rollback();
-            $this->setErrorMessage('Ocurrió un error confirmando su cuenta. Intente de nuevo.');
-            
+            $this->setErrorMessage('Ocurrió un error confirmando tu cuenta. Intenta de nuevo.');
         }
         $this->redirect($this->referer());
     }
@@ -240,31 +240,41 @@ class UsersController extends AppController {
                     if($this->User->saveField('email_confirmed', '1')) {
                         if($this->Auth->loggedIn()) {
                             $this->Auth->logout();
-                        }
-                        if ($this->Auth->login($user['User'])) {
-                            $this->_setCookie($this->Auth->user('id'));
+                            if ($this->Auth->login($user['User'])) {
+                                $this->_setCookie($this->Auth->user('id'));
+                            } else {
+                                $OK = false;
+                            }
                         } else {
-                            $OK = false;
-                        }
+                            //
+                        }   
+                        
                     } else {
                         $OK = false;
                     }
                 }
             }
-        } else {
-            $this->setErrorMessage('Esta url es inválida para confirmar tu cuenta de correo electrónico.');
+        } else {            
             $OK = false;
         }
         
         if($OK) {
             $datasource->commit();
-            $this->setInfoMessage('Su cuenta fue confirmada exitosamente.');
-            if(AuthComponent::user('role') === 'admin') return $this->redirect(array('action'=>'index'));
-            return $this->redirect($this->referer($this->Auth->redirect()));
+            
+            if($this->Auth->loggedIn()) {
+                $this->setInfoMessage('Tu cuenta fue confirmada exitosamente.');
+                if(AuthComponent::user('role') === 'admin') return $this->redirect(array('action'=>'index'));
+                return $this->redirect($this->referer($this->Auth->redirect()));
+            } else {
+                $this->setInfoMessage('Tu cuenta fue confirmada exitosamente. Entra a <em>YoTeLlevo</em> para crear anuncios de viajes');
+                return $this->redirect(array('controller'=>'users', 'action'=>'login'));
+            }
+            
+            
         } else {
             $datasource->rollback();
-            $this->setErrorMessage('Ocurrió un error confirmando tu cuenta de correo electrónico. Intenta de nuevo.');
-            return $this->redirect($this->referer(array('controller'=>'pages', 'action'=>'home')));
+            $this->setErrorMessage('Ocurrió un error confirmando tu cuenta de correo electrónico. Puede ser que el enlace esté caducado o usado, o que la dirección que está usando es incorrecta.');
+            return $this->redirect(array('controller'=>'pages', 'action'=>'home'));
         }
     }
     

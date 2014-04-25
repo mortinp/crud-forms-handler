@@ -47,11 +47,11 @@ class UsersController extends AppController {
         if ($this->request->is('post')) {
             if($this->User->loginExists($this->request->data['User']['username'])) {
                 $this->setErrorMessage(__('Este correo electrónico ya está en uso. Escribe una dirección diferente.'));
-                return;
+                return $this->redirect($this->referer());
             }
             if($this->PendingUser->loginExists($this->request->data['User']['username'])) {
                 $this->setErrorMessage(__('Este correo electrónico ya está registrado, pero no ha sido autorizado. Por favor, autoriza tu cuenta usando el link que enviamos a su correo electrónico.'));
-                return;
+                return $this->redirect($this->referer());
             }
             
             $this->PendingUser->create();

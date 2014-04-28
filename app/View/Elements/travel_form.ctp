@@ -44,10 +44,11 @@ else
         <fieldset>
             <?php
             
+            $travel_out_switcher = 'Escoge el origen y escribe el destino <div style="display:inline"><a href="#!" class="travel-switch">&ndash; Prefiero <b>escribir el origen</b> y <b>escoger el destino</b></a></div><br/><br/>';
+            $travel_in_switcher = 'Escribe el origen y escoge el destino <div style="display:inline"><a href="#!" class="travel-switch">&ndash; Prefiero <b>escoger el origen</b> y <b>escribir el destino</b></a></div><br/><br/>';
+            
             // Viajes que son desde una localidad, hacia otro lugar
-            $travel_out = 'Escoge el origen y escribe el destino <div style="display:inline"><a href="#!" class="travel-switch">&ndash; Prefiero <b>escribir el origen</b> y <b>escoger el destino</b></a></div>
-                <br/>
-                <br/>'.
+            $travel_out =
                 $this->Form->input('locality_id', array('type' => 'select', 'options' => $localities, 'showParents' => true,
                 'label' => __('Origen del viaje') . ' 
                 <small><a class="popover-info" href="#!" data-container="body" data-toggle="popover" data-placement="bottom" 
@@ -57,9 +58,7 @@ else
                 $this->Form->input('direction', array('type'=>'hidden', 'value'=>'0'));
             
             // Viajes que son desde otro lugar hacia una localidad
-            $travel_in = 'Escribe el origen y escoge el destino <div style="display:inline"><a href="#!" class="travel-switch">&ndash; Prefiero <b>escoger el origen</b> y <b>escribir el destino</b></a></div>
-                <br/>
-                <br/>'.                
+            $travel_in =                
                 $this->Form->input('where', array('type' => 'text', 'label' => __('Origen del viaje'), 'placeholder' => 'Nombre de tu origen de viaje (puede ser cualquier lugar)')).
                     $this->Form->input('locality_id', array('type' => 'select', 'options' => $localities, 'showParents' => true,
                 'label' => __('Destino') . ' 
@@ -70,7 +69,16 @@ else
             
             ?>
             
-            <div id="travel-def"><?php echo $travel_out ?></div>
+            <div id="travel-def">
+                <?php
+                    if($intent == 'add') {
+                        echo $travel_out_switcher.$travel_out;
+                    } else {
+                         if($travel['Travel']['direction'] == 0) echo $travel_out;
+                         else echo $travel_in;
+                    }   
+                ?>
+            </div>
             
             <!--Escoge el origen y escribe el destino <div style="display:inline"><a href="#!">&ndash; Prefiero <b>escribir el origen</b> y <b>escoger el destino</b></a></div>
             <br/>
@@ -117,13 +125,16 @@ $this->Html->script('jquery-validation-1.10.0/localization/messages_es', array('
 
     
 // Pass to js
-$this->Js->set('travel_on', $travel_out);
-$this->Js->set('travel_off', $travel_in);
-echo $this->Js->writeBuffer(array('inline' => false));
+if($intent == 'add') {
+    $this->Js->set('travel_on', $travel_out_switcher.$travel_out);
+    $this->Js->set('travel_off', $travel_in_switcher.$travel_in);
+    echo $this->Js->writeBuffer(array('inline' => false));
+}
 ?>
 
 <script type="text/javascript">
     $(document).ready(function() {
+        <?php if($intent == 'add'):?>
         var travelOn = window.app.travel_on;
         var travelOff = window.app.travel_off;
         var switcher = function() {
@@ -135,6 +146,7 @@ echo $this->Js->writeBuffer(array('inline' => false));
             $('.popover-info').popover({html:true});
         };
         $('.travel-switch').click(switcher);
+        <?php endif?>
         $('.popover-info').popover({html:true});
         
         $('.datepicker').datepicker({
@@ -150,9 +162,6 @@ echo $this->Js->writeBuffer(array('inline' => false));
             wrapper: 'div',
             errorClass: 'text-danger',
             errorElement: 'div'
-        });
-        
-        
-        
+        });        
     })
 </script>

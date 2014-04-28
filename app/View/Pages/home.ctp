@@ -31,11 +31,15 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
             <ul style="list-style-type: none;padding-left:20px">
                 <li style="padding-bottom: 15px">
                     <i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> 
-                    Tenemos una base de choferes dispuestos a atender tu petición de viaje
+                    Tenemos una base de choferes dispuestos a atender tu petición de viaje.
                 </li>
                 <li style="padding-bottom: 15px">
                     <i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> 
-                    Puedes realizar todos los anuncios de viajes que quieras, de forma <big>gratis</big>. No cuesta nada realizar un anuncio de viaje
+                    Puedes realizar todos los anuncios de viajes que quieras, de forma <big>gratis</big>. No cuesta nada realizar un anuncio de viaje.
+                </li>
+                <li style="padding-bottom: 15px">
+                    <i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> 
+                    Los viajes pueden ser de corta o larga distancia; y pueden ser para llevarte y/o para recogerte.
                 </li>
                 <li style="padding-bottom: 15px">
                     <i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> 

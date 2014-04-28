@@ -32,7 +32,7 @@ class Travel extends AppModel {
     );
 
     public $validate = array(
-        'destination' => array(
+        'where' => array(
             'notEmpty' => array(
                 'rule' => array('notEmpty'),
                 'message' => 'El destino no puede estar vacío.'

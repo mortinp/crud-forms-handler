@@ -47,12 +47,20 @@ foreach (Travel::$preferences as $key => $value) {
    
     <small><i title="<?php echo $notice['label']?>" class="glyphicon glyphicon-flag" style="margin-left:-20px;color:<?php echo $notice['color']?>;display: inline-block"></i></small>
     
-    <big><span id='travel-origin-label'><?php echo $travel['Locality']['name']?></span> - 
-        <span id='travel-destination-label'><?php echo $travel['Travel']['destination']?></span>
+    <big>
+        <?php if($travel['Travel']['direction'] == 0):?>
+        <span id='travel-locality-label'><?php echo $travel['Locality']['name']?></span> 
+        - 
+        <span id='travel-where-label'><?php echo $travel['Travel']['where']?></span>
+        <?php else:?>
+        <span id='travel-where-label'><?php echo $travel['Travel']['where']?></span> 
+        - 
+        <span id='travel-locality-label'><?php echo $travel['Locality']['name']?></span>
+        <?php endif?>
     </big> 
     <small class="text-muted"><span id='travel-prettypeoplecount-label'><?php echo $pretty_people_count?></span></small>
     
-    <span><small style="color:<?php echo $notice['color']?>">(<?php echo $notice['label']?>)</small></span>
+    <!--<span><small style="color:<?php echo $notice['color']?>">(<?php echo $notice['label']?>)</small></span>-->
 </legend>
     
 <p><b>Día del viaje:</b> <span id='travel-date-label'><?php echo $pretty_date?></span></p>
@@ -95,7 +103,7 @@ foreach (Travel::$preferences as $key => $value) {
         <?php echo $this->Html->link(
             '<i class="glyphicon glyphicon-trash"></i> Eliminar', 
             array('controller'=>'travels', 'action'=>'delete/'.$travel['Travel']['id']), 
-                array('escape'=>false, 'class'=>'text-danger', 'title'=>'Eliminar este viaje'));?>
+                array('escape'=>false, 'class'=>'text-danger', 'title'=>'Eliminar este viaje', 'confirm'=>'¿Estás seguro que quieres eliminar este viaje?'));?>
         </li>
         
         <?php if(!$expired):?>
@@ -111,7 +119,7 @@ foreach (Travel::$preferences as $key => $value) {
         <?php echo $this->Html->link(
             '<i class="glyphicon glyphicon-trash"></i> Eliminar', 
             array('controller'=>'travels', 'action'=>'delete/'.$travel['Travel']['id']), 
-                array('escape'=>false, 'class'=>'text-danger', 'title'=>'Eliminar este viaje'));?>
+                array('escape'=>false, 'class'=>'text-danger', 'title'=>'Eliminar este viaje', 'confirm'=>'¿Estás seguro que quieres eliminar este viaje?'));?>
         </li>
     <?php endif?>
         

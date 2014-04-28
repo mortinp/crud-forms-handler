@@ -34,6 +34,6 @@ if(!isset ($creator_role)) $creator_role = 'regular';
     <p>
         Usted recibió este correo porque está registrado en 
         <a href='<?php echo $this->Html->url('/', true)?>'><em>YoTeLlevo</em></a> 
-        como chofer que atiende viajes desde <?php echo $travel['Locality']['name']?>.
+        como chofer que atiende viajes desde/hasta <?php echo $travel['Locality']['name']?>.
     </p>
 <?php endif?>

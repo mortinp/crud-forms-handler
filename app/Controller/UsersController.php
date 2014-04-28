@@ -47,7 +47,7 @@ class UsersController extends AppController {
         if ($this->request->is('post')) {
             if($this->User->loginExists($this->request->data['User']['username'])) {
                 $this->setErrorMessage(__('Este correo electrónico ya está registrado en <em>YoTeLlevo</em>. Escribe una dirección diferente o 
-                    <a href="/yotellevo/users/login">entra con tu cuenta</a>.'));// TODO: esta direccion estatica es un hack
+                    <a href="'.Router::url(array('action'=>'login')).'">entra con tu cuenta</a>.'));// TODO: esta direccion estatica es un hack
                 return $this->redirect($this->referer());
             }
             /*if($this->PendingUser->loginExists($this->request->data['User']['username'])) {
@@ -217,7 +217,7 @@ class UsersController extends AppController {
             $this->setInfoMessage('Se envió un correo a tu cuenta con un enlace para verificarla. Revisa tu correo y sigue las instrucciones.');
         }else {
             $datasource->rollback();
-            $this->setErrorMessage('Ocurrió un error confirmando tu cuenta. Intenta de nuevo.');
+            $this->setErrorMessage('Ocurrió un error enviando las instrucciones a tu correo. Intenta de nuevo.');
         }
         $this->redirect($this->referer());
     }

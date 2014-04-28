@@ -14,7 +14,7 @@ if($isConfirmed) {
                 Este viaje <span class="text-danger"><b>NO HA SIDO ENVIADO A LOS CHOFERES</b></span> todavía, pues está <span style="color:<?php echo Travel::$STATE[$travel['Travel']['state']]['color']?>"><b>sin confirmar</b></span>.
                 
                 <div>
-                    &mdash;<big>
+                    <big>
                         <?php echo $this->Html->link('<i class="glyphicon glyphicon-envelope"></i> Confirmar viaje ahora', 
                         array('controller'=>'travels', 'action'=>'confirm/'.$travel['Travel']['id']), 
                         array('escape'=>false, 'class'=>'alert-link', 'title'=>'Confirmar y Enviar este viaje a los choferes'))?>
@@ -96,8 +96,8 @@ $this->Html->script('common/ajax-forms', array('inline' => false));
     
     $(document).ready(function() {
         _ajaxifyForm($("#TravelForm"), null, "travel", function(obj) {
-            $('#travel-origin-label').text($("#TravelLocalityId option:selected").text());
-            $('#travel-destination-label').text(obj.destination);            
+            $('#travel-locality-label').text($("#TravelLocalityId option:selected").text());
+            $('#travel-where-label').text(obj.where);            
             
             var d = obj.date.split('/');
             var dd = new Date(d[1] + '/' + d[0] + '/' + d[2]);

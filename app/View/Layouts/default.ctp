@@ -14,7 +14,7 @@ if($isLoggedIn) {
         $splitEmail = explode('@', $user['username']);
         $pretty_user_name = $splitEmail[0];
     }
-    if($role === 'admin') $pretty_user_name.= ' (<b>admin</b>)';
+    if($role === 'admin' || $role === 'tester') $pretty_user_name.= ' (<b>'.$role.'</b>)';
     //$pretty_user_date = date('M j, Y', strtotime($user['created']));
 }
 
@@ -114,24 +114,6 @@ if($isLoggedIn) {
             
             
             <?php echo $this->Session->flash('auth'); ?>
-            
-            <?php if ($isLoggedIn && $role === 'admin') :?>
-            <!--<div class="row">
-                <div class="col-md-6">
-                    <div class="alert alert-info alert-dismissable">
-                        <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                        Los anuncios creados por los administradores <b>NO</b> son enviados a ningún chofer.
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="alert alert-info alert-dismissable">
-                        <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                        Puedes eliminar viajes confirmados porque eres administrador.
-                    </div>
-                </div>
-            </div>-->
-            <?php endif?>
-
 
             <div id="content" class="container-fluid">
                 <?php echo $this->Session->flash(); ?>

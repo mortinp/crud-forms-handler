@@ -21,6 +21,8 @@ if (empty($this->request->data))
     $saveButtonText = 'Crear';
 else
     $saveButtonText = 'Salvar';
+
+
 ?>
 
 <?php if($intent === 'add' && AuthComponent::user('travel_count') > 0 && !AuthComponent::user('email_confirmed')):?>
@@ -38,14 +40,50 @@ else
             <?php
             echo $this->Form->create('Travel', array('default' => !$do_ajax, 'url' => array('controller' => 'travels', 'action' => $form_action), 'style' => $style, 'id' => 'TravelForm'));
             ?>
+        
         <fieldset>
             <?php
-            echo $this->Form->input('locality_id', array('type' => 'select', 'options' => $localities, 'showParents' => true,
+            
+            // Viajes que son desde una localidad, hacia otro lugar
+            $travel_out = 'Escoge el origen y escribe el destino <div style="display:inline"><a href="#!" class="travel-switch">&ndash; Prefiero <b>escribir el origen</b> y <b>escoger el destino</b></a></div>
+                <br/>
+                <br/>'.
+                $this->Form->input('locality_id', array('type' => 'select', 'options' => $localities, 'showParents' => true,
+                'label' => __('Origen del viaje') . ' 
+                <small><a class="popover-info" href="#!" data-container="body" data-toggle="popover" data-placement="bottom" 
+                    data-content="Para que un origen de viaje aparezca en esta lista, <b>debe haber choferes registrados para ese origen</b>, de tal forma que los viajeros puedan ser atendidos. Los orígenes de viaje se adicionan en cuanto se registra el primer chofer para ese origen.">&ndash; ¿Por qué mi <em>origen de viaje</em> no aparece aquí?</a>
+                </small>')).
+                $this->Form->input('where', array('type' => 'text', 'label' => __('Destino'), 'placeholder' => 'Nombre de tu destino (puede ser cualquier lugar)')).
+                $this->Form->input('direction', array('type'=>'hidden', 'value'=>'0'));
+            
+            // Viajes que son desde otro lugar hacia una localidad
+            $travel_in = 'Escribe el origen y escoge el destino <div style="display:inline"><a href="#!" class="travel-switch">&ndash; Prefiero <b>escoger el origen</b> y <b>escribir el destino</b></a></div>
+                <br/>
+                <br/>'.                
+                $this->Form->input('where', array('type' => 'text', 'label' => __('Origen del viaje'), 'placeholder' => 'Nombre de tu origen de viaje (puede ser cualquier lugar)')).
+                    $this->Form->input('locality_id', array('type' => 'select', 'options' => $localities, 'showParents' => true,
+                'label' => __('Destino') . ' 
+                <small><a class="popover-info" href="#!" data-container="body" data-toggle="popover" data-placement="bottom" 
+                    data-content="Para que un destino aparezca en esta lista, <b>debe haber choferes registrados para ese destino</b>, de tal forma que los viajeros puedan ser atendidos. Los destinos de viaje se adicionan en cuanto se registra el primer chofer para ese destino.">&ndash; ¿Por qué mi <em>destino</em> no aparece aquí?</a>
+                </small>')).
+                $this->Form->input('direction', array('type'=>'hidden', 'value'=>'1'));
+            
+            ?>
+            
+            <div id="travel-def"><?php echo $travel_out ?></div>
+            
+            <!--Escoge el origen y escribe el destino <div style="display:inline"><a href="#!">&ndash; Prefiero <b>escribir el origen</b> y <b>escoger el destino</b></a></div>
+            <br/>
+            <br/>-->
+            <?php
+            /*echo $this->Form->input('locality_id', array('type' => 'select', 'options' => $localities, 'showParents' => true,
                 'label' => __('Origen del viaje') . ' 
             <small><a class="popover-info" href="#!" data-container="body" data-toggle="popover" data-placement="bottom" 
                 data-content="Para que un origen de viaje aparezca en esta lista, <b>debe haber choferes registrados para ese origen</b>, de tal forma que los viajeros puedan ser atendidos. Los orígenes de viaje se adicionan en cuanto se registra el primer chofer para ese origen.">&ndash; ¿Por qué mi <em>origen de viaje</em> no aparece aquí?</a>
             </small>'));
-            echo $this->Form->input('destination', array('type' => 'text', 'label' => __('Destino'), 'placeholder' => 'Nombre de tu destino (puede ser cualquier lugar)'));
+            echo $this->Form->input('where', array('type' => 'text', 'label' => __('Destino'), 'placeholder' => 'Nombre de tu destino (puede ser cualquier lugar)'));
+            echo $this->Form->input('direction', array('type'=>'hidden', 'value'=>'0'));*/
+            
             echo $this->Form->custom_date('date', array('label' => __('Cuándo'), 'dateFormat' => 'dd/mm/yyyy'));
             echo $this->Form->input('people_count', array('label' => __('Personas que viajan <small class="text-info">(máximo número de personas)</small>'), 'default' => 1, 'min' => 1));
             echo $this->Form->checkbox_group(Travel::$preferences, array('header'=>'Preferencias <small class="text-info">(selecciona sólo si quieres esto obligatoriamente)</small>'));
@@ -76,10 +114,27 @@ $this->Html->script('vitalets-bootstrap-datepicker/locales/bootstrap-datepicker.
 
 $this->Html->script('jquery-validation-1.10.0/dist/jquery.validate.min', array('inline' => false));
 $this->Html->script('jquery-validation-1.10.0/localization/messages_es', array('inline' => false));
+
+    
+// Pass to js
+$this->Js->set('travel_on', $travel_out);
+$this->Js->set('travel_off', $travel_in);
+echo $this->Js->writeBuffer(array('inline' => false));
 ?>
 
 <script type="text/javascript">
     $(document).ready(function() {
+        var travelOn = window.app.travel_on;
+        var travelOff = window.app.travel_off;
+        var switcher = function() {
+            $('#travel-def').empty().append(travelOff);
+            var temp = travelOn;
+            travelOn = travelOff;
+            travelOff = temp;
+            $('.travel-switch').click(switcher);
+            $('.popover-info').popover({html:true});
+        };
+        $('.travel-switch').click(switcher);
         $('.popover-info').popover({html:true});
         
         $('.datepicker').datepicker({
@@ -96,5 +151,8 @@ $this->Html->script('jquery-validation-1.10.0/localization/messages_es', array('
             errorClass: 'text-danger',
             errorElement: 'div'
         });
+        
+        
+        
     })
 </script>

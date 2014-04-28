@@ -27,9 +27,6 @@
                 
                 <li style="margin-bottom: 20px">
                     <?php echo $this->element('travel', array('travel'=>$travel))?>
-                    <!--<legend><big><?php echo $travel['Locality']['name'].' - '.$travel['Travel']['destination']?></big> <small class="text-muted"><?php echo $pretty_people_count?></small></legend>
-                    <p><b>Día del viaje:</b> <?php echo $pretty_date?></p>
-                    <p><b>Contactos:</b> <?php echo $travel['Travel']['contact']?></p>-->
                 </li>
                 
             <?php endforeach; ?>
@@ -39,7 +36,7 @@
             
     </div>
     <div class="col-md-4 col-md-offset-1">
-        <legend>Crea un nuevo anuncio de viaje</legend>
+        <legend>Crea un anuncio de viaje</legend>
         <?php echo $this->element('travel_form')?>
     </div>
         

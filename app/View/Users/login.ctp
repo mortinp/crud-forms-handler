@@ -1,6 +1,6 @@
-
+<div class="container">
 <div class="row">
-    <div class="col-md-4 col-md-offset-2">
+    <div class="col-md-6 col-md-offset-2">
         <?php echo $this->Session->flash('auth'); ?>
         <div class="text-muted">
             <!--Entra a tu cuenta para ver tus anuncios de viajes, o crear el primer anuncio si aún no tienes.-->
@@ -23,4 +23,5 @@
         <br/>
         <?php echo $this->Html->link('¿Olvidaste tu contraseña?', array('controller'=>'users', 'action'=>'recover_password'))?>
     </div>
+</div
 </div>

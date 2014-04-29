@@ -1,5 +1,6 @@
+<div class="container">
 <div class="row">
-    <div class="col-md-4 col-md-offset-2">
+    <div class="col-md-5 col-md-offset-1">
         <?php echo $this->Session->flash('auth'); ?>
         <legend><?php echo __('Regístrate (o ' . $this->Html->link('Entra', array('controller' => 'users', 'action' => 'login')) . ' si ya tienes cuenta)'); ?></legend>
         <?php echo $this->element('register_form') ?>
@@ -7,7 +8,7 @@
         <!--<br/>
         <div class="alert alert-info">Los choferes no se registran directamente.</div>-->
     </div>
-    <div class="col-md-3 col-md-offset-2">
+    <div class="col-md-4 col-md-offset-1">
         <legend>Es importante que usted sepa:</legend>
         <ul style="list-style-type: none;padding-left:20px">
             <li style="padding-bottom: 15px">
@@ -37,4 +38,5 @@
             </li>
         </ul>
     </div>
+</div>
 </div>

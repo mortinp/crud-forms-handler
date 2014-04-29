@@ -1,6 +1,7 @@
+<div class="container">
 <div class="row">
 <?php if(!empty ($travels)): ?>
-    <div class="col-md-5 col-md-offset-1">
+    <div class="col-md-5">
         <?php
             $months_es = array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');
             $days_es = array('Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado');
@@ -35,21 +36,22 @@
         <!--<?php echo $this->Html->link("<i class='glyphicon glyphicon-flag'></i> <big>Crear un nuevo anuncio</big>", array('controller'=>'travels', 'action'=>'add'), array('escape'=>false))?>-->
             
     </div>
-    <div class="col-md-4 col-md-offset-1">
+    <div class="col-md-6 col-md-offset-1">
         <legend>Crea un anuncio de viaje</legend>
         <?php echo $this->element('travel_form')?>
     </div>
         
 <?php else :?>
-    <div class="col-md-6 col-md-offset-1">
+    <div class="col-md-6">
         <legend>No tienes ningún anuncio de viaje. Crea uno ahora</legend>
         <?php echo $this->element('travel_form')?>
     </div>
     
-    <div class="col-md-3 col-md-offset-1">  
+    <div class="col-md-4 col-md-offset-1">  
         <?php echo $this->element('travel_tips'); ?>
     </div>
 
 <?php endif; ?>
       
+</div>
 </div>

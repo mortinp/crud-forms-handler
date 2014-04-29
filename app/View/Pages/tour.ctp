@@ -6,7 +6,7 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
 
 <div class="container">
     <div class="row">
-        <div class="col-md-6">
+        <div class="<?php if(!$isLoggedIn) echo 'col-md-6'; else echo 'col-md-8 col-md-offset-2';?>">
             <legend><big>¿Cómo usar <em>YoTeLlevo</em>?</big></legend>
             
             <?php if($isLoggedIn):?>
@@ -26,13 +26,13 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
             </p>
             
             <br/>
-            <p><?php echo $this->Html->image('travel_form.png')?></p>
+            <p style="padding-left: 20px"><?php echo $this->Html->image('travel_form.png')?></p>
             <br/>
             
             <p>Cuando le das click al botón <span class="text-info"><b>Crear</b></span>, se crea un viaje como este:</p>
             
             <br/>
-            <p><?php echo $this->Html->image('travel_unconfirmed.png')?></p>
+            <p style="padding-left: 20px"><?php echo $this->Html->image('travel_unconfirmed.png')?></p>
             <br/>
             
             <p>
@@ -51,7 +51,7 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
             </p>
             
             <br/>
-            <p><?php echo $this->Html->image('travel_confirmed.png')?></p>
+            <p style="padding-left: 20px"><?php echo $this->Html->image('travel_confirmed.png')?></p>
             <br/>
             
             <p>

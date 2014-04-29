@@ -3,10 +3,17 @@ var aliases = {travel: 'viaje'};
 function _ajaxifyForm(form, obj, alias, onSuccess) {
     if(obj != null) setupFormForEdit(form, obj, alias);
     
+    var upperAlias = alias[0].toUpperCase() + alias.substring(1);
+    
     var doAjax = form.attr('onsubmit') != '' && form.attr('onsubmit') != null && form.attr('onsubmit') != undefined;// TODO: This is a hack
     if(doAjax == true) {
         var messageDiv = $('#' + alias + '-ajax-message');
         form.submit(function() {
+            // Disable submit button
+            var prevText = $('#' + upperAlias + 'Submit').val();
+            $('#' + upperAlias + 'Submit').attr('disabled', true);
+            $('#' + upperAlias + 'Submit').val('Espere ...');
+            
             var data = $(this).serialize();
             var url = $(this).attr('action');
             $.ajax({
@@ -15,8 +22,6 @@ function _ajaxifyForm(form, obj, alias, onSuccess) {
                 url: $(this).attr('action'),
                 success: function(response) {
                     response = JSON.parse(response);
-                    
-                    var upperAlias = alias[0].toUpperCase() + alias.substring(1);
                     
                     var prettyAlias = upperAlias;
                     if(aliases[alias] != undefined && aliases[alias] != null) prettyAlias = aliases[alias];
@@ -43,6 +48,10 @@ function _ajaxifyForm(form, obj, alias, onSuccess) {
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     messageDiv.append("<div class='alert alert-danger'><b>" + alias[0].toUpperCase() + alias.substring(1) + "</b> data could not be saved.</div>");
+                },
+                complete: function() {
+                    $('#' + upperAlias + 'Submit').attr('disabled', false);
+                    $('#' + upperAlias + 'Submit').val(prevText);
                 }
             });
         });

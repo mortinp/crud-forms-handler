@@ -48,6 +48,12 @@ class TravelsController extends AppController {
 
     public function add() {
         if ($this->request->is('post')) {
+            /*for ($i = 0; $i < 10000; $i++) {
+                for ($j = 0; $j < 1000; $j++) {
+
+                }
+            }*/
+            
             $this->Travel->create();
 
             $this->request->data['Travel']['user_id'] = $this->Auth->user('id');
@@ -171,9 +177,7 @@ class TravelsController extends AppController {
         
     }
 
-    public function edit($tId) {
-        //TODO: Validate paramters
-        
+    public function edit($tId) {        
         if ($this->request->is('ajax')) {
             $this->autoRender = false;
             $travel = $this->data;
@@ -183,6 +187,12 @@ class TravelsController extends AppController {
 
         $editing = $this->request->is('ajax') || $this->request->is('post') || $this->request->is('put');
         if($editing) {
+            /*for ($i = 0; $i < 10000; $i++) {
+                for ($j = 0; $j < 1000; $j++) {
+
+                }
+            }*/
+            
             if ($this->Travel->save($travel)) {
                 if($this->request->is('ajax')) {
                     echo json_encode(array('object'=>$travel['Travel']));

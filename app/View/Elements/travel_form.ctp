@@ -22,21 +22,22 @@ if (empty($this->request->data))
 else
     $saveButtonText = 'Salvar';
 
-
+$form_disabled = AuthComponent::user('travel_count') > 0 && !AuthComponent::user('email_confirmed');
 ?>
 
-<?php if($intent === 'add' && AuthComponent::user('travel_count') > 0 && !AuthComponent::user('email_confirmed')):?>
+<?php if($intent === 'add' && $form_disabled):?>
     <div class="alert alert-warning">
         <b>Verifica tu cuenta de correo electrónico</b> para crear más anuncios de viajes. 
         El formulario de viajes permanecerá desactivado hasta que verifiques tu cuenta. 
-        <div>
-            <big><b><?php echo $this->Html->link('<i class="glyphicon glyphicon-ok"></i> Verificar cuenta', array('controller'=>'users', 'action'=>'send_confirm_email'), array('escape'=>false))?></b></big>
+        <div style="padding-top: 10px">
+            <big><big><b><?php echo $this->Html->link('<i class="glyphicon glyphicon-ok"></i> Verificar cuenta', array('controller'=>'users', 'action'=>'send_confirm_email'), array('escape'=>false))?></b></big></big>
             <div><small>(Enviaremos un correo a <b><?php echo AuthComponent::user('username')?></b> con las instrucciones)</small></div>
         </div>        
     </div>
 <?php else:?>
     <div>
         <div id='travel-ajax-message'></div>
+        <div id="TravelFormDiv">
             <?php
             echo $this->Form->create('Travel', array('default' => !$do_ajax, 'url' => array('controller' => 'travels', 'action' => $form_action), 'style' => $style, 'id' => 'TravelForm'));
             ?>
@@ -97,12 +98,16 @@ else
             echo $this->Form->checkbox_group(Travel::$preferences, array('header'=>'Preferencias <small class="text-info">(selecciona sólo si quieres esto obligatoriamente)</small>'));
             echo $this->Form->input('contact', array('label' => __('Contactos'), 'placeholder' => 'Explica a los choferes la forma de contactarte (número de teléfono, correo electrónico o cualquier otra forma que prefieras). Especifica detalles si deseas, como la hora para contactarte, tu nombre, etc.'));
             echo $this->Form->input('id', array('type' => 'hidden'));
-            echo $this->Form->submit(__($saveButtonText), array('style' => $buttonStyle));
+            
+            $submitOptions = array('style' => $buttonStyle, 'id'=>'TravelSubmit');
+            //if(!$do_ajax) $submitOptions['onclick'] = 'this.value="Espere ...";this.disabled=true;this.form.disabled=true;this.form.submit();';
+            echo $this->Form->submit(__($saveButtonText), $submitOptions);
             if ($is_modal)
                 echo $this->Form->button(__('Cancelar'), array('id' => 'btn-cancel-travel', 'style' => 'display:inline-block'));
             ?>
         </fieldset>
     <?php echo $this->Form->end(); ?>
+        </div>
     </div>
 <?php endif?>
 
@@ -118,14 +123,14 @@ $this->Html->script('jquery', array('inline' => false));
 //$this->Html->script('jquery-ui', array('inline' => false)); 
 $this->Html->script('bootstrap', array('inline' => false));
 $this->Html->script('vitalets-bootstrap-datepicker/bootstrap-datepicker.min', array('inline' => false));
-$this->Html->script('vitalets-bootstrap-datepicker/locales/bootstrap-datepicker.es', array('inline' => false));
+//$this->Html->script('vitalets-bootstrap-datepicker/locales/bootstrap-datepicker.es', array('inline' => false));
 
 $this->Html->script('jquery-validation-1.10.0/dist/jquery.validate.min', array('inline' => false));
 $this->Html->script('jquery-validation-1.10.0/localization/messages_es', array('inline' => false));
 
     
 // Pass to js
-if($intent == 'add') {
+if($intent == 'add' && !$form_disabled) {
     $this->Js->set('travel_on', $travel_out_switcher.$travel_out);
     $this->Js->set('travel_off', $travel_in_switcher.$travel_in);
     echo $this->Js->writeBuffer(array('inline' => false));
@@ -134,7 +139,7 @@ if($intent == 'add') {
 
 <script type="text/javascript">
     $(document).ready(function() {
-        <?php if($intent == 'add'):?>
+        <?php if($intent == 'add' && !$form_disabled):?>
         var travelOn = window.app.travel_on;
         var travelOff = window.app.travel_off;
         var switcher = function() {
@@ -162,6 +167,18 @@ if($intent == 'add') {
             wrapper: 'div',
             errorClass: 'text-danger',
             errorElement: 'div'
-        });        
+        });  
+        
+        <?php if(!$do_ajax):?>
+            $('#TravelForm').submit(function() {
+                if (!$(this).valid()) return false;
+                
+                //$('#TravelForm :input').prop('disabled', true);
+                //$('#TravelFormDiv').prop('disabled', true);
+                
+                $('#TravelSubmit').attr('disabled', true);
+                $('#TravelSubmit').val('Espere ...');
+            })
+        <?php endif?>
     })
 </script>

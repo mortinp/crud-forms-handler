@@ -7,18 +7,19 @@ if($isConfirmed) {
 }
 ?>
 
+<div class="container">
 <div class="row">
-    <div class="col-md-6 col-md-offset-1"> 
+    <div class="col-md-6"> 
         <?php if(!$isConfirmed):?>
             <div class="alert alert-info">
                 Este viaje <span class="text-danger"><b>NO HA SIDO ENVIADO A LOS CHOFERES</b></span> todavía, pues está <span style="color:<?php echo Travel::$STATE[$travel['Travel']['state']]['color']?>"><b>sin confirmar</b></span>.
                 
-                <div>
-                    <big>
+                <div style="padding-top: 10px">
+                    <big><big>
                         <?php echo $this->Html->link('<i class="glyphicon glyphicon-envelope"></i> Confirmar viaje ahora', 
                         array('controller'=>'travels', 'action'=>'confirm/'.$travel['Travel']['id']), 
                         array('escape'=>false, 'class'=>'alert-link', 'title'=>'Confirmar y Enviar este viaje a los choferes'))?>
-                    </big>
+                    </big></big>
                 </div>
             </div>
         <?php else:?>
@@ -46,7 +47,7 @@ if($isConfirmed) {
     </div>
     
     
-    <div class="col-md-3 col-md-offset-1">
+    <div class="col-md-4 col-md-offset-1">
         <?php if(!$isConfirmed):?>
         
             <legend>Sobre este viaje:</legend>
@@ -77,6 +78,7 @@ if($isConfirmed) {
     </div>
     
 </div>
+</div>
 
 <?php
 $this->Html->script('jquery', array('inline' => false));
@@ -85,11 +87,105 @@ $this->Js->set('travel', $travel);
 $this->Js->set('travels_preferences', Travel::$preferences);
 echo $this->Js->writeBuffer(array('inline' => false));
 
-$this->Html->script('common/ajax-forms', array('inline' => false));
+//$this->Html->script('common/ajax-forms', array('inline' => false));
 ?>
 
 <?php if(!$isConfirmed):?>
 <script type="text/javascript">
+    
+    var aliases = {travel: 'viaje'};
+
+    function _ajaxifyForm(form, obj, alias, onSuccess) {
+        if(obj != null) setupFormForEdit(form, obj, alias);
+
+        var upperAlias = alias[0].toUpperCase() + alias.substring(1);
+
+        var doAjax = form.attr('onsubmit') != '' && form.attr('onsubmit') != null && form.attr('onsubmit') != undefined;// TODO: This is a hack
+        if(doAjax == true) {
+            var messageDiv = $('#' + alias + '-ajax-message');
+            form.submit(function() {
+                // Disable submit button
+                var prevText = $('#' + upperAlias + 'Submit').val();
+                $('#' + upperAlias + 'Submit').attr('disabled', true);
+                $('#' + upperAlias + 'Submit').val('Espere ...');
+
+                var data = $(this).serialize();
+                var url = $(this).attr('action');
+                $.ajax({
+                    type: "POST",
+                    data: $(this).serialize(),
+                    url: $(this).attr('action'),
+                    success: function(response) {
+                        response = JSON.parse(response);
+
+                        var prettyAlias = upperAlias;
+                        if(aliases[alias] != undefined && aliases[alias] != null) prettyAlias = aliases[alias];
+                        messageDiv.empty().append($("<div class='alert alert-success'>Los datos del <b>" + prettyAlias + "</b> fueron salvados exitosamente.</div>"));
+                        setTimeout(function(){
+                            messageDiv.empty();
+                        }, 5000);
+
+                        if(onSuccess) {
+                            if(response != null && typeof response === 'object' && response.object != null) 
+                                onSuccess(response.object);
+                            else {
+                                var inputs = form.find('input, textarea');
+                                var obj = {};
+                                $.each(inputs, function(k, v){
+                                    elem = $(v);
+                                    if(elem.attr('id') == null) return;
+                                    entryName = elem.attr('id').replace(upperAlias, '').toLowerCase();
+                                    obj[entryName] = elem.val();
+                                });
+                                onSuccess(obj);
+                            }
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        messageDiv.append("<div class='alert alert-danger'><b>" + alias[0].toUpperCase() + alias.substring(1) + "</b> data could not be saved.</div>");
+                    },
+                    complete: function() {
+                        $('#' + upperAlias + 'Submit').attr('disabled', false);
+                        $('#' + upperAlias + 'Submit').val(prevText);
+                    }
+                });
+            });
+        }
+    }
+
+
+    function setupFormForEdit(form, obj, alias) {
+        if(obj.id == null) return; // TODO: throw exception???
+
+        var upperAlias = capitalizarAlias(alias);
+        for(k in obj) {
+            var upperFieldName = capitalizarAlias(k);
+            var input = form.find('#' + upperAlias + upperFieldName);
+            input.val(obj[k]);
+        }
+        form.attr('action', form.attr('action').replace('/add', '/edit/' + obj.id));
+    }
+
+    function capitalizarAlias(alias) {
+        return splitWith(alias, "");
+    }
+
+    function stringifyAlias(alias) {
+        return splitWith(alias, " ");
+    }
+
+    function splitWith(alias, separator) {
+        result = "";
+
+        parts = alias.split("_");
+        sep = "";
+        for (p in parts) {
+            result += sep + parts[p].substring(0, 1).toUpperCase() + parts[p].substring(1, parts[p].length);
+            sep = separator;
+        }
+
+        return result;
+    }
     
     var months = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
     var weekDays = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");

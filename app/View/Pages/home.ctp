@@ -107,6 +107,7 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
             
             <legend>Algunos casos en que puedes usar <em>YoTeLlevo</em></legend>
             <ul style="list-style-type: none">
+                <li style="padding-bottom: 15px"><i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> Llegas a Cuba por un aeropuerto lejano de tu lugar de estancia, y quieres llegar a ese lugar.</li>
                 <li style="padding-bottom: 15px"><i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> Deseas viajar de una provincia a otra por algún evento o paseo.</li>
                 <li style="padding-bottom: 15px"><i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> Necesitas recoger o llevar algún familiar o amigo a un aeropuerto.</li>
                 <li style="padding-bottom: 15px"><i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> Necesitas que te lleven a algún lugar lejano y te esperen para el regreso.</li>

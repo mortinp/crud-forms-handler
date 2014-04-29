@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 28-04-2014 a las 18:11:14
+-- Tiempo de generación: 29-04-2014 a las 13:50:27
 -- Versión del servidor: 5.5.16
 -- Versión de PHP: 5.3.8
 
@@ -220,7 +220,7 @@ CREATE TABLE IF NOT EXISTS `travels` (
   UNIQUE KEY `id` (`id`),
   KEY `travels_locality_fk` (`locality_id`),
   KEY `travels_user_fk` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=45 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 -- --------------------------------------------------------
 
@@ -248,10 +248,10 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `role`, `active`, `display_name`, `email_confirmed`, `travel_count`, `created`) VALUES
-(1, 'ttt@ttt.ttt', '3a49921023b6c1d0a53cc864581e91f5f0e05109', 'regular', 1, 'martin', 0, 1, '0000-00-00'),
+(1, 'ttt@ttt.ttt', '3a49921023b6c1d0a53cc864581e91f5f0e05109', 'regular', 1, 'martin', 0, 0, '0000-00-00'),
 (3, 'mproenza@grm.desoft.cu', '60dd56fce363a2e493ae60bfdc64a9dffb0b227b', 'admin', 1, '', 1, 0, '0000-00-00'),
 (11, 'nelson@ksabes.com', 'f83bf0b762b0eb17c78b944c77d1d3eb3149bc81', 'tester', 1, '', 0, 0, '2014-04-17'),
-(13, 'yproenza003@gmail.com', '6e112beb5c6a8a609c579516d6fc3e8785a6e0b1', 'tester', 1, '', 0, 1, '2014-04-25');
+(13, 'yproenza003@gmail.com', '6e112beb5c6a8a609c579516d6fc3e8785a6e0b1', 'tester', 1, '', 0, 0, '2014-04-25');
 
 -- --------------------------------------------------------
 

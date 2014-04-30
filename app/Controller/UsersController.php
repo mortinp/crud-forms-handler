@@ -204,7 +204,7 @@ class UsersController extends AppController {
             ->viewVars(array('confirmation_code' => $code))
             ->emailFormat('html')
             ->to(AuthComponent::user('username'))
-            ->subject('Confirmación de correo');
+            ->subject('Verificación de cuenta');
             try {
                 $Email->send();
             } catch ( Exception $e ) {
@@ -214,12 +214,12 @@ class UsersController extends AppController {
         
         if($OK) {
             $datasource->commit();
-            $this->setInfoMessage('Se envió un correo a tu cuenta con un enlace para verificarla. Revisa tu correo y sigue las instrucciones.');
+            //$this->setInfoMessage('Se envió un correo a tu cuenta con un enlace para verificarla. Revisa tu correo y sigue las instrucciones.');
         }else {
             $datasource->rollback();
             $this->setErrorMessage('Ocurrió un error enviando las instrucciones a tu correo. Intenta de nuevo.');
+            $this->redirect($this->referer());
         }
-        $this->redirect($this->referer());
     }
     
     public function confirm_email($confirmation_code) {

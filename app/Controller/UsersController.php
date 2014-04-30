@@ -10,10 +10,12 @@ class UsersController extends AppController {
     public function beforeFilter() {
         parent::beforeFilter();
         
+        $this->Auth->allow('confirm_email');
+        
         if($this->Auth->loggedIn()) {
             $this->Auth->allow('logout', 'send_confirm_email');
         }
-        else $this->Auth->allow('login', 'register', 'register_welcome', /*'authorize',*/ 'recover_password', 'confirm_email');
+        else $this->Auth->allow('login', 'register', 'register_welcome', /*'authorize',*/ 'recover_password');
     }
 
     public function isAuthorized($user) {
@@ -268,7 +270,7 @@ class UsersController extends AppController {
             if($this->Auth->loggedIn()) {
                 $this->setInfoMessage('Tu cuenta fue verificada exitosamente.');
                 if(AuthComponent::user('role') === 'admin') return $this->redirect(array('action'=>'index'));
-                return $this->redirect($this->referer($this->Auth->redirect()));
+                return $this->redirect(array('controller'=>'travels', 'action'=>'index'));
             } else {
                 $this->setInfoMessage('Tu cuenta fue confirmada verificada. Entra a <em>YoTeLlevo</em> para crear anuncios de viajes.');
                 return $this->redirect(array('controller'=>'users', 'action'=>'login'));

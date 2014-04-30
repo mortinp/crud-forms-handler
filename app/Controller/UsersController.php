@@ -266,18 +266,18 @@ class UsersController extends AppController {
             $datasource->commit();
             
             if($this->Auth->loggedIn()) {
-                $this->setInfoMessage('Tu cuenta fue confirmada exitosamente.');
+                $this->setInfoMessage('Tu cuenta fue verificada exitosamente.');
                 if(AuthComponent::user('role') === 'admin') return $this->redirect(array('action'=>'index'));
                 return $this->redirect($this->referer($this->Auth->redirect()));
             } else {
-                $this->setInfoMessage('Tu cuenta fue confirmada exitosamente. Entra a <em>YoTeLlevo</em> para crear anuncios de viajes');
+                $this->setInfoMessage('Tu cuenta fue confirmada verificada. Entra a <em>YoTeLlevo</em> para crear anuncios de viajes.');
                 return $this->redirect(array('controller'=>'users', 'action'=>'login'));
             }
             
             
         } else {
             $datasource->rollback();
-            $this->setErrorMessage('Ocurrió un error confirmando tu cuenta de correo electrónico. Puede ser que el enlace esté caducado o usado, o que la dirección que está usando es incorrecta.');
+            $this->setErrorMessage('Ocurrió un error verificando tu cuenta de correo electrónico. Puede ser que el enlace esté caducado o usado, o que la dirección que estás usando es incorrecta.');
             return $this->redirect(array('controller'=>'pages', 'action'=>'home'));
         }
     }

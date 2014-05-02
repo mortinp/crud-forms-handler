@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 02-05-2014 a las 14:08:08
+-- Tiempo de generación: 02-05-2014 a las 19:50:16
 -- Versión del servidor: 5.5.16
 -- Versión de PHP: 5.3.8
 
@@ -53,7 +53,7 @@ INSERT INTO `drivers` (`id`, `username`, `password`, `max_people_count`, `active
 (9, 'rricardo@grm.desoft.cu', '2773b7ee46895cf2b2f38fcb80f1403c1f136ec0', 4, 0, 1, 0, 'Nello'),
 (11, 'mproenza@grm.desoft.cu', '60dd56fce363a2e493ae60bfdc64a9dffb0b227b', 4, 1, 1, 1, 'Martín'),
 (12, 'yoelt@nauta.cu', 'afbffb5f53e46c239e221925ba7871773fd67c9f', 4, 0, 1, 1, 'Yoel Toledano (El pollo)'),
-(13, 'cl8ff@frcuba.co.cu', '6c4279ec98f5799eacc782d98f86b739ab1b7b06', 4, 0, 0, 0, 'Paqui'),
+(13, 'cl8ff@frcuba.co.cu', '6c4279ec98f5799eacc782d98f86b739ab1b7b06', 4, 0, 0, 0, 'Paqui (Moskovich Aleco)'),
 (14, 'Kevin.pellicer@nauta.cu', '4ff9d19ef18919fdf95eb1eca65467093de8bd70', 4, 0, 0, 0, 'Alberto Pellicer Rodríguez (43-1536, 52569900)'),
 (16, 'sanchez@granma.copextel.com.cu', 'a21149656d0c0d11fcc75aedada815879b445a1d', 4, 0, 1, 1, 'José A. Sánchez (El médico) (Renault SM3)');
 
@@ -225,7 +225,36 @@ CREATE TABLE IF NOT EXISTS `travels` (
   UNIQUE KEY `id` (`id`),
   KEY `travels_locality_fk` (`locality_id`),
   KEY `travels_user_fk` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17 ;
+
+--
+-- Volcado de datos para la tabla `travels`
+--
+
+INSERT INTO `travels` (`id`, `locality_id`, `where`, `direction`, `date`, `people_count`, `contact`, `user_id`, `state`, `drivers_sent_count`, `need_modern_car`, `need_air_conditioner`, `created`, `modified`) VALUES
+(16, 1, 'fgdf gdfgdf', 0, '2014-05-24', 3, 'gf gdfg fdg', 1, 'C', 1, 0, 1, '2014-05-02', '2014-05-02');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `travels_by_email`
+--
+
+DROP TABLE IF EXISTS `travels_by_email`;
+CREATE TABLE IF NOT EXISTS `travels_by_email` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `locality_id` bigint(20) unsigned NOT NULL,
+  `where` varchar(250) COLLATE latin1_bin NOT NULL,
+  `direction` int(11) NOT NULL,
+  `description` varchar(1000) COLLATE latin1_bin NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `state` varchar(250) COLLATE latin1_bin NOT NULL,
+  `drivers_sent_count` int(11) NOT NULL,
+  `created` date NOT NULL,
+  `modified` date NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_bin AUTO_INCREMENT=9 ;
 
 -- --------------------------------------------------------
 
@@ -246,14 +275,14 @@ CREATE TABLE IF NOT EXISTS `users` (
   `created` date NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
 
 --
 -- Volcado de datos para la tabla `users`
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `role`, `active`, `display_name`, `email_confirmed`, `travel_count`, `created`) VALUES
-(1, 'ttt@ttt.ttt', '3a49921023b6c1d0a53cc864581e91f5f0e05109', 'regular', 1, 'martin', 0, 0, '0000-00-00'),
+(1, 'ttt@ttt.ttt', '3a49921023b6c1d0a53cc864581e91f5f0e05109', 'regular', 1, 'martin', 1, 1, '0000-00-00'),
 (3, 'mproenza@grm.desoft.cu', '60dd56fce363a2e493ae60bfdc64a9dffb0b227b', 'admin', 1, '', 1, 0, '0000-00-00'),
 (11, 'nelson@ksabes.com', 'f83bf0b762b0eb17c78b944c77d1d3eb3149bc81', 'tester', 1, '', 0, 0, '2014-04-17'),
 (13, 'yproenza003@gmail.com', '6e112beb5c6a8a609c579516d6fc3e8785a6e0b1', 'tester', 1, '', 0, 0, '2014-04-25'),
@@ -277,7 +306,15 @@ CREATE TABLE IF NOT EXISTS `user_interactions` (
   `modified` date NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_bin AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_bin AUTO_INCREMENT=12 ;
+
+--
+-- Volcado de datos para la tabla `user_interactions`
+--
+
+INSERT INTO `user_interactions` (`id`, `user_id`, `interaction_code`, `interaction_due`, `expired`, `created`, `modified`) VALUES
+(10, 1, 'K98858442e3ed6bc98d2e2417c01f641', 'confirm email', 1, '2014-05-02', '2014-05-02'),
+(11, 1, 'l47550014c4b62ebbd297f0ff337a9c8', 'confirm email', 0, '2014-05-02', '2014-05-02');
 
 --
 -- Restricciones para tablas volcadas

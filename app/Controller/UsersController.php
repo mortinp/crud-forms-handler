@@ -272,7 +272,7 @@ class UsersController extends AppController {
                 if(AuthComponent::user('role') === 'admin') return $this->redirect(array('action'=>'index'));
                 return $this->redirect(array('controller'=>'travels', 'action'=>'index'));
             } else {
-                $this->setInfoMessage('Tu cuenta fue confirmada verificada. Entra a <em>YoTeLlevo</em> para crear anuncios de viajes.');
+                $this->setInfoMessage('Tu cuenta fue verificada. Entra a <em>YoTeLlevo</em> para crear anuncios de viajes.');
                 return $this->redirect(array('controller'=>'users', 'action'=>'login'));
             }
             

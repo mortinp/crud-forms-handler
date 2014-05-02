@@ -25,6 +25,8 @@ else
     $saveButtonText = 'Salvar';
 
 $form_disabled = !User::canCreateTravel()/*AuthComponent::user('travel_count') > 0 && !AuthComponent::user('email_confirmed')*/;
+
+//echo levenshtein('Magento', 'Magneto');
 ?>
 
 <?php if($intent === 'add' && $form_disabled):?>

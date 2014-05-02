@@ -116,7 +116,6 @@ class IncomingMailShell extends AppShell {
                 } else {
                     $this->out('No se encontraron choferes');
                     $OK = false;
-                    // TODO: Enviar correo diciendo que no se encontraron choferes
                 }
                 
                 $drivers_sent_count = 0;
@@ -160,8 +159,7 @@ class IncomingMailShell extends AppShell {
             
             
         } else {
-            $this->out('No hay coincidencias');
-            // TODO: Enviar correo diciendo que no se encontraron coincidencias
+            $OK = false;
         }
         
         if($OK) {

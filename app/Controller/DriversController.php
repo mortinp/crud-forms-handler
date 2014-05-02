@@ -10,7 +10,7 @@ class DriversController extends AppController {
             $this->Driver->create();
             
             $this->request->data['Driver']['role'] = 'driver';
-            $this->request->data['Driver']['active'] = true;
+            $this->request->data['Driver']['active'] = false;
             if ($this->Driver->save($this->request->data)) {
                 $this->Session->setFlash(__('El chofer se guardó exitosamente.'));
                 return $this->redirect(array('controller'=>'travels','action' => 'index'));

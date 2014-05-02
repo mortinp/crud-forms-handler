@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 29-04-2014 a las 13:50:27
+-- Tiempo de generación: 02-05-2014 a las 14:08:08
 -- Versión del servidor: 5.5.16
 -- Versión de PHP: 5.3.8
 
@@ -41,20 +41,21 @@ CREATE TABLE IF NOT EXISTS `drivers` (
   `contact_name` varchar(250) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17 ;
 
 --
 -- Volcado de datos para la tabla `drivers`
 --
 
 INSERT INTO `drivers` (`id`, `username`, `password`, `max_people_count`, `active`, `has_modern_car`, `has_air_conditioner`, `contact_name`) VALUES
-(7, 'eduartd@nauta.cu', 'b074e2f38af8d33d8026b4facf2a6bfc03e4f77f', 4, 0, 0, 0, 'Ernesto'),
+(7, 'eduartd@nauta.cu', 'b074e2f38af8d33d8026b4facf2a6bfc03e4f77f', 4, 0, 0, 0, 'Ernesto (Moskovich)'),
 (8, 'wary@dps.grm.sld.cu', 'f1ed9dc220787b7570dd4bf76f0b29205e55562a', 4, 0, 1, 1, 'Wary'),
 (9, 'rricardo@grm.desoft.cu', '2773b7ee46895cf2b2f38fcb80f1403c1f136ec0', 4, 0, 1, 0, 'Nello'),
 (11, 'mproenza@grm.desoft.cu', '60dd56fce363a2e493ae60bfdc64a9dffb0b227b', 4, 1, 1, 1, 'Martín'),
 (12, 'yoelt@nauta.cu', 'afbffb5f53e46c239e221925ba7871773fd67c9f', 4, 0, 1, 1, 'Yoel Toledano (El pollo)'),
 (13, 'cl8ff@frcuba.co.cu', '6c4279ec98f5799eacc782d98f86b739ab1b7b06', 4, 0, 0, 0, 'Paqui'),
-(14, 'Kevin.pellicer@nauta.cu', '4ff9d19ef18919fdf95eb1eca65467093de8bd70', 4, 0, 0, 0, 'Alberto Pellicer Rodríguez (43-1536, 52569900)');
+(14, 'Kevin.pellicer@nauta.cu', '4ff9d19ef18919fdf95eb1eca65467093de8bd70', 4, 0, 0, 0, 'Alberto Pellicer Rodríguez (43-1536, 52569900)'),
+(16, 'sanchez@granma.copextel.com.cu', 'a21149656d0c0d11fcc75aedada815879b445a1d', 4, 0, 1, 1, 'José A. Sánchez (El médico) (Renault SM3)');
 
 -- --------------------------------------------------------
 
@@ -71,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `driver_localities` (
   UNIQUE KEY `id` (`id`),
   KEY `driver_localities_driver_fk` (`driver_id`),
   KEY `driver_localities_locality_fk` (`locality_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=40 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=45 ;
 
 --
 -- Volcado de datos para la tabla `driver_localities`
@@ -101,7 +102,11 @@ INSERT INTO `driver_localities` (`id`, `driver_id`, `locality_id`) VALUES
 (36, 13, 1),
 (37, 13, 2),
 (38, 13, 3),
-(39, 13, 4);
+(39, 13, 4),
+(41, 16, 1),
+(42, 16, 2),
+(43, 16, 3),
+(44, 16, 4);
 
 -- --------------------------------------------------------
 
@@ -220,7 +225,7 @@ CREATE TABLE IF NOT EXISTS `travels` (
   UNIQUE KEY `id` (`id`),
   KEY `travels_locality_fk` (`locality_id`),
   KEY `travels_user_fk` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 -- --------------------------------------------------------
 
@@ -241,7 +246,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `created` date NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
 
 --
 -- Volcado de datos para la tabla `users`
@@ -251,7 +256,9 @@ INSERT INTO `users` (`id`, `username`, `password`, `role`, `active`, `display_na
 (1, 'ttt@ttt.ttt', '3a49921023b6c1d0a53cc864581e91f5f0e05109', 'regular', 1, 'martin', 0, 0, '0000-00-00'),
 (3, 'mproenza@grm.desoft.cu', '60dd56fce363a2e493ae60bfdc64a9dffb0b227b', 'admin', 1, '', 1, 0, '0000-00-00'),
 (11, 'nelson@ksabes.com', 'f83bf0b762b0eb17c78b944c77d1d3eb3149bc81', 'tester', 1, '', 0, 0, '2014-04-17'),
-(13, 'yproenza003@gmail.com', '6e112beb5c6a8a609c579516d6fc3e8785a6e0b1', 'tester', 1, '', 0, 0, '2014-04-25');
+(13, 'yproenza003@gmail.com', '6e112beb5c6a8a609c579516d6fc3e8785a6e0b1', 'tester', 1, '', 0, 0, '2014-04-25'),
+(14, 'manuel@ksabes.com', 'ac6a59c7f77ded10e5da77a2d9488df7eddb503e', 'admin', 1, '', 0, 0, '2014-05-02'),
+(15, 'xfeanor@gmail.com', '628cb7a00d45d591885f246421951ab26601aa09', 'regular', 1, '', 0, 0, '2014-05-02');
 
 -- --------------------------------------------------------
 
@@ -270,15 +277,7 @@ CREATE TABLE IF NOT EXISTS `user_interactions` (
   `modified` date NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_bin AUTO_INCREMENT=7 ;
-
---
--- Volcado de datos para la tabla `user_interactions`
---
-
-INSERT INTO `user_interactions` (`id`, `user_id`, `interaction_code`, `interaction_due`, `expired`, `created`, `modified`) VALUES
-(5, 3, 'q2d8ce18a35178337431ef2215b2dc7e', 'confirm email', 1, '2014-04-25', '2014-04-25'),
-(6, 1, 'e309c956d96675e05c474a0412a28a14', 'confirm email', 0, '2014-04-25', '2014-04-25');
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_bin AUTO_INCREMENT=9 ;
 
 --
 -- Restricciones para tablas volcadas

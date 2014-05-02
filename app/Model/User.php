@@ -46,6 +46,10 @@ class User extends AppModel {
     public function loginExists($email) {
         return $this->find('first', array('conditions'=>array('username'=>$email))) != null;
     }
+    
+    public static function canCreateTravel() {
+        return AuthComponent::user('travel_count') < 1 || AuthComponent::user('email_confirmed');
+    }
 }
 
 ?>

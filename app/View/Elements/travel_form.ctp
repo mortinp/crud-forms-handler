@@ -1,3 +1,5 @@
+<?php App::uses('User', 'Model')?>
+
 <?php
 if (!isset($do_ajax))
     $do_ajax = false;
@@ -22,7 +24,7 @@ if (empty($this->request->data))
 else
     $saveButtonText = 'Salvar';
 
-$form_disabled = AuthComponent::user('travel_count') > 0 && !AuthComponent::user('email_confirmed');
+$form_disabled = !User::canCreateTravel()/*AuthComponent::user('travel_count') > 0 && !AuthComponent::user('email_confirmed')*/;
 ?>
 
 <?php if($intent === 'add' && $form_disabled):?>

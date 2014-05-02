@@ -23,5 +23,5 @@
         <br/>
         <?php echo $this->Html->link('¿Olvidaste tu contraseña?', array('controller'=>'users', 'action'=>'recover_password'))?>
     </div>
-</div
+</div>
 </div>

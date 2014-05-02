@@ -2,6 +2,8 @@
 <?php App::uses('Travel', 'Model')?>
 
 <?php
+//print_r($this->Time->listTimezones()) ;
+
 // INIT
 if (!isset($actions)) $actions = true;
 

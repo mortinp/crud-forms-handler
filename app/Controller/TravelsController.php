@@ -1,6 +1,7 @@
 <?php
 App::uses('AppController', 'Controller');
 App::uses('CakeEmail', 'Network/Email');
+App::uses('User', 'Model');
 
 class TravelsController extends AppController {
     
@@ -12,8 +13,12 @@ class TravelsController extends AppController {
     }*/
     
     public function isAuthorized($user) {
-        if (in_array($this->action, array('index', 'add'))) {
+        if ($this->action ==='index') {
             if($this->Auth->user('role') === 'regular' || $this->Auth->user('role') === 'tester') return true;
+        }
+        
+        if ($this->action === 'add') {
+            if(($this->Auth->user('role') === 'regular' || $this->Auth->user('role') === 'tester') && User::canCreateTravel()) return true;
         }
 
         if (in_array($this->action, array('edit', 'view', 'confirm', 'delete'))) {
@@ -58,7 +63,7 @@ class TravelsController extends AppController {
 
             $this->request->data['Travel']['user_id'] = $this->Auth->user('id');
             $this->request->data['Travel']['state'] = Travel::$STATE_DEFAULT;
-            if ($this->Travel->save($this->request->data)) {                
+            if ($this->Travel->save($this->request->data)) {
                 $this->setSuccessMessage('Este viaje ha sido creado exitosamente.');
                 
                 $id = $this->Travel->getLastInsertID();

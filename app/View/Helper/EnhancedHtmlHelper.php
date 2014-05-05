@@ -24,6 +24,10 @@ class EnhancedHtmlHelper extends HtmlHelper {
         'bootstrap-select2'=>array(
             'debug'=>array('bootstrap3-editable-1.5.1/select2/select2', 'bootstrap3-editable-1.5.1/select2/select2-bootstrap', 'bootstrap-editable'),
             'release'=>array('bootstrap3-editable-1.5.1/select2/select2', 'bootstrap3-editable-1.5.1/select2/select2-bootstrap', 'bootstrap-editable')
+        ),
+        'default-bundle'=>array(
+            'debug'=>array('bootstrap', 'common/font-awesome.min', 'default'),
+            'release'=>array('bootstrap', 'common/font-awesome.min', 'default'/*'default-bundle'*/)
         )
     );
     
@@ -51,6 +55,10 @@ class EnhancedHtmlHelper extends HtmlHelper {
         'bootstrap-select2'=>array(
             'debug'=>array('bootstrap', 'bootstrap3-editable-1.5.1/inputs-ext/select2/select2', 'bootstrap-editable'),
             'release'=>array('bootstrap', 'bootstrap3-editable-1.5.1/inputs-ext/select2/select2', 'bootstrap-editable')
+        ),
+        'default-bundle'=>array(
+            'debug'=>array('jquery', 'bootstrap'),
+            'release'=>array('jquery', 'bootstrap'/*'default-bundle'*/)
         )
     );    
     

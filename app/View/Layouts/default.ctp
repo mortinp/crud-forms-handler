@@ -31,28 +31,30 @@ if($isLoggedIn) {
         $this->Html->meta('icon');
         
         // CSS
-        //$this->Html->css('prettify', array('inline' => false));
+        /*//$this->Html->css('prettify', array('inline' => false));
         $this->Html->css('bootstrap', array('inline' => false));        
-        //$this->Html->css('jquery-ui', array('inline' => false));
         $this->Html->css('common/font-awesome.min', array('inline' => false));
-        //$this->Html->script('default', array('inline' => false));
-        $this->Html->css('default', array('inline' => false));
+        $this->Html->css('default', array('inline' => false));*/
         
+        $this->Html->css('default-bundle', array('inline' => false));        
         
         //JS
-        //if($this->here !== '/yotellevo/' && $this->here !== '/yotellevo/pages/home') {
-            $this->Html->script('jquery', array('inline' => false));
-            $this->Html->script('bootstrap', array('inline' => false));
-            
-        //}
-        //$this->Html->script('prettify', array('inline' => false));
-        //$this->Html->script('jquery-ui', array('inline' => false));
+        /*$this->Html->script('jquery', array('inline' => false));
+        $this->Html->script('bootstrap', array('inline' => false));*/
+        
+        $this->Html->script('default-bundle', array('inline' => false));
         
 
         echo $this->fetch('meta');
         echo $this->fetch('css');
         echo $this->fetch('script');
         ?>
+        
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('.info').tooltip({placement:'bottom', html:true});
+            })
+        </script>
     </head>
     <body>
         <div id="container">

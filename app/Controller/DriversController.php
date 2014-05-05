@@ -4,13 +4,18 @@ App::uses('AppController', 'Controller');
 App::uses('CakeEmail', 'Network/Email');
 
 class DriversController extends AppController {
+    
+    public function index() {
+        $this->Driver->recursive = 0;
+        $this->set('drivers', $this->paginate());
+    }
 
     public function add() {
         if ($this->request->is('post')) {
             $this->Driver->create();
             
             $this->request->data['Driver']['role'] = 'driver';
-            $this->request->data['Driver']['active'] = false;
+            //$this->request->data['Driver']['active'] = false;
             if ($this->Driver->save($this->request->data)) {
                 $this->Session->setFlash(__('El chofer se guardó exitosamente.'));
                 return $this->redirect(array('controller'=>'travels','action' => 'index'));

@@ -1,1 +1,1 @@
-<div class='alert alert-info alert-dismissable'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button><?php echo $message?></div>
+<div class='alert alert-info alert-dismissable' style="text-align: center"><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button><?php echo $message?></div>

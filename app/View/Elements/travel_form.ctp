@@ -55,10 +55,7 @@ $form_disabled = !User::canCreateTravel()/*AuthComponent::user('travel_count') >
             // Viajes que son desde una localidad, hacia otro lugar
             $travel_out =
                 $this->Form->input('locality_id', array('type' => 'select', 'options' => $localities, 'showParents' => true,
-                'label' => __('Origen del viaje') /*.  
-                '<small><a class="popover-info" href="#!" data-container="body" data-toggle="popover" data-placement="bottom" 
-                    data-content="Para que un origen de viaje aparezca en esta lista, <b>debe haber choferes registrados para ese origen</b>, de tal forma que los viajeros puedan ser atendidos. Los orígenes de viaje se adicionan en cuanto se registra el primer chofer para ese origen.">&ndash; ¿Por qué mi <em>origen de viaje</em> no aparece aquí?</a>
-                </small>'*/)).
+                'label' => __('Origen del viaje'))).
                 $this->Form->input('where', array('type' => 'text', 'label' => __('Destino'), 'placeholder' => 'Nombre de tu destino (puede ser cualquier lugar)')).
                 $this->Form->input('direction', array('type'=>'hidden', 'value'=>'0'));
             
@@ -66,10 +63,7 @@ $form_disabled = !User::canCreateTravel()/*AuthComponent::user('travel_count') >
             $travel_in =                
                 $this->Form->input('where', array('type' => 'text', 'label' => __('Origen del viaje'), 'placeholder' => 'Nombre de tu origen de viaje (puede ser cualquier lugar)')).
                     $this->Form->input('locality_id', array('type' => 'select', 'options' => $localities, 'showParents' => true,
-                'label' => __('Destino') /*. 
-                ' <small><a class="popover-info" href="#!" data-container="body" data-toggle="popover" data-placement="bottom" 
-                    data-content="Para que un destino aparezca en esta lista, <b>debe haber choferes registrados para ese destino</b>, de tal forma que los viajeros puedan ser atendidos. Los destinos de viaje se adicionan en cuanto se registra el primer chofer para ese destino.">&ndash; ¿Por qué mi <em>destino</em> no aparece aquí?</a>
-                </small>'*/)).
+                'label' => __('Destino'))).
                 $this->Form->input('direction', array('type'=>'hidden', 'value'=>'1'));
             
             ?>
@@ -85,9 +79,6 @@ $form_disabled = !User::canCreateTravel()/*AuthComponent::user('travel_count') >
                 ?>
             </div>
             
-            <!--Escoge el origen y escribe el destino <div style="display:inline"><a href="#!">&ndash; Prefiero <b>escribir el origen</b> y <b>escoger el destino</b></a></div>
-            <br/>
-            <br/>-->
             <?php
             /*echo $this->Form->input('locality_id', array('type' => 'select', 'options' => $localities, 'showParents' => true,
                 'label' => __('Origen del viaje') . ' 
@@ -152,11 +143,11 @@ if($intent == 'add' && !$form_disabled) {
             travelOn = travelOff;
             travelOff = temp;
             $('.travel-switch').click(switcher);
-            $('.popover-info').popover({html:true});
+            //$('.popover-info').popover({html:true});
         };
         $('.travel-switch').click(switcher);
         <?php endif?>
-        $('.popover-info').popover({html:true});
+        //$('.popover-info').popover({html:true});
         
         $('.datepicker').datepicker({
             format: "dd/mm/yyyy",

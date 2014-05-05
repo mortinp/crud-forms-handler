@@ -18,10 +18,10 @@ class Driver extends AppModel {
                 'message' => 'La contraseña es obligatoria'
             )
         ),
-        'contact_name' => array(
+        'description' => array(
             'required' => array(
                 'rule' => array('notEmpty'),
-                'message' => 'El nombre de contacto obligatorio'
+                'message' => 'La descripción es obligatoria.'
             )
         ),
         'max_people_count' => array(

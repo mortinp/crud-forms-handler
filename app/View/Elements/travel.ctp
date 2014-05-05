@@ -60,7 +60,7 @@ foreach (Travel::$preferences as $key => $value) {
         <span id='travel-locality-label'><?php echo $travel['Locality']['name']?></span>
         <?php endif?>
     </big> 
-    <small class="text-muted"><span id='travel-prettypeoplecount-label'><?php echo $pretty_people_count?></span></small>
+    <div style="display:inline-block"><small class="text-muted"><span id='travel-prettypeoplecount-label'><?php echo $pretty_people_count?></span></small></div>
     
     <!--<span><small style="color:<?php echo $notice['color']?>">(<?php echo $notice['label']?>)</small></span>-->
 </legend>

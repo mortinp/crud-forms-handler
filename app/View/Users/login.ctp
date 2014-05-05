@@ -21,7 +21,7 @@
         </fieldset>
         <?php echo $this->Form->end(); ?>
         <br/>
-        <?php echo $this->Html->link('¿Olvidaste tu contraseña?', array('controller'=>'users', 'action'=>'recover_password'))?>
+        <?php echo $this->Html->link('¿Olvidaste tu contraseña?', array('controller'=>'users', 'action'=>'forgot_password'))?>
     </div>
 </div>
 </div>

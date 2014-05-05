@@ -11,11 +11,12 @@ class UsersController extends AppController {
         parent::beforeFilter();
         
         $this->Auth->allow('confirm_email');
+        $this->Auth->allow('change_password');
         
         if($this->Auth->loggedIn()) {
             $this->Auth->allow('logout', 'send_confirm_email');
         }
-        else $this->Auth->allow('login', 'register', 'register_welcome', /*'authorize',*/ 'recover_password');
+        else $this->Auth->allow('login', 'register', 'register_welcome', /*'authorize',*/ 'forgot_password', 'send_change_password');
     }
 
     public function isAuthorized($user) {
@@ -116,46 +117,6 @@ class UsersController extends AppController {
         $this->setErrorMessage("Ocurrió un error activando su cuenta, o el link usado ha expirado (tal vez ya usaste este link)");
     }*/
     
-    public function recover_password() {
-        if ($this->request->is('post')) {
-            
-            $user = $this->User->find('first', array('conditions'=>array('username'=>$this->request->data['User']['username'])));
-            
-            // TODO: Verificar existencia de usuario
-            if($user == null || empty ($user)) {
-                $this->setErrorMessage('Este correo no pertenece a ningún usuario.');
-                return;
-            }
-            
-            
-            $newPass = $this->getWeirdString();//substr(str_shuffle("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 1).substr(md5(time()),1);
-            $this->request->data['User']['id'] = $user['User']['id']; // Poner id para que el save() lo que haga sea modificar
-            $this->request->data['User']['password'] = $newPass;
-            
-            $datasource = $this->User->getDataSource();
-            $datasource->begin();
-            
-            if ($this->User->save($this->request->data['User'])) {               
-                // Send email and redirect to a welcome page
-                $Email = new CakeEmail('yotellevo');
-                $Email->template('recover_password')
-                ->viewVars(array('newPass' => $newPass))
-                ->emailFormat('html')
-                ->to($this->request->data['User']['username'])
-                ->subject('Tu Nueva Contraseña');
-                try {
-                    $Email->send();
-                } catch ( Exception $e ) {
-                    $datasource->rollback();
-                    $this->setErrorMessage('Ocurrió un error recuperando su contraseña. Intente de nuevo.');
-                    return;
-                }
-                $datasource->commit();
-                return $this->render('password_changed');
-                //return $this->authorize($activation_id);
-            }
-        }
-    }
     
     public function profile() {
         if ($this->request->is('post')|| $this->request->is('put')) {
@@ -173,122 +134,7 @@ class UsersController extends AppController {
         } else {
             $this->request->data['User'] = $this->Auth->user();
         }
-    }
-    
-    public function send_confirm_email() {
-        $interaction = $this->UserInteraction->find('first', array('conditions'=>array(
-            'user_id'=>AuthComponent::user('id'),
-            'interaction_due'=>'confirm email',
-            'expired'=>false)));
-        
-        $datasource = $this->User->getDataSource();
-        $datasource->begin();
-        
-        $OK = true;
-        if($interaction != null) {
-            $code = $interaction['UserInteraction']['interaction_code'];
-        } else {
-            $code = $this->getWeirdString();
-            
-            $interaction = array('UserInteraction');
-            $interaction['UserInteraction']['user_id'] = AuthComponent::user('id');
-            $interaction['UserInteraction']['interaction_due'] = 'confirm email';
-            $interaction['UserInteraction']['expired'] = false;
-            $interaction['UserInteraction']['interaction_code'] = $code;
-            
-            if(!$this->UserInteraction->save($interaction)) $OK = false;
-        }
-        
-        if($OK) {
-            // Send email and redirect to a welcome page
-            $Email = new CakeEmail('yotellevo');
-            $Email->template('email_confirmation')
-            ->viewVars(array('confirmation_code' => $code))
-            ->emailFormat('html')
-            ->to(AuthComponent::user('username'))
-            ->subject('Verificación de cuenta');
-            try {
-                $Email->send();
-            } catch ( Exception $e ) {
-                $OK = false;
-            }
-        }        
-        
-        if($OK) {
-            $datasource->commit();
-            //$this->setInfoMessage('Se envió un correo a tu cuenta con un enlace para verificarla. Revisa tu correo y sigue las instrucciones.');
-        }else {
-            $datasource->rollback();
-            $this->setErrorMessage('Ocurrió un error enviando las instrucciones a tu correo. Intenta de nuevo.');
-            $this->redirect($this->referer());
-        }
-    }
-    
-    public function confirm_email($confirmation_code) {
-        $interaction = $this->UserInteraction->find('first', array('conditions'=>array(
-            'interaction_due'=>'confirm email',
-            'expired'=>false,
-            'interaction_code'=>$confirmation_code)));
-        
-        $datasource = $this->User->getDataSource();
-        $datasource->begin();
-        
-        $OK = true;
-        if($interaction != null) {
-            $interaction['UserInteraction']['expired'] = true;
-            if(!$this->UserInteraction->save($interaction)) $OK = false;
-            
-            if($OK) {
-                $user = $this->User->findById($interaction['UserInteraction']['user_id']);
-                if($user != null) {
-                    $user['User']['email_confirmed'] = true;
-                    $this->User->id = $interaction['UserInteraction']['user_id'];
-                    if($this->User->saveField('email_confirmed', '1')) {
-                        if($this->Auth->loggedIn()) {
-                            $this->Auth->logout();
-                            if ($this->Auth->login($user['User'])) {
-                                $this->_setCookie($this->Auth->user('id'));
-                            } else {
-                                $OK = false;
-                            }
-                        } else {
-                            //
-                        }   
-                        
-                    } else {
-                        $OK = false;
-                    }
-                }
-            }
-        } else {            
-            $OK = false;
-        }
-        
-        if($OK) {
-            $datasource->commit();
-            
-            /*if($this->Auth->loggedIn()) {
-                $this->setInfoMessage('Tu cuenta fue verificada exitosamente.');
-                if(AuthComponent::user('role') === 'admin') return $this->redirect(array('action'=>'index'));
-                return $this->redirect(array('controller'=>'travels', 'action'=>'index'));
-            } else {
-                $this->setInfoMessage('Tu cuenta fue verificada. Entra a <em>YoTeLlevo</em> para crear anuncios de viajes.');
-                return $this->redirect(array('controller'=>'users', 'action'=>'login'));
-            } */
-            $this->set('user', $user);
-            $this->set('isLoggedIn', $this->Auth->loggedIn());
-        } else {
-            $datasource->rollback();
-            $this->setErrorMessage('Ocurrió un error verificando tu cuenta de correo electrónico. Puede ser que el enlace esté caducado o usado, o que la dirección que estás usando es incorrecta.');
-            
-            if($this->Auth->loggedIn()) {
-                return $this->redirect(array('controller'=>'travels', 'action'=>'index'));
-            } else {
-                return $this->redirect(array('controller'=>'pages', 'action'=>'home'));
-            }
-        }
-    }
-    
+    }    
     
     public function index() {
         $this->User->recursive = 0;
@@ -368,6 +214,256 @@ class UsersController extends AppController {
         );
         $this->Cookie->write('User', $data, true, '+2 week');
         return true;
+    }
+    
+    
+    
+    
+    
+    
+    /**
+     * INTERACTIONS
+     */
+    
+    public function send_confirm_email() {
+        $interaction = $this->UserInteraction->find('first', array('conditions'=>array(
+            'user_id'=>AuthComponent::user('id'),
+            'interaction_due'=>'confirm email',
+            'expired'=>false)));
+        
+        $datasource = $this->User->getDataSource();
+        $datasource->begin();
+        
+        $OK = true;
+        if($interaction != null) {
+            $code = $interaction['UserInteraction']['interaction_code'];
+        } else {
+            $code = $this->getWeirdString();
+            
+            $interaction = array('UserInteraction');
+            $interaction['UserInteraction']['user_id'] = AuthComponent::user('id');
+            $interaction['UserInteraction']['interaction_due'] = 'confirm email';
+            $interaction['UserInteraction']['expired'] = false;
+            $interaction['UserInteraction']['interaction_code'] = $code;
+            
+            if(!$this->UserInteraction->save($interaction)) $OK = false;
+        }
+        
+        if($OK) {
+            // Send email and redirect to a welcome page
+            $Email = new CakeEmail('yotellevo');
+            $Email->template('email_confirmation')
+            ->viewVars(array('confirmation_code' => $code))
+            ->emailFormat('html')
+            ->to(AuthComponent::user('username'))
+            ->subject('Verificación de cuenta');
+            try {
+                $Email->send();
+            } catch ( Exception $e ) {
+                $OK = false;
+            }
+        }        
+        
+        if($OK) {
+            $datasource->commit();
+            //$this->setInfoMessage('Se envió un correo a tu cuenta con un enlace para verificarla. Revisa tu correo y sigue las instrucciones.');
+        }else {
+            $datasource->rollback();
+            $this->setErrorMessage('Ocurrió un error enviando las instrucciones a tu correo. Intenta de nuevo.');
+            $this->redirect($this->referer());
+        }
+    }
+    
+    public function confirm_email($code) {
+        $interaction = $this->UserInteraction->find('first', array('conditions'=>array(
+            'interaction_due'=>'confirm email',
+            'expired'=>false,
+            'interaction_code'=>$code)));
+        
+        $datasource = $this->User->getDataSource();
+        $datasource->begin();
+        
+        $OK = true;
+        if($interaction != null) {
+            $interaction['UserInteraction']['expired'] = true;
+            if(!$this->UserInteraction->save($interaction)) $OK = false;
+            
+            if($OK) {
+                $user = $this->User->findById($interaction['UserInteraction']['user_id']);
+                if($user != null) {
+                    $user['User']['email_confirmed'] = true;
+                    $this->User->id = $interaction['UserInteraction']['user_id'];
+                    if($this->User->saveField('email_confirmed', '1')) {
+                        if($this->Auth->loggedIn()) {
+                            $this->Auth->logout();
+                            if ($this->Auth->login($user['User'])) {
+                                $this->_setCookie($this->Auth->user('id'));
+                            } else {
+                                $OK = false;
+                            }
+                        } else {
+                            //
+                        }   
+                        
+                    } else {
+                        $OK = false;
+                    }
+                }
+            }
+        } else {            
+            $OK = false;
+        }
+        
+        if($OK) {
+            $datasource->commit();
+            $this->set('user', $user);
+            $this->set('isLoggedIn', $this->Auth->loggedIn());
+        } else {
+            $datasource->rollback();
+            $this->setErrorMessage('Ocurrió un error verificando tu cuenta de correo electrónico. Puede ser que el enlace esté caducado o usado, o que la dirección que estás usando es incorrecta.');
+            
+            if($this->Auth->loggedIn()) {
+                return $this->redirect(array('controller'=>'travels', 'action'=>'index'));
+            } else {
+                return $this->redirect(array('controller'=>'pages', 'action'=>'home'));
+            }
+        }
+    }
+    
+    
+    public function forgot_password() {
+        /*if ($this->request->is('post')) {
+            
+            $user = $this->User->find('first', array('conditions'=>array('username'=>$this->request->data['User']['username'])));
+            
+            // Verificar existencia de usuario
+            if($user == null || empty ($user)) {
+                $this->setErrorMessage('Este correo no pertenece a ningún usuario.');
+                return;
+            }
+            
+            
+            $newPass = $this->getWeirdString();//substr(str_shuffle("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 1).substr(md5(time()),1);
+            $this->request->data['User']['id'] = $user['User']['id']; // Poner id para que el save() lo que haga sea modificar
+            $this->request->data['User']['password'] = $newPass;
+            
+            $datasource = $this->User->getDataSource();
+            $datasource->begin();
+            
+            if ($this->User->save($this->request->data['User'])) {               
+                // Send email and redirect to a welcome page
+                $Email = new CakeEmail('yotellevo');
+                $Email->template('recover_password')
+                ->viewVars(array('newPass' => $newPass))
+                ->emailFormat('html')
+                ->to($this->request->data['User']['username'])
+                ->subject('Tu Nueva Contraseña');
+                try {
+                    $Email->send();
+                } catch ( Exception $e ) {
+                    $datasource->rollback();
+                    $this->setErrorMessage('Ocurrió un error recuperando su contraseña. Intente de nuevo.');
+                    return;
+                }
+                $datasource->commit();
+                return $this->render('password_changed');
+                //return $this->authorize($activation_id);
+            }
+        }*/
+    }
+    
+    public function send_change_password() {
+        if ($this->request->is('post')) {
+            
+            $user = $this->User->find('first', array('conditions'=>array('username'=>$this->request->data['User']['username'])));
+            
+            // Verificar existencia de usuario
+            if($user == null || empty ($user)) {
+                $this->setErrorMessage('Este correo no pertenece a ningún usuario.');
+                return $this->redirect(array('action'=>'forgot_password'));
+            }
+            
+            $interaction = $this->UserInteraction->find('first', array('conditions'=>array(
+                'user_id'=>$user['User']['id'],
+                'interaction_due'=>'change password',
+                'expired'=>false)));
+
+            $datasource = $this->User->getDataSource();
+            $datasource->begin();
+
+            $OK = true;
+            if($interaction != null) {
+                $code = $interaction['UserInteraction']['interaction_code'];
+            } else {
+                $code = $this->getWeirdString();
+
+                $interaction = array('UserInteraction');
+                $interaction['UserInteraction']['user_id'] = $user['User']['id'];
+                $interaction['UserInteraction']['interaction_due'] = 'change password';
+                $interaction['UserInteraction']['expired'] = false;
+                $interaction['UserInteraction']['interaction_code'] = $code;
+
+                if(!$this->UserInteraction->save($interaction)) $OK = false;
+            }
+
+            if($OK) {
+                // Send email and redirect to a welcome page
+                $Email = new CakeEmail('yotellevo');
+                $Email->template('change_password')
+                ->viewVars(array('confirmation_code' => $code))
+                ->emailFormat('html')
+                ->to($user['User']['username'])
+                ->subject('Cambio de contraseña');
+                try {
+                    $Email->send();
+                } catch ( Exception $e ) {
+                    $OK = false;
+                }
+            }        
+
+            if($OK) {
+                $datasource->commit();
+                $this->set('user', $user);
+            }else {
+                $datasource->rollback();
+                $this->setErrorMessage('Ocurrió un error enviando las instrucciones a tu correo. Intenta de nuevo.');
+                $this->redirect($this->referer());
+            }
+        }
+        
+        
+    }
+    
+    public function change_password($confirmation_code) {
+        $interaction = $this->UserInteraction->find('first', array('conditions'=>array(
+            'interaction_due'=>'change password',
+            'expired'=>false,
+            'interaction_code'=>$confirmation_code)));
+        
+        if ($this->request->is('post')|| $this->request->is('put')) {
+            $user = $this->request->data;
+            
+            if($this->User->save($user)) {
+                if($this->Auth->loggedIn()) {
+                    $this->Auth->logout();
+                    if ($this->Auth->login($user['User'])) {
+                        $this->_setCookie($this->Auth->user('id'));
+                        return $this->redirect($this->Auth->redirect());
+                    }
+                    
+                } 
+                $this->setInfoMessage('Tu contrseña ha sido cambiada. Entra a <em>YoTeLlevo</em> usando la nueva contraseña.');
+                return $this->redirect(array('action'=>'login'));
+            } else {
+                $this->setErrorMessage('Ocurrió un problema guardando la información. Intenta de nuevo.');
+            }
+        } else {
+            $user = $this->User->findById($interaction['UserInteraction']['user_id']);            
+            unset ($user['User']['password']);
+            $this->request->data['User'] = $user['User'];
+            
+            $this->set('code', $confirmation_code);
+        }
     }
 }
 

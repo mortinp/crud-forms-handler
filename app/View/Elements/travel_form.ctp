@@ -172,7 +172,7 @@ if($intent == 'add' && !$form_disabled) {
                 //$('#TravelFormDiv').prop('disabled', true);
                 
                 $('#TravelSubmit').attr('disabled', true);
-                $('#TravelSubmit').val('Espere ...');
+                $('#TravelSubmit').val('Espera ...');
             })
         <?php endif?>
     })

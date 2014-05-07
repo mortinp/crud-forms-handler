@@ -68,7 +68,25 @@ class BootstrapFormHelper extends FormHelper {
             'class'=>'form-control'
         );
         $options = array_merge_recursive($defaultOptions, $options);
-        return parent::input($caption, $options);
+        $result = parent::input($caption, $options);
+        
+        // Hacer cosas específicas para cada tipo de input
+        if(isset ($options['type']) && $options['type'] === 'select') {
+            
+            for ($index = 0; $index < count($options); $index++) {
+                if(!isset ($options[$index])) break;
+                
+                // Para selects multiples, hacer un hack para que los valores se pasen como un arreglo al servidor
+                // Source: http://stackoverflow.com/questions/12354848/cakephp-select-multiple-only-passing-first-value/12355224#12355224
+                if($options[$index] == 'multiple') {
+                    $result = str_replace('['.$caption.']', '['.$caption.'][]', $result);
+                    break;
+                }
+            }
+            
+        }
+        
+        return $result;
     }
     
     public function inputs($fields = null, $blacklist = null, $options = array()) {

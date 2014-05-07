@@ -5,6 +5,8 @@ App::uses('CakeEmail', 'Network/Email');
 
 class DriversController extends AppController {
     
+    public $uses = array('Driver', 'Locality', 'DriverLocality');
+    
     public function index() {
         $this->Driver->recursive = 0;
         $this->set('drivers', $this->paginate());
@@ -14,14 +16,35 @@ class DriversController extends AppController {
         if ($this->request->is('post')) {
             $this->Driver->create();
             
+            $datasource = $this->Driver->getDataSource();
+            $datasource->begin();
+            
+            $OK = true;
             $this->request->data['Driver']['role'] = 'driver';
-            //$this->request->data['Driver']['active'] = false;
             if ($this->Driver->save($this->request->data)) {
-                $this->Session->setFlash(__('El chofer se guardó exitosamente.'));
-                return $this->redirect(array('controller'=>'travels','action' => 'index'));
+                
+                $driverId = $this->Driver->getLastInsertID();
+                
+                $localities = $this->request->data['Driver']['localities'];
+                $bindings = array();
+                foreach ($localities as $l) {
+                    $bindings[] = array('DriverLocality' => array('driver_id'=>$driverId, 'locality_id'=>$l));                    
+                }
+                if(!$this->DriverLocality->saveAll($bindings)) {
+                    $OK = false; break;
+                }
+                
+                if($OK) {
+                    $datasource->commit();
+                    $this->setInfoMessage(__('El chofer se guardó exitosamente.'));
+                    return $this->redirect(array('action' => 'index'));
+                }
+                
             }
-            $this->Session->setFlash(__('Ocurrió un error guardando el chofer.'));
+            $datasource->rollback();
+            $this->setErrorMessage(__('Ocurrió un error guardando el chofer.'));
         }
+        $this->set('localities', $this->Locality->getAsList());
     }
 
     public function edit($id = null) {

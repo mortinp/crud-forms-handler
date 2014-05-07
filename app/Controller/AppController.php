@@ -33,6 +33,34 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller {
     
+    private $pageTitles = array(
+        'pages.display' =>array(
+            'contact'=>'Contactar', 
+            'use_terms'=>'Términos de Uso', 
+            'tour'=>'¿Cómo usarlo?',
+            'faq'=>'Preguntas Frecuentes'),
+        
+        'users.index' =>'Usuarios',
+        'users.add' =>'Crear Nuevo Usuario',
+        
+        'users.login' =>'Entrar',
+        'users.register' =>'Registrarse',
+        'users.profile' =>'Preferencias',
+        
+        'users.change_password' =>'Cambiar Contraseña',
+        'users.confirm_email' =>'Confirmación de Correo',
+        'users.forgot_password' =>'Contraseña Olvidada',
+        'users.send_change_password' =>'Instrucciones para Cambio de Contraseña',
+        'users.send_confirm_email' =>'Instrucciones para Verificación de Correo',
+        
+        'drivers.index' =>'Choferes',
+        'drivers.add' =>'Crear Nuevo Chofer',
+        
+        'travels.index' =>'Anuncios de Viajes',
+        'travels.add' =>'Crear Anuncio de Viaje',
+        'travels.view' =>'Ver Anuncio de Viaje'
+    );
+    
     public $helpers = array(
         'Html' => array(
             'className' => 'EnhancedHtml'
@@ -68,7 +96,23 @@ class AppController extends Controller {
         );        
         
         // Allow all static pages
-        $this->Auth->allow('display');        
+        $this->Auth->allow('display');      
+        
+        $this->setPageTitle();
+    }
+    
+    private function setPageTitle() {
+        $page_title = 'Encuentra un chofer con carro que te lleve a cualquier lado';
+        $key = $this->request->params['controller'].'.'.$this->request->params['action'];
+        
+        if(isset ($this->pageTitles[$key])) {
+            if($this->request->params['controller'] === 'pages') {
+                if(isset($this->pageTitles[$key][$this->request->params['pass'][0]]))
+                    $page_title = $this->pageTitles[$key][$this->request->params['pass'][0]];
+            } else $page_title = $this->pageTitles[$key];
+            
+        }
+        $this->set('page_title', $page_title);
     }
 
     public function isAuthorized($user) {

@@ -24,7 +24,7 @@ if($isLoggedIn) {
     <head>        
         <?php echo $this->Html->charset(); ?>
         <title>
-            <?php echo "YoTeLlevo | Encuentra un chofer con carro que te lleve a cualquier lado" ?>
+            <?php echo "YoTeLlevo | ".$page_title ?>
         </title>
         <?php
         // META

@@ -64,7 +64,7 @@ class TravelsController extends AppController {
             $this->request->data['Travel']['user_id'] = $this->Auth->user('id');
             $this->request->data['Travel']['state'] = Travel::$STATE_DEFAULT;
             if ($this->Travel->save($this->request->data)) {
-                $this->setSuccessMessage('Este viaje ha sido creado exitosamente.');
+                //$this->setSuccessMessage('Este viaje ha sido creado exitosamente.');
                 
                 $id = $this->Travel->getLastInsertID();
                 return $this->redirect(array('action' => 'view/' . $id));

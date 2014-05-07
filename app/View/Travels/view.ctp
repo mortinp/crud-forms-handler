@@ -16,7 +16,7 @@ if($isConfirmed) {
                 
                 <div style="padding-top: 10px">
                     <big><big>
-                        <?php echo $this->Html->link('<i class="glyphicon glyphicon-envelope"></i> Confirmar viaje ahora', 
+                        <?php echo $this->Html->link('<i class="glyphicon glyphicon-envelope"></i> Confirmar este viaje ahora', 
                         array('controller'=>'travels', 'action'=>'confirm/'.$travel['Travel']['id']), 
                         array('escape'=>false, 'class'=>'alert-link', 'title'=>'Confirmar y Enviar este viaje a los choferes'))?>
                     </big></big>

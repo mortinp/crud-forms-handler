@@ -22,8 +22,8 @@ class IncomingMailShell extends AppShell {
         
         $shortest = -1;
         $closest = array();
-        foreach ($localities as $province => $municipalities) {
-            $perfectMatch = false;
+        $perfectMatch = false;
+        foreach ($localities as $province => $municipalities) {            
             foreach ($municipalities as $munId=>$munName) {
                 
                 $levOrigin = levenshtein(strtoupper($munName), strtoupper($origin));
@@ -31,8 +31,6 @@ class IncomingMailShell extends AppShell {
                 
                 $percentOrigin = $levOrigin/strlen($munName);
                 $percentDestination = $levDestination/strlen($munName);
-                /*$this->out($munName.' vs '.$origin.': '.$percentOrigin);
-                $this->out($munName.' vs '.$destination.': '.$percentDestination);*/
 
                 // Skip if over threshold
                 if($percentOrigin > IncomingMailShell::$MAX_MATCHING_THRESHOLD && 
@@ -49,12 +47,12 @@ class IncomingMailShell extends AppShell {
                     break;
                 }
                 
-                if ($levOrigin <= $shortest || $shortest < 0) {
+                if ($levOrigin < $shortest || $shortest < 0) {
                     // set the closest match, and shortest distance
                     $closest = array('id'=>$munId, 'name'=>$munName, 'direction'=>0);
                     $shortest = $levOrigin;
                 }
-                if ($levDestination <= $shortest || $shortest < 0) {
+                if ($levDestination < $shortest || $shortest < 0) {
                     // set the closest match, and shortest distance
                     $closest = array('id'=>$munId, 'name'=>$munName, 'direction'=>1);
                     $shortest = $levDestination;
@@ -63,6 +61,42 @@ class IncomingMailShell extends AppShell {
             
             if($perfectMatch) break;
         }
+        
+        /*if(!$perfectMatch) { // Si no hay match perfecto, ver si hay un mejor matcheo con las provincias
+            foreach ($localities as $province => $municipalities) { 
+                $levOrigin = levenshtein(strtoupper($province), strtoupper($origin));
+                $levDestination = levenshtein(strtoupper($province), strtoupper($destination));
+                
+                $percentOrigin = $levOrigin/strlen($province);
+                $percentDestination = $levDestination/strlen($province);
+
+                // Skip if over threshold
+                if($percentOrigin > IncomingMailShell::$MAX_MATCHING_THRESHOLD && 
+                   $percentDestination > IncomingMailShell::$MAX_MATCHING_THRESHOLD) continue;
+                
+                // Check for an exact match
+                if ($levOrigin == 0 || $levDestination == 0) {
+                    $direction = $levOrigin == 0? 0 : 1;
+                    
+                    // Closest locality (exact match)
+                    $closest = array('municipalities'=>$municipalities, 'name'=>$province, 'direction'=>$direction);
+                    $shortest = 0;
+                    $perfectMatch = true;
+                    break;
+                }
+                
+                if ($levOrigin < $shortest || $shortest < 0) {
+                    // set the closest match, and shortest distance
+                    $closest = array('municipalities'=>$municipalities, 'name'=>$province, 'direction'=>0);
+                    $shortest = $levOrigin;
+                }
+                if ($levDestination < $shortest || $shortest < 0) {
+                    // set the closest match, and shortest distance
+                    $closest = array('municipalities'=>$municipalities, 'name'=>$province, 'direction'=>1);
+                    $shortest = $levDestination;
+                } 
+            }
+        }*/
         
         $datasource = $this->TravelByEmail->getDataSource();
         $datasource->begin();
@@ -88,15 +122,24 @@ class IncomingMailShell extends AppShell {
         }
         
         if($OK && !empty ($closest)) {
-            //$this->out(print_r($closest, true));
+            $this->out(print_r($closest, true));
             
-            $drivers = $this->DriverLocality->find('all', array('conditions'=>
-                array(
-                    'DriverLocality.locality_id'=>$closest['id'],
-                    'Driver.active'=>true
-                    )
-                ));
+            if(isset ($closest['id'])) {
+                $drivers = $this->DriverLocality->find('all', array('conditions'=>
+                    array(
+                        'DriverLocality.locality_id'=>$closest['id'],
+                        'Driver.active'=>true
+                        )
+                    ));                
+            } else {
+                // TODO: Buscar en todos los municipios de la provincia
+                foreach ($closest['municipalities'] as $id => $name) {
+                    
+                }
+                $OK = false;
+            }
             //$this->out(print_r($drivers, true));
+            
             
             if($OK) {
                 if(count($drivers) > 0) {
@@ -165,6 +208,7 @@ class IncomingMailShell extends AppShell {
         if($OK) {
             $datasource->commit();
         } else {
+            $this->out('Ocurrió un error');
             $datasource->rollback();
         }
     }

@@ -13,4 +13,4 @@
 </legend>
 
 
-<p><b>Descripción:</b> <?php echo $travel['TravelByEmail']['description']?></p>
+<p><b>Detalles del viaje:</b> <?php echo $travel['TravelByEmail']['description']?></p>

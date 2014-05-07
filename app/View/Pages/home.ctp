@@ -55,13 +55,14 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
             <h1><small class="text-info">Deja de buscar choferes con carro por ahí. Anúnciate en <em>YoTeLlevo</em> y espera a que un chofer te contacte para llevarte.</small></h1>
         </div>
         <div class="col-md-6" style="margin-top:15px">
-            <h3>Comienza registrándote en <em>YoTeLlevo</em> <p><small>Luego podrás hacer anuncios de viajes y encontrar un chofer que te lleve</small></p></h3>
+            <h3>Comienza registrándote en <em>YoTeLlevo</em> <p><small>Enseguida podrás hacer anuncios de viajes y encontrar un chofer que te lleve</small></p></h3>
             <br/>
             <?php echo $this->element('register_form')?>
             
             </br>
             <p>¿Ya estás registrado en <em>YoTeLlevo</em>? <big><?php echo $this->Html->link(__('Entra ahora'), array('controller' => 'users', 'action' => 'login')) ?></big></p>
-            <p>¿Quieres aprender antes? <big><?php echo $this->Html->link(__('Mira cómo usarlo'), array('controller' => 'pages', 'action' => 'tour')) ?></big></p>
+            <p>¿Quieres saber más? Las <big><?php echo $this->Html->link('Preguntas y Respuestas', array('action'=>'faq'))?></big> pudieran ayudarte. O puedes <big><?php echo $this->Html->link(__('Aprender cómo usarlo'), array('action' => 'tour')) ?></big></p>
+            
             <div class="text-muted" style="padding: 40px;">
                 <big>
                     <div style="position: absolute;margin-left: -10px"><big><b>"</b></big></div> 

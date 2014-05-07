@@ -10,7 +10,8 @@
             
             <h3>¿Qué tipos de viajes se pueden hacer con los choferes de <em>YoTeLlevo</em>?</h3>
             <p>Cualquier tipo de viaje!!! Esa es la respuesta. Los choferes de <em>YoTeLlevo</em> pueden hacer viajes de corta, media y larga distancia;
-            te pueden esperar para el regreso; te pueden dejar y recogerte otro día; te pueden llevar a cualquier lugar que necesites.</p>
+            te pueden esperar para el regreso; te pueden dejar y recogerte otro día; te pueden llevar a cualquier lugar que necesites.
+            Los términos del viaje los determinan tú y el chofer. No hay límites!!!</p>
             
             <h3>¿Los carros de los choferes de <em>YoTeLlevo</em> están en buen estado?</h3>
             <p>Todos los carros de <em>YoTeLlevo</em> están en buen estado. Este es un requerimiento idispensable para ser chofer de <em>YoTeLlevo</em>.
@@ -40,10 +41,13 @@
             choferes en toda Cuba, y estamos listos para anunciar que casi abriremos bases de choferes en Ciego de Ávila, Camagüey y Holguín.    
             </b></p>
             
-            <h3>¿Los datos de contacto que yo escribo al crear un anuncio son públicos? ¿Los puede ver cualquuer persona?</h3>
-            <p>NO. <b>Todos los datos de tus viajes, incluyendo tus contactos, son privados</b>. Sólo los choferes que pueden atender tu viaje
+            <h3>¿Los datos de contacto que yo escribo al crear un anuncio son públicos? ¿Los puede ver cualquier persona?</h3>
+            <p>NO. <b>Todos los datos de tus viajes, incluyendo tus contactos, son <big>privados</big></b>. Sólo los choferes que pueden atender tu viaje
             pueden ver tus datos, pues son necesarios para contactarte. En resumen, <b>sólo tú y los choferes que te pueden llevar ven los datos de tus
             viajes</b>. Para todos los demás estos datos no existen.</p>
+            
+            <br/>
+            <p><b>¿Tienes otras preguntas que quieras hacernos? <big><?php echo $this->Html->link('Contáctanos', array('action'=>'contact'))?></big></b></p>
             
         </div>
     </div>

@@ -9,7 +9,7 @@
             ser un correo electrónico o una dirección particular, aunque estos últimos son menos convenientes.</p>
             
             <h3>¿Qué tipos de viajes se pueden hacer con los choferes de <em>YoTeLlevo</em>?</h3>
-            <p>Cualquier tipo de viaje! Esa es la respuesta. Los choferes de <em>YoTeLlevo</em> pueden hacer viajes de corta, media y larga distancia;
+            <p>Cualquier tipo de viaje!!! Esa es la respuesta. Los choferes de <em>YoTeLlevo</em> pueden hacer viajes de corta, media y larga distancia;
             te pueden esperar para el regreso; te pueden dejar y recogerte otro día; te pueden llevar a cualquier lugar que necesites.</p>
             
             <h3>¿Los carros de los choferes de <em>YoTeLlevo</em> están en buen estado?</h3>
@@ -33,7 +33,7 @@
             <h3>¿Puedo viajar por toda Cuba con un chofer de <em>YoTeLlevo</em>?</h3>
             <p>Actualmente sólo disponemos de choferes radicados en Granma y Santiago de Cuba. Estos choferes brindan posibilidad de viajes por toda Cuba,
             pero siempre y cuando el origen o destino del viaje sean esos territorios, o territorios cercanos. Por ejemplo, un chofer de Santiago de Cuba
-            puede llevarte a La Habana, o traerte hacia Guatánamo desde Pinar del Río; un chofer de Granma puede llevarte de Holguín a Varadero, 
+            puede llevarte a La Habana, o traerte hacia Guantánamo desde Pinar del Río; un chofer de Granma puede llevarte de Holguín a Varadero, 
             o traerte desde Villa Clara hasta Las Tunas. Pero un viaje de Villa Clara a La Habana probablemente ahora no se puede brindar.
             </p>
             <p class="text-info"><b>Pero espera!!! La idea de <em>YoTeLlevo</em> es abarcar todo el territorio cubano, y nos estamos expandiendo rápidamente. Pronto tendremos 
@@ -42,7 +42,7 @@
             
             <h3>¿Los datos de contacto que yo escribo al crear un anuncio son públicos? ¿Los puede ver cualquuer persona?</h3>
             <p>NO. <b>Todos los datos de tus viajes, incluyendo tus contactos, son privados</b>. Sólo los choferes que pueden atender tu viaje
-            pueden ver tus datos, pues son necesarios para contactarte. En resumen, <b>sólo tu y los choferes que te pueden llevar ven los datos de tus
+            pueden ver tus datos, pues son necesarios para contactarte. En resumen, <b>sólo tú y los choferes que te pueden llevar ven los datos de tus
             viajes</b>. Para todos los demás estos datos no existen.</p>
             
         </div>

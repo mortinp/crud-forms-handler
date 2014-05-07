@@ -63,6 +63,7 @@ class TravelsController extends AppController {
 
             $this->request->data['Travel']['user_id'] = $this->Auth->user('id');
             $this->request->data['Travel']['state'] = Travel::$STATE_DEFAULT;
+            $this->request->data['Travel']['created_from_ip'] = $this->request->clientIp();
             if ($this->Travel->save($this->request->data)) {
                 //$this->setSuccessMessage('Este viaje ha sido creado exitosamente.');
                 

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 04-05-2014 a las 00:37:25
+-- Tiempo de generación: 07-05-2014 a las 20:52:33
 -- Versión del servidor: 5.5.16
 -- Versión de PHP: 5.3.8
 
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `drivers` (
   `description` varchar(250) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
 
 --
 -- Volcado de datos para la tabla `drivers`
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `drivers` (
 INSERT INTO `drivers` (`id`, `username`, `password`, `max_people_count`, `active`, `has_modern_car`, `has_air_conditioner`, `description`) VALUES
 (7, 'eduartd@nauta.cu', 'b074e2f38af8d33d8026b4facf2a6bfc03e4f77f', 4, 0, 0, 0, 'Ernesto (Moskovich)'),
 (8, 'wary@dps.grm.sld.cu', 'f1ed9dc220787b7570dd4bf76f0b29205e55562a', 4, 0, 1, 1, 'Wary'),
-(9, 'rricardo@grm.desoft.cu', '2773b7ee46895cf2b2f38fcb80f1403c1f136ec0', 4, 0, 0, 0, 'Nello'),
+(9, 'rricardo@grm.desoft.cu', '2773b7ee46895cf2b2f38fcb80f1403c1f136ec0', 4, 0, 0, 0, 'Nello (Lada)'),
 (11, 'mproenza@grm.desoft.cu', '60dd56fce363a2e493ae60bfdc64a9dffb0b227b', 4, 1, 1, 1, 'Martín'),
 (12, 'yoelt@nauta.cu', 'afbffb5f53e46c239e221925ba7871773fd67c9f', 4, 0, 1, 1, 'Yoel Toledano (El pollo), Citroen C5 2008'),
 (13, 'cl8ff@frcuba.co.cu', '6c4279ec98f5799eacc782d98f86b739ab1b7b06', 4, 0, 0, 0, 'Paqui (Moskovich Aleco)'),
@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `driver_localities` (
   UNIQUE KEY `id` (`id`),
   KEY `driver_localities_driver_fk` (`driver_id`),
   KEY `driver_localities_locality_fk` (`locality_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=53 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=59 ;
 
 --
 -- Volcado de datos para la tabla `driver_localities`
@@ -145,6 +145,19 @@ CREATE TABLE IF NOT EXISTS `email_queue` (
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `email_queue`
+--
+
+INSERT INTO `email_queue` (`id`, `to`, `from_name`, `from_email`, `subject`, `config`, `template`, `layout`, `format`, `template_vars`, `sent`, `locked`, `send_tries`, `send_at`, `created`, `modified`) VALUES
+('5367d6b6-5180-4f42-8a6d-0f3c10d2655b', 'mproenza@grm.desoft.cu', '', '', 'Nuevo Anuncio de Viaje (#23)', 'yotellevo', 'new_travel', 'default', 'html', '{"travel":{"Travel":{"id":"23","locality_id":"5","where":"La Habana","direction":"0","date":"17-05-2014","people_count":"3","contact":"Llamar al 42-3095","user_id":"1","state":"C","drivers_sent_count":1,"need_modern_car":true,"need_air_conditioner":"1","created":"2014-05-05","modified":"2014-05-05"},"Locality":{"id":"5","name":"Santiago de Cuba"},"User":{"id":"1","username":"ttt@ttt.ttt","role":"regular"}},"admin":{"drivers":[{"DriverLocality":{"id":"52","driver_id":"11","locality_id":"5"},"Driver":{"id":"11","username":"mproenza@grm.desoft.cu","max_people_count":"4"}}],"notified_count":1},"creator_role":"regular"}', 1, 0, 0, '2014-05-05 18:21:42', '2014-05-05 14:21:42', '2014-05-05 14:21:55'),
+('5367d6b6-caf8-428a-af2a-0f3c10d2655b', 'mproenza@grm.desoft.cu', '', '', 'Nuevo Anuncio de Viaje (#23)', 'yotellevo', 'new_travel', 'default', 'html', '{"travel":{"Travel":{"id":"23","locality_id":"5","where":"La Habana","direction":"0","date":"17-05-2014","people_count":"3","contact":"Llamar al 42-3095","user_id":"1","state":"C","drivers_sent_count":1,"need_modern_car":true,"need_air_conditioner":"1","created":"2014-05-05","modified":"2014-05-05"},"Locality":{"id":"5","name":"Santiago de Cuba"},"User":{"id":"1","username":"ttt@ttt.ttt","role":"regular"}}}', 1, 0, 0, '2014-05-05 18:21:42', '2014-05-05 14:21:42', '2014-05-05 14:21:56'),
+('5367fce5-6870-47e0-b824-0f3c10d2655b', 'mproenza@grm.desoft.cu', '', '', 'Nuevo Anuncio de Viaje (#22)', 'yotellevo', 'new_travel', 'default', 'html', '{"travel":{"Travel":{"id":"22","locality_id":"5","where":"sdfsd fsdg sfdfs dff","direction":"0","date":"16-05-2014","people_count":"2","contact":"fsd fsdfsdf sdfsdf","user_id":"3","state":"C","drivers_sent_count":1,"need_modern_car":true,"need_air_conditioner":"1","created":"2014-05-05","modified":"2014-05-05"},"Locality":{"id":"5","name":"Santiago de Cuba"},"User":{"id":"3","username":"mproenza@grm.desoft.cu","role":"admin"}},"admin":{"drivers":[{"DriverLocality":{"id":"52","driver_id":"11","locality_id":"5"},"Driver":{"id":"11","username":"mproenza@grm.desoft.cu","max_people_count":"4"}}],"notified_count":0},"creator_role":"admin"}', 1, 0, 0, '2014-05-05 21:04:37', '2014-05-05 17:04:37', '2014-05-05 17:08:35'),
+('5367fdb6-ecb4-4749-a5a0-0f3c10d2655b', 'mproenza@grm.desoft.cu', '', '', 'Nuevo Anuncio de Viaje (#25)', 'yotellevo', 'new_travel', 'default', 'html', '{"travel":{"Travel":{"id":"25","locality_id":"5","where":"La Habana","direction":"0","date":"17-05-2014","people_count":"3","contact":"Llamar al tel. 42-3095","user_id":"11","state":"C","drivers_sent_count":1,"need_modern_car":true,"need_air_conditioner":"1","created":"2014-05-05","modified":"2014-05-05"},"Locality":{"id":"5","name":"Santiago de Cuba"},"User":{"id":"11","username":"nelson@ksabes.com","role":"tester"}},"admin":{"drivers":[{"DriverLocality":{"id":"52","driver_id":"11","locality_id":"5"},"Driver":{"id":"11","username":"mproenza@grm.desoft.cu","max_people_count":"4"}}],"notified_count":0},"creator_role":"tester"}', 1, 0, 0, '2014-05-05 21:08:06', '2014-05-05 17:08:06', '2014-05-05 17:08:35'),
+('536a3dd1-5348-4b81-abb3-0e3410d2655b', 'mproenza@grm.desoft.cu', '', '', 'Nuevo Anuncio de Viaje (#27)', 'yotellevo', 'new_travel', 'default', 'html', '{"travel":{"Travel":{"id":"27","locality_id":"1","where":"Varadero","direction":"0","date":"15-05-2014","people_count":"1","contact":"dsa asdasds","user_id":"3","state":"C","drivers_sent_count":1,"need_modern_car":true,"need_air_conditioner":"1","created":"2014-05-07","modified":"2014-05-07"},"Locality":{"id":"1","name":"Bayamo"},"User":{"id":"3","username":"mproenza@grm.desoft.cu","role":"admin"}},"admin":{"drivers":[{"DriverLocality":{"id":"28","driver_id":"11","locality_id":"1"},"Driver":{"id":"11","username":"mproenza@grm.desoft.cu","max_people_count":"4"}}],"notified_count":0},"creator_role":"admin"}', 1, 0, 0, '2014-05-07 14:06:09', '2014-05-07 10:06:09', '2014-05-07 10:08:32'),
+('536a99b2-0518-4125-a567-0e3410d2655b', 'mproenza@grm.desoft.cu', '', '', 'Nuevo Anuncio de Viaje (#28)', 'yotellevo', 'new_travel', 'default', 'html', '{"travel":{"Travel":{"id":"28","locality_id":"1","where":"asds dasdasd","direction":"0","date":"17-05-2014","people_count":"3","contact":"ds da dasdasdasd","user_id":"19","state":"C","drivers_sent_count":1,"need_modern_car":true,"need_air_conditioner":"0","created":"2014-05-07","modified":"2014-05-07"},"Locality":{"id":"1","name":"Bayamo"},"User":{"id":"19","username":"iii@iii.iii","role":"regular"}}}', 0, 0, 0, '2014-05-07 20:38:10', '2014-05-07 16:38:10', '2014-05-07 16:38:10'),
+('536a99b2-4f58-4b71-a494-0e3410d2655b', 'mproenza@grm.desoft.cu', '', '', 'Nuevo Anuncio de Viaje (#28)', 'yotellevo', 'new_travel', 'default', 'html', '{"travel":{"Travel":{"id":"28","locality_id":"1","where":"asds dasdasd","direction":"0","date":"17-05-2014","people_count":"3","contact":"ds da dasdasdasd","user_id":"19","state":"C","drivers_sent_count":1,"need_modern_car":true,"need_air_conditioner":"0","created":"2014-05-07","modified":"2014-05-07"},"Locality":{"id":"1","name":"Bayamo"},"User":{"id":"19","username":"iii@iii.iii","role":"regular"}},"admin":{"drivers":[{"DriverLocality":{"id":"28","driver_id":"11","locality_id":"1"},"Driver":{"id":"11","username":"mproenza@grm.desoft.cu","max_people_count":"4"}}],"notified_count":1},"creator_role":"regular"}', 0, 0, 0, '2014-05-07 20:38:10', '2014-05-07 16:38:10', '2014-05-07 16:38:10');
 
 -- --------------------------------------------------------
 
@@ -234,11 +247,24 @@ CREATE TABLE IF NOT EXISTS `travels` (
   `need_air_conditioner` int(11) NOT NULL,
   `created` date NOT NULL,
   `modified` date NOT NULL,
+  `created_from_ip` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   KEY `travels_locality_fk` (`locality_id`),
   KEY `travels_user_fk` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=29 ;
+
+--
+-- Volcado de datos para la tabla `travels`
+--
+
+INSERT INTO `travels` (`id`, `locality_id`, `where`, `direction`, `date`, `people_count`, `contact`, `user_id`, `state`, `drivers_sent_count`, `need_modern_car`, `need_air_conditioner`, `created`, `modified`, `created_from_ip`) VALUES
+(22, 5, 'sdfsd fsdg sfdfs dff', 0, '2014-05-16', 2, 'fsd fsdfsdf sdfsdf', 3, 'C', 1, 1, 1, '2014-05-05', '2014-05-05', ''),
+(23, 5, 'La Habana', 0, '2014-05-17', 3, 'Llamar al 42-3095', 1, 'C', 1, 1, 1, '2014-05-05', '2014-05-05', ''),
+(24, 1, 'dfds fdsf', 0, '2014-05-16', 1, 'fd fsdf', 13, 'U', 0, 1, 0, '2014-05-05', '2014-05-05', ''),
+(25, 5, 'La Habana', 0, '2014-05-17', 3, 'Llamar al tel. 42-3095', 11, 'C', 1, 1, 1, '2014-05-05', '2014-05-05', ''),
+(26, 3, 'Villa Clara (Santa Clara)', 0, '2014-05-10', 2, 'bla, bla, bla', 1, 'U', 0, 0, 0, '2014-05-06', '2014-05-06', ''),
+(27, 1, 'Varadero', 0, '2014-05-15', 1, 'dsa asdasds', 3, 'C', 1, 1, 1, '2014-05-07', '2014-05-07', '');
 
 -- --------------------------------------------------------
 
@@ -279,21 +305,24 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email_confirmed` tinyint(1) NOT NULL DEFAULT '0',
   `travel_count` int(11) NOT NULL,
   `created` date NOT NULL,
+  `registered_from_ip` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
 
 --
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `role`, `active`, `display_name`, `email_confirmed`, `travel_count`, `created`) VALUES
-(1, 'ttt@ttt.ttt', '3a49921023b6c1d0a53cc864581e91f5f0e05109', 'regular', 1, 'martin', 0, 0, '0000-00-00'),
-(3, 'mproenza@grm.desoft.cu', '60dd56fce363a2e493ae60bfdc64a9dffb0b227b', 'admin', 1, '', 0, 0, '0000-00-00'),
-(11, 'nelson@ksabes.com', 'f83bf0b762b0eb17c78b944c77d1d3eb3149bc81', 'tester', 1, '', 0, 0, '2014-04-17'),
-(13, 'yproenza003@gmail.com', '6e112beb5c6a8a609c579516d6fc3e8785a6e0b1', 'tester', 1, '', 0, 0, '2014-04-25'),
-(14, 'manuel@ksabes.com', 'ac6a59c7f77ded10e5da77a2d9488df7eddb503e', 'admin', 1, '', 0, 0, '2014-05-02'),
-(15, 'xfeanor@gmail.com', '628cb7a00d45d591885f246421951ab26601aa09', 'regular', 1, '', 0, 0, '2014-05-02');
+INSERT INTO `users` (`id`, `username`, `password`, `role`, `active`, `display_name`, `email_confirmed`, `travel_count`, `created`, `registered_from_ip`) VALUES
+(1, 'ttt@ttt.ttt', '3a49921023b6c1d0a53cc864581e91f5f0e05109', 'regular', 1, 'martin', 1, 2, '0000-00-00', '127.0.0.1'),
+(3, 'mproenza@grm.desoft.cu', '60dd56fce363a2e493ae60bfdc64a9dffb0b227b', 'admin', 1, '', 1, 2, '0000-00-00', '127.0.0.1'),
+(11, 'nelson@ksabes.com', 'f83bf0b762b0eb17c78b944c77d1d3eb3149bc81', 'tester', 1, '', 0, 1, '2014-04-17', '127.0.0.1'),
+(13, 'yproenza003@gmail.com', '6e112beb5c6a8a609c579516d6fc3e8785a6e0b1', 'tester', 1, '', 0, 1, '2014-04-25', '127.0.0.1'),
+(14, 'manuel@ksabes.com', 'ac6a59c7f77ded10e5da77a2d9488df7eddb503e', 'admin', 1, '', 0, 0, '2014-05-02', '127.0.0.1'),
+(15, 'xfeanor@gmail.com', '628cb7a00d45d591885f246421951ab26601aa09', 'regular', 1, '', 0, 0, '2014-05-02', '127.0.0.1'),
+(16, 'elieserivera@gmail.com', 'dd236c560b98671a0dfdff005571019548218868', 'regular', 1, '', 0, 0, '2014-05-07', '127.0.0.1'),
+(17, 'info@domain.it', '5c05fad9ee8bbeaff0b050a576bdbb182dfbc190', 'regular', 1, '', 0, 0, '2014-05-07', '127.0.0.1');
 
 -- --------------------------------------------------------
 
@@ -312,7 +341,16 @@ CREATE TABLE IF NOT EXISTS `user_interactions` (
   `modified` date NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_bin AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_bin AUTO_INCREMENT=19 ;
+
+--
+-- Volcado de datos para la tabla `user_interactions`
+--
+
+INSERT INTO `user_interactions` (`id`, `user_id`, `interaction_code`, `interaction_due`, `expired`, `created`, `modified`) VALUES
+(16, 3, 'z0591d378e3af95084c07418c13b9946', 'confirm email', 1, '2014-05-05', '2014-05-05'),
+(17, 3, 'R9c49e13b2e317af6fddb0a833ecd483', 'change password', 0, '2014-05-05', '2014-05-05'),
+(18, 1, 'fb212a4234743a5e1b235584db530fcb', 'confirm email', 1, '2014-05-06', '2014-05-06');
 
 --
 -- Restricciones para tablas volcadas

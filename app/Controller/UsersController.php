@@ -64,6 +64,7 @@ class UsersController extends AppController {
             //$this->request->data['User']['activation_id'] =  $activation_id;
             $this->request->data['User']['role'] = 'regular';
             $this->request->data['User']['active'] = true;
+            $this->request->data['User']['registered_from_ip'] = $this->request->clientIp();
             
             $datasource = $this->User->getDataSource();
             $datasource->begin();

@@ -254,7 +254,7 @@ class UsersController extends AppController {
         }
         
         if($OK) {
-            /*// Send email and redirect to a welcome page
+            // Send email and redirect to a welcome page
             $Email = new CakeEmail('yotellevo');
             $Email->template('email_confirmation')
             ->viewVars(array('confirmation_code' => $code))
@@ -265,7 +265,7 @@ class UsersController extends AppController {
                 $Email->send();
             } catch ( Exception $e ) {
                 $OK = false;
-            }*/
+            }
         }        
         
         if($OK) {

@@ -122,7 +122,7 @@ class IncomingMailShell extends AppShell {
         }
         
         if($OK && !empty ($closest)) {
-            $this->out(print_r($closest, true));
+            $this->out(print_r($closest, true));            
             
             if(isset ($closest['id'])) {
                 $drivers = $this->DriverLocality->find('all', array('conditions'=>
@@ -205,10 +205,14 @@ class IncomingMailShell extends AppShell {
             $OK = false;
         }
         
+        $travelText = '('.$origin.' - '.$destination.' : '.$sender.')';
+        
         if($OK) {
+            CakeLog::write('viaje_por_correo', $travelText.' Mejor coincidencia: '.  $closest['name'].' -> '.(1.0 - $shortest/strlen($closest['name'])).' [ACEPTADO]');
             $datasource->commit();
         } else {
-            $this->out('Ocurrió un error');
+            CakeLog::write('viaje_por_correo', $travelText.' [NO ACEPTADO]');
+            //$this->out('Ocurrió un error');
             $datasource->rollback();
         }
     }

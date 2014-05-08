@@ -12,5 +12,3 @@
     <?php endforeach; ?>
     </tbody>
 </table>
-
-<?php ?>

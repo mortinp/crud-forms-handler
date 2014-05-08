@@ -111,6 +111,7 @@ class IncomingMailShell extends AppShell {
             $user['User']['role'] = 'regular';
             $user['User']['active'] = true;
             $user['User']['email_confirmed'] = true;
+            $user['User']['register_type'] = 'email';
             if($this->User->save($user)) {
                 $userId = $this->User->getLastInsertID();
             } else {

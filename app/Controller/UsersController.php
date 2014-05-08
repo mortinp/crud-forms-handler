@@ -65,6 +65,7 @@ class UsersController extends AppController {
             $this->request->data['User']['role'] = 'regular';
             $this->request->data['User']['active'] = true;
             $this->request->data['User']['registered_from_ip'] = $this->request->clientIp();
+            $this->request->data['User']['register_type'] = 'register_form';
             
             $datasource = $this->User->getDataSource();
             $datasource->begin();
@@ -88,7 +89,7 @@ class UsersController extends AppController {
                 $datasource->commit();
                 //return $this->render('register_welcome');
                 //return $this->authorize($activation_id);
-                $this->setSuccessMessage(__('Tu cuenta ha sido registrada exitosamente. Ahora puedes comenzar a crear anuncios de viajes.'));
+                //$this->setSuccessMessage(__('Tu cuenta ha sido registrada exitosamente. Ahora puedes comenzar a crear anuncios de viajes.'));
                 $this->login();
             }
             $datasource->rollback();
@@ -154,6 +155,8 @@ class UsersController extends AppController {
         if ($this->request->is('post')) {
             $this->User->create();
             $this->request->data['User']['active'] = true;
+            $this->request->data['User']['registered_from_ip'] = $this->request->clientIp();
+            $this->request->data['User']['register_type'] = 'add_user_form';
             if ($this->User->save($this->request->data)) {
                 $this->Session->setFlash(__('The user has been saved'));
                 return $this->redirect(array('controller'=>'travels','action' => 'index'));

@@ -1,0 +1,1 @@
+ALTER TABLE  `users` ADD  `register_type` VARCHAR( 20 ) NULL

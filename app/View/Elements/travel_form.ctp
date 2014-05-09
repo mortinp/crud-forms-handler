@@ -56,14 +56,14 @@ $form_disabled = !User::canCreateTravel()/*AuthComponent::user('travel_count') >
             $travel_out =
                 $this->Form->input('locality_id', array('type' => 'select', 'options' => $localities, 'showParents' => true,
                 'label' => __('Origen del viaje'))).
-                $this->Form->input('where', array('type' => 'text', 'label' => __('Destino'), 'placeholder' => 'Nombre de tu destino (puede ser cualquier lugar)')).
+                $this->Form->input('where', array('type' => 'text', 'label' => __('Destino del viaje'), 'placeholder' => 'Nombre de tu destino (puede ser cualquier lugar)')).
                 $this->Form->input('direction', array('type'=>'hidden', 'value'=>'0'));
             
             // Viajes que son desde otro lugar hacia una localidad
             $travel_in =                
                 $this->Form->input('where', array('type' => 'text', 'label' => __('Origen del viaje'), 'placeholder' => 'Nombre de tu origen de viaje (puede ser cualquier lugar)')).
                     $this->Form->input('locality_id', array('type' => 'select', 'options' => $localities, 'showParents' => true,
-                'label' => __('Destino'))).
+                'label' => __('Destino del viaje'))).
                 $this->Form->input('direction', array('type'=>'hidden', 'value'=>'1'));
             
             ?>

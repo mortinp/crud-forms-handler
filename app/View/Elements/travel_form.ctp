@@ -49,8 +49,8 @@ $form_disabled = !User::canCreateTravel()/*AuthComponent::user('travel_count') >
         <fieldset>
             <?php
             
-            $travel_out_switcher = 'Selecciona el origen y escribe el destino <div style="display:inline"><a href="#!" class="travel-switch">&ndash; Prefiero <b>escribir el origen</b> y <b>seleccionar el destino</b></a></div><br/><br/>';
-            $travel_in_switcher = 'Escribe el origen y selecciona el destino <div style="display:inline"><a href="#!" class="travel-switch">&ndash; Prefiero <b>seleccionar el origen</b> y <b>escribir el destino</b></a></div><br/><br/>';
+            $travel_out_switcher = 'Selecciona el <b>Origen del viaje</b> <div style="display:inline"><a href="#!" class="travel-switch">&ndash; Prefiero seleccionar el <b>Destino del viaje</b></a></div><br/><br/>';
+            $travel_in_switcher = 'Selecciona el <b>Destino del viaje</b> <div style="display:inline"><a href="#!" class="travel-switch">&ndash; Prefiero seleccionar el <b>Origen del viaje</b></a></div><br/><br/>';
             
             // Viajes que son desde una localidad, hacia otro lugar
             $travel_out =

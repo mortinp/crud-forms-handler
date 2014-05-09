@@ -48,19 +48,24 @@ class DriversController extends AppController {
     }
 
     public function edit($id = null) {
-        $this->User->id = $id;
-        if (!$this->User->exists()) {
-            throw new NotFoundException(__('Invalid user'));
+        $this->Driver->id = $id;
+        if (!$this->Driver->exists()) {
+            throw new NotFoundException(__('Chofer inválido.'));
         }
         if ($this->request->is('post') || $this->request->is('put')) {
-            if ($this->User->save($this->request->data)) {
-                $this->Session->setFlash(__('The user has been saved'));
+            
+            if(strlen($this->request->data['Driver']['password']) == 0) unset ($this->request->data['Driver']['password']);
+            
+            if ($this->Driver->save($this->request->data)) {
+                $this->setInfoMessage('El chofer se guardó exitosamente.');
                 return $this->redirect(array('action' => 'index'));
             }
-            $this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+            $this->setErrorMessage('Ocurrió un error salvando el chofer');
         } else {
-            $this->request->data = $this->User->read(null, $id);
-            unset($this->request->data['User']['password']);
+            $this->request->data = $this->Driver->read(null, $id);
+            unset($this->request->data['Driver']['password']);
+            
+            $this->set('localities', $this->Locality->getAsList());
         }
     }
 

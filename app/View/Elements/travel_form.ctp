@@ -20,9 +20,9 @@ if ($is_modal)
     $buttonStyle = 'display:inline-block;float:left';
 
 if (empty($this->request->data))
-    $saveButtonText = 'Crear';
+    $saveButtonText = 'Crear Viaje';
 else
-    $saveButtonText = 'Salvar';
+    $saveButtonText = 'Cambiar Datos';
 
 $form_disabled = !User::canCreateTravel()/*AuthComponent::user('travel_count') > 0 && !AuthComponent::user('email_confirmed')*/;
 
@@ -91,7 +91,8 @@ $form_disabled = !User::canCreateTravel()/*AuthComponent::user('travel_count') >
             echo $this->Form->custom_date('date', array('label' => __('Cuándo'), 'dateFormat' => 'dd/mm/yyyy'));
             echo $this->Form->input('people_count', array('label' => __('Personas que viajan <small class="text-info">(máximo número de personas)</small>'), 'default' => 1, 'min' => 1));
             echo $this->Form->checkbox_group(Travel::$preferences, array('header'=>'Preferencias <small class="text-info">(selecciona sólo si quieres esto obligatoriamente)</small>'));
-            echo $this->Form->input('contact', array('label' => __('Contactos'), 'placeholder' => 'Explica a los choferes la forma de contactarte (número de teléfono, correo electrónico o cualquier otra forma que prefieras). Especifica detalles si deseas, como la hora para contactarte, tu nombre, etc.'));
+            echo $this->Form->input('contact', array('label' => __('Contactos'), 
+                'placeholder' => 'Explica a los choferes la forma de contactarte (número de teléfono, correo electrónico o cualquier otra forma que prefieras). Escribe algo como: llamar al teléfono xx-xxxx a Pepito.'));
             echo $this->Form->input('id', array('type' => 'hidden'));
             
             $submitOptions = array('style' => $buttonStyle, 'id'=>'TravelSubmit');

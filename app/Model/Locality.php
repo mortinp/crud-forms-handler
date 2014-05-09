@@ -3,6 +3,8 @@ App::uses('AppModel', 'Model');
 class Locality extends AppModel {
     public $order = 'id';
     
+    public $hasAndBelongsToMany = 'Driver';
+    
     public function getAsList() {
         // 1
         /*$localities = $this->find('list')*/;        

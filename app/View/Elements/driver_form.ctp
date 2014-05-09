@@ -30,6 +30,7 @@ else
     <?php echo $this->Form->create('Driver'); ?>
     <fieldset>
         <?php
+        echo $this->Form->input('id', array('type'=>'hidden'));
         echo $this->Form->input('username', array('type'=>'text'));
         if($form_action == 'add') echo $this->Form->input('password');
         else 
@@ -39,8 +40,8 @@ else
         echo $this->Form->checkbox_group(array('has_modern_car'=>'Carro Moderno', 'has_air_conditioner'=>'Aire Acondicionado'), array('header'=>'Características'));
         echo $this->Form->input('description');
         
-        if($form_action == 'add') 
-            echo $this->Form->input('localities', array('id'=>'LocalitiesSelect', 'type' => 'select', 'multiple', 'options' => $localities, 'showParents' => true, 
+        //if($form_action == 'add') 
+            echo $this->Form->input('Locality', array('id'=>'LocalitiesSelect', 'type' => 'select', 'multiple'=>'multiple', /*'options' => $localities,*/ 'showParents' => true, 
                 'label' => __('Localidades <small class="text-info">(seleccionar con <b>Ctrl + Click</b>)</small>')));
         
         echo $this->Form->checkbox('active').' Active';

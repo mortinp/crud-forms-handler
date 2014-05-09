@@ -1,0 +1,1 @@
+RENAME TABLE  `yotellevo`.`driver_localities` TO  `yotellevo`.`drivers_localities` ;

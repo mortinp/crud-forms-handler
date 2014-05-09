@@ -8,7 +8,7 @@ class DriversController extends AppController {
     public $uses = array('Driver', 'Locality', 'DriverLocality');
     
     public function index() {
-        $this->Driver->recursive = 0;
+        $this->Driver->recursive = 1;
         $this->set('drivers', $this->paginate());
     }
 
@@ -16,35 +16,35 @@ class DriversController extends AppController {
         if ($this->request->is('post')) {
             $this->Driver->create();
             
-            $datasource = $this->Driver->getDataSource();
-            $datasource->begin();
+            //$datasource = $this->Driver->getDataSource();
+            //$datasource->begin();
             
             $OK = true;
             $this->request->data['Driver']['role'] = 'driver';
-            if ($this->Driver->save($this->request->data)) {
+            if ($this->Driver->saveAssociated($this->request->data)) {
                 
-                $driverId = $this->Driver->getLastInsertID();
+                /*$driverId = $this->Driver->getLastInsertID();
                 
-                $localities = $this->request->data['Driver']['localities'];
+                $localities = $this->request->data['Locality'];
                 $bindings = array();
                 foreach ($localities as $l) {
                     $bindings[] = array('DriverLocality' => array('driver_id'=>$driverId, 'locality_id'=>$l));                    
                 }
                 if(!$this->DriverLocality->saveAll($bindings)) {
                     $OK = false; break;
-                }
+                }*/
                 
-                if($OK) {
-                    $datasource->commit();
+                //if($OK) {
+                    //$datasource->commit();
                     $this->setInfoMessage(__('El chofer se guardó exitosamente.'));
                     return $this->redirect(array('action' => 'index'));
-                }
+                //}
                 
             }
-            $datasource->rollback();
+            //$datasource->rollback();
             $this->setErrorMessage(__('Ocurrió un error guardando el chofer.'));
         }
-        $this->set('localities', $this->Locality->getAsList());
+        $this->set('localities', $this->Driver->Locality->getAsList());
     }
 
     public function edit($id = null) {
@@ -56,7 +56,7 @@ class DriversController extends AppController {
             
             if(strlen($this->request->data['Driver']['password']) == 0) unset ($this->request->data['Driver']['password']);
             
-            if ($this->Driver->save($this->request->data)) {
+            if ($this->Driver->saveAll($this->request->data)) {
                 $this->setInfoMessage('El chofer se guardó exitosamente.');
                 return $this->redirect(array('action' => 'index'));
             }

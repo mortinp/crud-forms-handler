@@ -4,7 +4,7 @@ class Driver extends AppModel {
     
     public $order = 'id';
     
-    public $hasMany = 'DriverLocality';
+    public $hasAndBelongsToMany = 'Locality';
 
     public $validate = array(
         'username' => array(

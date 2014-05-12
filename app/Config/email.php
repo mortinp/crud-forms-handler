@@ -37,8 +37,8 @@
  *
  */
 class EmailConfig {
-
-    public $yotellevo = array(
+    
+    public $no_responder = array(
         'transport' => 'Smtp',
         'from' => array('mproenza@grm.desoft.cu' => 'YoTeLlevo'),
         'host' => 'data',
@@ -51,50 +51,42 @@ class EmailConfig {
         //'charset' => 'utf-8',
     );
     
-    /*public $ksabes = array(
+    public $contacto = array(
         'transport' => 'Smtp',
-        'from' => 'martin@ksabes.com',
-        'host' => 'send.one.com',
-        'port' => 2525, // o 25 nada mas???
-        'username' => 'martin@ksabes.com',
-        'password' => 'martin123',
-        'log' => true,
-        //'timeout' => 60,
-        //'charset' => 'utf-8',
-        //'headerCharset' => 'utf-8',
-    );*/
-    
-    
-    
-    /*public $example = array(
-        'from' => 'you@localhost',
-        'sender' => null,
-        'to' => null,
-        'cc' => null,
-        'bcc' => null,
-        'replyTo' => null,
-        'readReceipt' => null,
-        'returnPath' => null,
-        'messageId' => true,
-        'subject' => null,
-        'message' => null,
-        'headers' => null,
-        'viewRender' => null,
-        'template' => false,
-        'layout' => false,
-        'viewVars' => null,
-        'attachments' => null,
-        'emailFormat' => null,
-        'transport' => 'Smtp',
-        'host' => 'localhost',
-        'port' => 25,
+        'from' => array('mproenza@grm.desoft.cu' => 'YoTeLlevo | Contacto'),
+        'host' => 'data',
+        'port' => 25, 
         'timeout' => 30,
-        'username' => 'user',
-        'password' => 'secret',
+        //'username' => '',
+        //'password' => '',
         'client' => null,
-        'log' => true,
+        'log' => false,
         //'charset' => 'utf-8',
-        //'headerCharset' => 'utf-8',
-    );*/
-
+    );
+    
+    public $soporte = array(
+        'transport' => 'Smtp',
+        'from' => array('mproenza@grm.desoft.cu' => 'YoTeLlevo | Soporte'),
+        'host' => 'data',
+        'port' => 25, 
+        'timeout' => 30,
+        //'username' => '',
+        //'password' => '',
+        'client' => null,
+        'log' => false,
+        //'charset' => 'utf-8',
+    );    
+    
+    public $info = array(
+        'transport' => 'Smtp',
+        'from' => array('mproenza@grm.desoft.cu' => 'YoTeLlevo | Info'),
+        'host' => 'data',
+        'port' => 25, 
+        'timeout' => 30,
+        //'username' => '',
+        //'password' => '',
+        'client' => null,
+        'log' => false,
+        //'charset' => 'utf-8',
+    );
 }

@@ -127,9 +127,9 @@ class TravelsController extends AppController {
                                         'template'=>'new_travel', 
                                         'format'=>'html',
                                         'subject'=>'Nuevo Anuncio de Viaje (#'.$travel['Travel']['id'].')',
-                                        'config'=>'yotellevo'));
+                                        'config'=>'no_responder'));
                         } else {
-                            $Email = new CakeEmail('yotellevo');
+                            $Email = new CakeEmail('no_responder');
                             $Email->template('new_travel')
                             ->viewVars(array('travel' => $travel))
                             ->emailFormat('html')
@@ -163,9 +163,9 @@ class TravelsController extends AppController {
                             'template'=>'new_travel', 
                             'format'=>'html',
                             'subject'=>'Nuevo Anuncio de Viaje (#'.$travel['Travel']['id'].')',
-                            'config'=>'yotellevo'));
+                            'config'=>'no_responder'));
             } else {
-                $Email = new CakeEmail('yotellevo');
+                $Email = new CakeEmail('no_responder');
                 $Email->template('new_travel')
                 ->viewVars(array('travel'=>$travel, 'admin'=>array('drivers'=>$drivers, 'notified_count'=>$drivers_sent_count), 'creator_role'=>$travel['User']['role']))
                 ->emailFormat('html')

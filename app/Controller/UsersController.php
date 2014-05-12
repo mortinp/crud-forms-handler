@@ -72,7 +72,7 @@ class UsersController extends AppController {
             
             if ($this->User->save($this->request->data['User'])) {
                 /*// Send email and redirect to a welcome page
-                $Email = new CakeEmail('yotellevo');
+                $Email = new CakeEmail('no_responder');
                 $Email->template('welcome')
                 ->viewVars(array('user_id' => $activation_id))
                 ->emailFormat('html')
@@ -255,7 +255,7 @@ class UsersController extends AppController {
         
         if($OK) {
             // Send email and redirect to a welcome page
-            $Email = new CakeEmail('yotellevo');
+            $Email = new CakeEmail('no_responder');
             $Email->template('email_confirmation')
             ->viewVars(array('confirmation_code' => $code))
             ->emailFormat('html')
@@ -356,7 +356,7 @@ class UsersController extends AppController {
             
             if ($this->User->save($this->request->data['User'])) {               
                 // Send email and redirect to a welcome page
-                $Email = new CakeEmail('yotellevo');
+                $Email = new CakeEmail('no_responder');
                 $Email->template('recover_password')
                 ->viewVars(array('newPass' => $newPass))
                 ->emailFormat('html')
@@ -412,7 +412,7 @@ class UsersController extends AppController {
 
             if($OK) {
                 // Send email and redirect to a welcome page
-                $Email = new CakeEmail('yotellevo');
+                $Email = new CakeEmail('no_responder');
                 $Email->template('change_password')
                 ->viewVars(array('confirmation_code' => $code))
                 ->emailFormat('html')

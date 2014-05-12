@@ -139,9 +139,9 @@ class IncomingMailShell extends AppShell {
                                         'template'=>'new_travel_by_email', 
                                         'format'=>'html',
                                         'subject'=>'Nuevo Anuncio de Viaje (#'.$travel_id.' por correo)',
-                                        'config'=>'yotellevo'));
+                                        'config'=>'no_responder'));
                         } else {
-                            $Email = new CakeEmail('yotellevo');
+                            $Email = new CakeEmail('no_responder');
                             $Email->template('new_travel_by_email')
                             ->viewVars(array('travel' => $travel))
                             ->emailFormat('html')

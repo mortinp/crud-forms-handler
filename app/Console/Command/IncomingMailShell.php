@@ -4,7 +4,7 @@ App::uses('Travel', 'Model');
 
 class IncomingMailShell extends AppShell {
     
-    private static $MAX_MATCHING_THRESHOLD = 0.2;
+    private static $MAX_MATCHING_OFFSET = 0.2;
     
     public $uses = array('Locality', 'DriverLocality', 'TravelByEmail', 'User');
 
@@ -23,80 +23,40 @@ class IncomingMailShell extends AppShell {
         $shortest = -1;
         $closest = array();
         $perfectMatch = false;
+        
         foreach ($localities as $province => $municipalities) {            
             foreach ($municipalities as $munId=>$munName) {
                 
-                $levOrigin = levenshtein(strtoupper($munName), strtoupper($origin));
-                $levDestination = levenshtein(strtoupper($munName), strtoupper($destination));
-                
-                $percentOrigin = $levOrigin/strlen($munName);
-                $percentDestination = $levDestination/strlen($munName);
-
-                // Skip if over threshold
-                if($percentOrigin > IncomingMailShell::$MAX_MATCHING_THRESHOLD && 
-                   $percentDestination > IncomingMailShell::$MAX_MATCHING_THRESHOLD) continue;
-                
-                // Check for an exact match
-                if ($levOrigin == 0 || $levDestination == 0) {
-                    $direction = $levOrigin == 0? 0 : 1;
+                $result = $this->match($origin, $destination, $munName, $shortest);
+                if($result != null && !empty ($result)) {
+                    $closest = $result + array('id'=>$munId);                    
+                    $shortest = $closest['distance'];
                     
-                    // Closest locality (exact match)
-                    $closest = array('id'=>$munId, 'name'=>$munName, 'direction'=>$direction);
-                    $shortest = 0;
-                    $perfectMatch = true;
-                    break;
+                    if($shortest == 0) {
+                        $perfectMatch = true;
+                        break;
+                    }
                 }
-                
-                if ($levOrigin < $shortest || $shortest < 0) {
-                    // set the closest match, and shortest distance
-                    $closest = array('id'=>$munId, 'name'=>$munName, 'direction'=>0);
-                    $shortest = $levOrigin;
-                }
-                if ($levDestination < $shortest || $shortest < 0) {
-                    // set the closest match, and shortest distance
-                    $closest = array('id'=>$munId, 'name'=>$munName, 'direction'=>1);
-                    $shortest = $levDestination;
-                } 
             }
             
             if($perfectMatch) break;
         }
         
-        /*if(!$perfectMatch) { // Si no hay match perfecto, ver si hay un mejor matcheo con las provincias
+        if(!$perfectMatch) { // Si no hay match perfecto, ver si hay un mejor matcheo con las provincias
             foreach ($localities as $province => $municipalities) { 
-                $levOrigin = levenshtein(strtoupper($province), strtoupper($origin));
-                $levDestination = levenshtein(strtoupper($province), strtoupper($destination));
                 
-                $percentOrigin = $levOrigin/strlen($province);
-                $percentDestination = $levDestination/strlen($province);
-
-                // Skip if over threshold
-                if($percentOrigin > IncomingMailShell::$MAX_MATCHING_THRESHOLD && 
-                   $percentDestination > IncomingMailShell::$MAX_MATCHING_THRESHOLD) continue;
-                
-                // Check for an exact match
-                if ($levOrigin == 0 || $levDestination == 0) {
-                    $direction = $levOrigin == 0? 0 : 1;
+                $result = $this->match($origin, $destination, $province, $shortest);
+                if($result != null && !empty ($result)) {
+                    $closest = $result + array('municipalities'=>$municipalities);
+                    $shortest = $closest['distance'];
                     
-                    // Closest locality (exact match)
-                    $closest = array('municipalities'=>$municipalities, 'name'=>$province, 'direction'=>$direction);
-                    $shortest = 0;
-                    $perfectMatch = true;
-                    break;
+                    if($shortest == 0) {
+                        $perfectMatch = true;
+                        break;
+                    }
                 }
-                
-                if ($levOrigin < $shortest || $shortest < 0) {
-                    // set the closest match, and shortest distance
-                    $closest = array('municipalities'=>$municipalities, 'name'=>$province, 'direction'=>0);
-                    $shortest = $levOrigin;
-                }
-                if ($levDestination < $shortest || $shortest < 0) {
-                    // set the closest match, and shortest distance
-                    $closest = array('municipalities'=>$municipalities, 'name'=>$province, 'direction'=>1);
-                    $shortest = $levDestination;
-                } 
             }
-        }*/
+        }
         
         $datasource = $this->TravelByEmail->getDataSource();
         $datasource->begin();
@@ -122,7 +82,7 @@ class IncomingMailShell extends AppShell {
             $userId = $user['User']['id'];
         }
         
-        if($OK && !empty ($closest)) {
+        if($OK && $closest != null && !empty ($closest)) {
             $this->out(print_r($closest, true));            
             
             if(isset ($closest['id'])) {
@@ -132,11 +92,14 @@ class IncomingMailShell extends AppShell {
                         'Driver.active'=>true
                         )
                     ));                
-            } else {
+            } else if(isset ($closest['municipalities'])) {
                 // TODO: Buscar en todos los municipios de la provincia
                 foreach ($closest['municipalities'] as $id => $name) {
                     
                 }
+                $drivers = array();
+                
+            } else {
                 $OK = false;
             }
             //$this->out(print_r($drivers, true));
@@ -199,8 +162,6 @@ class IncomingMailShell extends AppShell {
                     }
                 }                
             }
-                        
-            
             
         } else {
             $OK = false;
@@ -216,6 +177,44 @@ class IncomingMailShell extends AppShell {
             //$this->out('Ocurrió un error');
             $datasource->rollback();
         }
+    }
+    
+    private function match($origin, $destination, $target, $shortestSoFar) {
+        $closest = null;
+        
+        $levOrigin = levenshtein(strtoupper($target), strtoupper($origin));
+        $levDestination = levenshtein(strtoupper($target), strtoupper($destination));
+
+        $percentOrigin = $levOrigin/strlen($target);
+        $percentDestination = $levDestination/strlen($target);
+
+        // Calculate only if inside offset
+        if($percentOrigin > IncomingMailShell::$MAX_MATCHING_OFFSET && 
+           $percentDestination > IncomingMailShell::$MAX_MATCHING_OFFSET) return null;
+            
+        // Check for an exact match
+        if ($levOrigin == 0 || $levDestination == 0) {
+            $direction = $levOrigin == 0? 0 : 1;
+
+            // Closest locality (exact match)
+            $shortestSoFar = 0;
+            $closest = array('name'=>$target, 'direction'=>$direction, 'distance'=>$shortestSoFar);                
+            return $closest;
+        }
+
+        if ($levOrigin < $shortestSoFar || $shortestSoFar < 0) {
+            // set the closest match, and shortest distance
+            $shortestSoFar = $levOrigin;
+            $closest = array('name'=>$target, 'direction'=>0, 'distance'=>$shortestSoFar);                
+        }
+        if ($levDestination < $shortestSoFar || $shortestSoFar < 0) {
+            // set the closest match, and shortest distance
+            $shortestSoFar = $levDestination;
+            $closest = array('name'=>$target, 'direction'=>1, 'distance'=>$shortestSoFar);                
+        } 
+        
+        return $closest;
+        
     }
 }
 

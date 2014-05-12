@@ -1,4 +1,5 @@
-<?php echo $this->Html->link('<i class="glyphicon glyphicon-plus-sign"></i> Add New', array('action'=>'add'), array('escape'=>false))?>
+<div style="float:left;padding-right:20px"><?php echo count($drivers)?> choferes</div>
+<div style="float:left"><?php echo $this->Html->link('<i class="glyphicon glyphicon-plus-sign"></i> Add New', array('action'=>'add'), array('escape'=>false))?></div>
 <table class='table table-striped table-hover'>
     <thead><th>Username</th><th>Max People Count</th><th>Moder Car</th><th>Air Conditioner</th><th>Active</th><th>Description</th><th>Localities</th><th></th></thead>
     <tbody> 

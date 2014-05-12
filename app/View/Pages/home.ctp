@@ -43,16 +43,19 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
                 </li>
                 <li style="padding-bottom: 15px">
                     <i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> 
-                    El precio del viaje lo negocias tú directamente con el chofer
+                    Puedes anunciar tu viaje con varios días de antelación y dejarlo acordado con un chofer.
+                </li>
+                <li style="padding-bottom: 15px">
+                    <i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> 
+                    El precio del viaje lo negocias tú directamente con el chofer.
                 </li>
                 <li style="padding-bottom: 15px">
                     <i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> 
                     Los datos de tu viaje no son compartidos con nadie, excepto con los choferes que te pueden llevar.
                 </li>
             </ul>
-            </big>
+            </big>           
             
-            <h1><small class="text-info">Deja de buscar choferes con carro por ahí. Anúnciate en <em>YoTeLlevo</em> y espera a que un chofer te contacte para llevarte.</small></h1>
         </div>
         <div class="col-md-6" style="margin-top:15px">
             <h3>Comienza registrándote en <em>YoTeLlevo</em> <p><small>Enseguida podrás hacer anuncios de viajes y encontrar un chofer que te lleve</small></p></h3>
@@ -71,7 +74,7 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
                     Es tan fácil como llenar los datos de un formulario, enviarlo, y esperar a que los mismos choferes te contacten. 
                     Y es gratis
                     <big><b>"</b></big>
-                    <span style="/*color: #000*/">&ndash; <a href="http://twitter.com/martinproenza" style="text-decoration: none">Martín</a>, creador de <em>YoTeLlevo</em></span>
+                    <span style="/*color: #000*/">&ndash; <!--<a href="http://twitter.com/martinproenza" style="text-decoration: none">Martín</a>, c-->Creador de <em>YoTeLlevo</em></span>
                 </big>
             </div>
         </div>
@@ -104,7 +107,7 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
                 <!--<div style="margin:20px"><big><?php echo $this->Html->link("<i class='glyphicon glyphicon-flag'></i> Crea un anuncio de viaje ahora", array('controller'=>'travels', 'action'=>'add'), array('escape'=>false))?></big></div>-->
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6" style="padding-top:30px">
             
             <legend>Algunos casos en que puedes usar <em>YoTeLlevo</em></legend>
             <ul style="list-style-type: none">
@@ -114,6 +117,9 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
                 <li style="padding-bottom: 15px"><i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> Necesitas que te lleven a algún lugar lejano y te esperen para el regreso.</li>
                 <li style="padding-bottom: 15px"><i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> Quieres realizar un paseo de diversión con la familia y no tienes en qué ir.</li>
             </ul>
+            
+            <br/>
+            <h1><small class="text-info">Deja de buscar choferes con carro por ahí. Anúnciate en <em>YoTeLlevo</em> y espera a que un chofer te contacte para llevarte.</small></h1>
         </div>
     </div>
 </div>

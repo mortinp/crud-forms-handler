@@ -79,6 +79,21 @@ if($isLoggedIn) {
                                 <?php if($role === 'regular' || $role === 'admin' || $role === 'tester') :?>
                                     <li><?php echo $this->Html->link(__('<i class="glyphicon glyphicon-bell"></i> Mis anuncios'), array('controller' => 'travels', 'action' => 'index'), array('escape'=>false));?></li>
                                     <li><?php echo $this->Html->link(__('<i class="glyphicon glyphicon-flag"></i> <big><b>Anunciar viaje</b></big>'), array('controller' => 'travels', 'action' => 'add'), array('escape'=>false));?></li> 
+                                    
+                                    <?php if($role === 'admin') :?>
+                                    <li class="dropdown">
+                                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+                                            Administrar
+                                            <b class="caret"></b>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><?php echo $this->Html->link(__('Choferes'), array('controller' => 'drivers', 'action' => 'index')) ?></li>
+                                            <li><?php echo $this->Html->link(__('Usuarios'), array('controller' => 'users', 'action' => 'index')) ?></li>
+                                            <!--<li class="divider"></li>
+                                            <li><a href="#">Settings</a></li>-->
+                                        </ul>
+                                    </li>
+                                    <?php endif;?>
                                 <?php endif;?>
                                     
                             <?php else: ?>

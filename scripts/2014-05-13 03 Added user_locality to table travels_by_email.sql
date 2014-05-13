@@ -1,0 +1,2 @@
+ALTER TABLE  `travels_by_email` ADD  `user_locality` VARCHAR( 250 ) NOT NULL DEFAULT  'Granma' AFTER  `id`;
+ALTER TABLE  `travels_by_email` CHANGE  `user_locality`  `user_locality` VARCHAR( 250 ) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL;

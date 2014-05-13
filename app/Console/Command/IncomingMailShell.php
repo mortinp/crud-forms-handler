@@ -128,6 +128,7 @@ class IncomingMailShell extends AppShell {
                 if(count($drivers) > 0) {
                     $travel = array('TravelByEmail');
                     $travel['TravelByEmail']['locality_id'] = $closest['locality_id'];
+                    $travel['TravelByEmail']['user_locality'] = $closest['name'];
                     $travel['TravelByEmail']['where'] = $closest['direction'] == 0? $destination : $origin;
                     $travel['TravelByEmail']['direction'] = $closest['direction'];
                     $travel['TravelByEmail']['description'] = $description;

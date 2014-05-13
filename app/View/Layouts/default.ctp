@@ -92,6 +92,7 @@ if($isLoggedIn) {
                                             <li class="divider"></li>
                                             <li><?php echo $this->Html->link(__('Provincias'), array('controller' => 'provinces', 'action' => 'index')) ?></li>
                                             <li><?php echo $this->Html->link(__('Localidades'), array('controller' => 'localities', 'action' => 'index')) ?></li>
+                                            <li><?php echo $this->Html->link(__('Tesauro'), array('controller' => 'locality_thesaurus', 'action' => 'index')) ?></li>
                                         </ul>
                                     </li>
                                     <?php endif;?>

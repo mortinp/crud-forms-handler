@@ -50,11 +50,17 @@ class LocalitiesController extends AppController {
         if (!$this->Locality->exists()) {
             throw new NotFoundException(__('Localidad inválida'));
         }
+        
+        $datasource = $this->Locality->getDataSource();
+        $datasource->begin();
+        
         if ($this->Locality->delete()) {
             Cache::delete('localities');
             
+            $datasource->commit();
             $this->setInfoMessage('La localidad se eliminó exitosamente.');
         } else {
+            $datasource->rollback();
             $this->setErrorMessage(__('Ocurió un error eliminando la localidad'));
         }    
         return $this->redirect(array('action' => 'index'));

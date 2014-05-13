@@ -6,15 +6,13 @@ class IncomingMailShell extends AppShell {
     
     private static $MAX_MATCHING_OFFSET = 0.2;
     
-    public $uses = array('Locality', 'DriverLocality', 'TravelByEmail', 'User');
+    public $uses = array('Locality', 'DriverLocality', 'TravelByEmail', 'User', 'LocalityThesaurus');
 
     public function main() {
         $this->out('IncomingMail shell reporting.');
     }
 
     public function process() {
-        $localities = $this->Locality->getAsList();
-        
         $sender = $this->args[0];
         $origin = $this->args[1];
         $destination = $this->args[2];
@@ -24,12 +22,13 @@ class IncomingMailShell extends AppShell {
         $closest = array();
         $perfectMatch = false;
         
+        $localities = $this->Locality->getAsList();
         foreach ($localities as $province => $municipalities) {            
             foreach ($municipalities as $munId=>$munName) {
                 
                 $result = $this->match($origin, $destination, $munName, $shortest);
                 if($result != null && !empty ($result)) {
-                    $closest = $result + array('id'=>$munId);                    
+                    $closest = $result + array('locality_id'=>$munId);                    
                     $shortest = $closest['distance'];
                     
                     if($shortest == 0) {
@@ -42,7 +41,27 @@ class IncomingMailShell extends AppShell {
             if($perfectMatch) break;
         }
         
-        if(!$perfectMatch) { // Si no hay match perfecto, ver si hay un mejor matcheo con las provincias
+        if(!$perfectMatch) { // Si no hay match perfecto, ver si hay un mejor matcheo con el tesauro
+            $thesaurus = $this->LocalityThesaurus->find('all');
+            foreach ($thesaurus as $t) {
+                
+                $target = $t['LocalityThesaurus']['fake_name'];
+                $this->out($t['LocalityThesaurus']['fake_name']);
+                
+                $result = $this->match($origin, $destination, $target, $shortest);
+                if($result != null && !empty ($result)) {
+                    $closest = $result + array('locality_id'=>$t['LocalityThesaurus']['locality_id']);
+                    $shortest = $closest['distance'];
+                    
+                    if($shortest == 0) {
+                        $perfectMatch = true;
+                        break;
+                    }
+                }
+            }
+        }
+        
+        /*if(!$perfectMatch) { // Si no hay match perfecto, ver si hay un mejor matcheo con las provincias
             foreach ($localities as $province => $municipalities) { 
                 
                 $result = $this->match($origin, $destination, $province, $shortest);
@@ -56,7 +75,7 @@ class IncomingMailShell extends AppShell {
                     }
                 }
             }
-        }
+        }*/
         
         $datasource = $this->TravelByEmail->getDataSource();
         $datasource->begin();
@@ -85,10 +104,10 @@ class IncomingMailShell extends AppShell {
         if($OK && $closest != null && !empty ($closest)) {
             $this->out(print_r($closest, true));            
             
-            if(isset ($closest['id'])) {
+            if(isset ($closest['locality_id'])) {
                 $drivers = $this->DriverLocality->find('all', array('conditions'=>
                     array(
-                        'DriverLocality.locality_id'=>$closest['id'],
+                        'DriverLocality.locality_id'=>$closest['locality_id'],
                         'Driver.active'=>true
                         )
                     ));                
@@ -108,7 +127,7 @@ class IncomingMailShell extends AppShell {
             if($OK) {
                 if(count($drivers) > 0) {
                     $travel = array('TravelByEmail');
-                    $travel['TravelByEmail']['locality_id'] = $closest['id'];
+                    $travel['TravelByEmail']['locality_id'] = $closest['locality_id'];
                     $travel['TravelByEmail']['where'] = $closest['direction'] == 0? $destination : $origin;
                     $travel['TravelByEmail']['direction'] = $closest['direction'];
                     $travel['TravelByEmail']['description'] = $description;
@@ -129,7 +148,7 @@ class IncomingMailShell extends AppShell {
                 if($OK) {
                     // Enviar a los choferes
                     foreach ($drivers as $d) {
-                        $travel['Locality'] = array('id'=>$closest['id'], 'name'=>$closest['name']);
+                        $travel['Locality'] = array('id'=>$closest['locality_id'], 'name'=>$closest['name']);
                         
                         if(Configure::read('enqueue_mail')) {
                             ClassRegistry::init('EmailQueue.EmailQueue')->enqueue(

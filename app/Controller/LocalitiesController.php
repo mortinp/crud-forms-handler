@@ -15,6 +15,8 @@ class LocalitiesController extends AppController {
         if ($this->request->is('post')) {            
             $this->Locality->create();
             if ($this->Locality->save($this->request->data)) {
+                Cache::delete('localities');
+                
                 $this->setInfoMessage(__('La localidad se guardó exitosamente.'));
                 return $this->redirect(array('action' => 'index'));                
             }
@@ -31,6 +33,8 @@ class LocalitiesController extends AppController {
         if ($this->request->is('post') || $this->request->is('put')) {
             
             if ($this->Locality->save($this->request->data)) {
+                Cache::delete('localities');
+                
                 $this->setInfoMessage('La localidad se guardó exitosamente.');
                 return $this->redirect(array('action' => 'index'));
             }
@@ -47,8 +51,9 @@ class LocalitiesController extends AppController {
             throw new NotFoundException(__('Localidad inválida'));
         }
         if ($this->Locality->delete()) {
-            $this->setInfoMessage('La localidad se eliminó exitosamente.');
+            Cache::delete('localities');
             
+            $this->setInfoMessage('La localidad se eliminó exitosamente.');
         } else {
             $this->setErrorMessage(__('Ocurió un error eliminando la localidad'));
         }    

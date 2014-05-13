@@ -13,6 +13,8 @@ class ProvincesController extends AppController {
         if ($this->request->is('post')) {            
             $this->Province->create();
             if ($this->Province->save($this->request->data)) {
+                Cache::delete('localities');
+                
                 $this->setInfoMessage(__('La provincia se guardó exitosamente.'));
                 return $this->redirect(array('action' => 'index'));                
             }
@@ -28,6 +30,8 @@ class ProvincesController extends AppController {
         if ($this->request->is('post') || $this->request->is('put')) {
             
             if ($this->Province->save($this->request->data)) {
+                Cache::delete('localities');
+                
                 $this->setInfoMessage('La provincia se guardó exitosamente.');
                 return $this->redirect(array('action' => 'index'));
             }
@@ -43,8 +47,9 @@ class ProvincesController extends AppController {
             throw new NotFoundException(__('Provincia inválida'));
         }
         if ($this->Province->delete()) {
-            $this->setInfoMessage('La provincia se eliminó exitosamente.');
+            Cache::delete('localities');
             
+            $this->setInfoMessage('La provincia se eliminó exitosamente.');
         } else {
             $this->setErrorMessage(__('Ocurió un error eliminando la provincia'));
         }    

@@ -11,6 +11,21 @@ class LocalityThesaurus extends AppModel {
             'fields'=>array('id', 'name')
         )
     );
+    
+    public $validate = array(
+        'fake_name' => array(
+            'required' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'El alias es obligatorio.'
+            )
+        ),
+        'real_name' => array(
+            'required' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'El nombre real es obligatorio.'
+            )
+        )
+    );
 }
 
 ?>

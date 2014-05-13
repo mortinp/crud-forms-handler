@@ -12,6 +12,15 @@ class Locality extends AppModel {
         )
     );
     
+    public $validate = array(
+        'name' => array(
+            'required' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'El nombre es obligatorio.'
+            )
+        ) 
+    );
+    
     public function getAsList() {
         // 1
         /*$localities = $this->find('list')*/;        

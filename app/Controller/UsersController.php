@@ -28,18 +28,22 @@ class UsersController extends AppController {
 
     public function login() {
         if ($this->request->is('post')) {
-            if ($this->Auth->login()) {
-                $this->_setCookie($this->Auth->user('id'));
-                
+            if($this->do_login()) {
                 if(AuthComponent::user('role') === 'admin') return $this->redirect(array('action'=>'index'));
                 return $this->redirect($this->Auth->redirect());
-            } else {
-                $this->setErrorMessage(__('El usuario o la contraseña son inválidos. Intenta de nuevo.'));
-            }
+            } else $this->setErrorMessage(__('El usuario o la contraseña son inválidos. Intenta de nuevo.'));
         }
         if ($this->Auth->loggedIn() || $this->Auth->login()) {
             return $this->redirect($this->Auth->redirectUrl());
         }
+    }
+    
+    private function do_login() {
+        if ($this->Auth->login()) {
+            $this->_setCookie($this->Auth->user('id'));
+            return true;
+        }
+        return false;
     }
 
     public function logout() {
@@ -53,15 +57,7 @@ class UsersController extends AppController {
                     <a href="'.Router::url(array('action'=>'login')).'">entra con tu cuenta</a>.'));// TODO: esta direccion estatica es un hack
                 return $this->redirect($this->referer());
             }
-            /*if($this->PendingUser->loginExists($this->request->data['User']['username'])) {
-                $this->setErrorMessage(__('Este correo electrónico ya está registrado, pero no ha sido autorizado. Por favor, autoriza tu cuenta usando el link que enviamos a su correo electrónico.'));
-                return $this->redirect($this->referer());
-            }*/
-            
-            //$this->PendingUser->create();
-            
-            //$activation_id = $this->getWeirdString();//substr(str_shuffle("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 1).substr(md5(time()),1);
-            //$this->request->data['User']['activation_id'] =  $activation_id;
+
             $this->request->data['User']['role'] = 'regular';
             $this->request->data['User']['active'] = true;
             $this->request->data['User']['registered_from_ip'] = $this->request->clientIp();
@@ -70,55 +66,20 @@ class UsersController extends AppController {
             $datasource = $this->User->getDataSource();
             $datasource->begin();
             
-            if ($this->User->save($this->request->data['User'])) {
-                /*// Send email and redirect to a welcome page
-                $Email = new CakeEmail('no_responder');
-                $Email->template('welcome')
-                ->viewVars(array('user_id' => $activation_id))
-                ->emailFormat('html')
-                ->to($this->request->data['User']['username'])
-                ->subject('Tu enlace de confirmación');
-                try {
-                    $Email->send();
-                } catch ( Exception $e ) {
-                    $datasource->rollback();
-                    $this->setErrorMessage('Ocurrió un error registrando su usuario. Intente de nuevo.');
-                    return;
-                }*/
-
+            $OK = true;            
+            $OK = $this->User->save($this->request->data['User']);
+            if($OK) $this->request->data['User']['id'] = $this->User->getLastInsertID();
+            if($OK) $OK = $this->do_send_confirm_email($this->request->data['User']);
+                
+            if($OK) {
                 $datasource->commit();
-                //return $this->render('register_welcome');
-                //return $this->authorize($activation_id);
-                //$this->setSuccessMessage(__('Tu cuenta ha sido registrada exitosamente. Ahora puedes comenzar a crear anuncios de viajes.'));
-                $this->login();
+                if($this->do_login()) return $this->render('register_welcome');
+            } else {
+                $datasource->rollback();
+                $this->setErrorMessage(__('Ocurrió un error registrando su usuario. Intente de nuevo'));
             }
-            $datasource->rollback();
-            $this->setErrorMessage(__('Ocurrió un error registrando su usuario. Intente de nuevo'));
         }
-    }
-
-    /*public function authorize($activation_id) {
-        $pending_user = $this->PendingUser->find('first', array('conditions'=>array('activation_id'=>$activation_id)));
-        if($pending_user != null) {
-            $id = $pending_user['PendingUser']['id'];
-            $pending_user['PendingUser']['id'] = null; // Let user create its own id
-            $pending_user['PendingUser']['active'] = true;
-            if(!$this->User->save(array('User' => $pending_user['PendingUser']))){
-                $this->setErrorMessage("Ocurrió un error inesperado activando su cuenta");
-                return;
-            }
-            
-            $this->PendingUser->delete($id);
-            
-            $this->setSuccessMessage(__('Tu cuenta ha sido registrada exitosamente. Ahora puedes comenzar a crear anuncios de viajes.'));
-            //return $this->redirect(array('controller' => 'users', 'action' => 'login'));
-            $this->login();
-            
-        }
-        
-        $this->setErrorMessage("Ocurrió un error activando su cuenta, o el link usado ha expirado (tal vez ya usaste este link)");
-    }*/
-    
+    }    
     
     public function profile() {
         if ($this->request->is('post')|| $this->request->is('put')) {
@@ -218,9 +179,7 @@ class UsersController extends AppController {
         );
         $this->Cookie->write('User', $data, true, '+2 week');
         return true;
-    }
-    
-    
+    }    
     
     
     
@@ -230,13 +189,23 @@ class UsersController extends AppController {
      */
     
     public function send_confirm_email() {
-        $interaction = $this->UserInteraction->find('first', array('conditions'=>array(
-            'user_id'=>AuthComponent::user('id'),
-            'interaction_due'=>'confirm email',
-            'expired'=>false)));
-        
         $datasource = $this->User->getDataSource();
         $datasource->begin();
+        
+        if($this->do_send_confirm_email(AuthComponent::user())) {
+            $datasource->commit();
+        } else {
+            $datasource->rollback();
+            $this->setErrorMessage('Ocurrió un error enviando las instrucciones a tu correo. Intenta de nuevo.');
+            return $this->redirect($this->referer());
+        }
+    }
+    
+    private function do_send_confirm_email($user) {
+        $interaction = $this->UserInteraction->find('first', array('conditions'=>array(
+            'user_id'=>$user['id'],
+            'interaction_due'=>'confirm email',
+            'expired'=>false)));        
         
         $OK = true;
         if($interaction != null) {
@@ -245,7 +214,7 @@ class UsersController extends AppController {
             $code = $this->getWeirdString();
             
             $interaction = array('UserInteraction');
-            $interaction['UserInteraction']['user_id'] = AuthComponent::user('id');
+            $interaction['UserInteraction']['user_id'] = $user['id'];
             $interaction['UserInteraction']['interaction_due'] = 'confirm email';
             $interaction['UserInteraction']['expired'] = false;
             $interaction['UserInteraction']['interaction_code'] = $code;
@@ -254,43 +223,42 @@ class UsersController extends AppController {
         }
         
         if($OK) {
-            // Send email and redirect to a welcome page
             $Email = new CakeEmail('no_responder');
             $Email->template('email_confirmation')
             ->viewVars(array('confirmation_code' => $code))
             ->emailFormat('html')
-            ->to(AuthComponent::user('username'))
+            ->to($user['username'])
             ->subject('Verificación de cuenta');
             try {
                 $Email->send();
             } catch ( Exception $e ) {
                 $OK = false;
             }
-        }        
+        } 
         
-        if($OK) {
-            $datasource->commit();
-            //$this->setInfoMessage('Se envió un correo a tu cuenta con un enlace para verificarla. Revisa tu correo y sigue las instrucciones.');
-        }else {
-            $datasource->rollback();
-            $this->setErrorMessage('Ocurrió un error enviando las instrucciones a tu correo. Intenta de nuevo.');
-            $this->redirect($this->referer());
-        }
+        return $OK;
     }
     
     public function confirm_email($code) {
         $interaction = $this->UserInteraction->find('first', array('conditions'=>array(
             'interaction_due'=>'confirm email',
             'expired'=>false,
-            'interaction_code'=>$code)));
+            'interaction_code'=>$code)));       
         
         $datasource = $this->User->getDataSource();
         $datasource->begin();
         
         $OK = true;
         if($interaction != null) {
+            
             $interaction['UserInteraction']['expired'] = true;
             if(!$this->UserInteraction->save($interaction)) $OK = false;
+            
+            if($OK) {
+                if($this->Auth->loggedIn()) {
+                    if(AuthComponent::user('id') != $interaction['UserInteraction']['user_id']) $OK = false;
+                }
+            }            
             
             if($OK) {
                 $user = $this->User->findById($interaction['UserInteraction']['user_id']);
@@ -336,44 +304,7 @@ class UsersController extends AppController {
     
     
     public function forgot_password() {
-        /*if ($this->request->is('post')) {
-            
-            $user = $this->User->find('first', array('conditions'=>array('username'=>$this->request->data['User']['username'])));
-            
-            // Verificar existencia de usuario
-            if($user == null || empty ($user)) {
-                $this->setErrorMessage('Este correo no pertenece a ningún usuario.');
-                return;
-            }
-            
-            
-            $newPass = $this->getWeirdString();//substr(str_shuffle("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 1).substr(md5(time()),1);
-            $this->request->data['User']['id'] = $user['User']['id']; // Poner id para que el save() lo que haga sea modificar
-            $this->request->data['User']['password'] = $newPass;
-            
-            $datasource = $this->User->getDataSource();
-            $datasource->begin();
-            
-            if ($this->User->save($this->request->data['User'])) {               
-                // Send email and redirect to a welcome page
-                $Email = new CakeEmail('no_responder');
-                $Email->template('recover_password')
-                ->viewVars(array('newPass' => $newPass))
-                ->emailFormat('html')
-                ->to($this->request->data['User']['username'])
-                ->subject('Tu Nueva Contraseña');
-                try {
-                    $Email->send();
-                } catch ( Exception $e ) {
-                    $datasource->rollback();
-                    $this->setErrorMessage('Ocurrió un error recuperando su contraseña. Intente de nuevo.');
-                    return;
-                }
-                $datasource->commit();
-                return $this->render('password_changed');
-                //return $this->authorize($activation_id);
-            }
-        }*/
+        
     }
     
     public function send_change_password() {

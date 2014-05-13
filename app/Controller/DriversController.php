@@ -14,34 +14,14 @@ class DriversController extends AppController {
 
     public function add() {
         if ($this->request->is('post')) {
+            
             $this->Driver->create();
             
-            //$datasource = $this->Driver->getDataSource();
-            //$datasource->begin();
-            
-            $OK = true;
             $this->request->data['Driver']['role'] = 'driver';
             if ($this->Driver->saveAssociated($this->request->data)) {
-                
-                /*$driverId = $this->Driver->getLastInsertID();
-                
-                $localities = $this->request->data['Locality'];
-                $bindings = array();
-                foreach ($localities as $l) {
-                    $bindings[] = array('DriverLocality' => array('driver_id'=>$driverId, 'locality_id'=>$l));                    
-                }
-                if(!$this->DriverLocality->saveAll($bindings)) {
-                    $OK = false; break;
-                }*/
-                
-                //if($OK) {
-                    //$datasource->commit();
-                    $this->setInfoMessage(__('El chofer se guardó exitosamente.'));
-                    return $this->redirect(array('action' => 'index'));
-                //}
-                
+                $this->setInfoMessage(__('El chofer se guardó exitosamente.'));
+                return $this->redirect(array('action' => 'index'));                
             }
-            //$datasource->rollback();
             $this->setErrorMessage(__('Ocurrió un error guardando el chofer.'));
         }
         $this->set('localities', $this->Driver->Locality->getAsList());

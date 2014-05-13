@@ -1,5 +1,3 @@
-<?php App::uses('User', 'Model')?>
-
 <?php
 if (!isset($do_ajax))
     $do_ajax = false;
@@ -53,19 +51,3 @@ else
     </fieldset>
     <?php echo $this->Form->end(); ?>
 </div>
-
-<?php
-/*// CSS
-//$this->Html->css('bootstrap', array('inline' => false));
-$this->Html->css('select2/select2', array('inline' => false));
-
-// JS
-$this->Html->script('jquery', array('inline' => false));
-$this->Html->script('select2/select2', array('inline' => false));*/
-?>
-
-<!--<script type="text/javascript">
-    $(document).ready(function() {
-        $('#LocalitiesSelect').select2();
-    });
-</script>-->

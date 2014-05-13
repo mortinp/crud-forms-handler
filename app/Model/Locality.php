@@ -1,9 +1,16 @@
 <?php
 App::uses('AppModel', 'Model');
 class Locality extends AppModel {
-    public $order = 'id';
+    
+    public $order = 'Locality.id';
     
     public $hasAndBelongsToMany = 'Driver';
+    
+    public $belongsTo = array(
+        'Province' => array(
+            'fields'=>array('id', 'name')
+        )
+    );
     
     public function getAsList() {
         // 1

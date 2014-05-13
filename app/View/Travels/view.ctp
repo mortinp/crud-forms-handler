@@ -19,7 +19,7 @@ if($isConfirmed) {
                         <?php echo $this->Html->link('<i class="glyphicon glyphicon-envelope"></i> Confirmar viaje ahora', 
                         array('controller'=>'travels', 'action'=>'confirm/'.$travel['Travel']['id']), 
                         array('escape'=>false, 'class'=>'alert-link', 'title'=>'Confirmar y Enviar este viaje a los choferes'))?>
-                    </big></big> para enviar a los choferes.
+                    </big></big> y enviar a los choferes.
                 </div>
             </div>
         <?php else:?>

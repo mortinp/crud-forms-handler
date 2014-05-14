@@ -25,8 +25,9 @@
     <body>
         <?php echo $this->fetch('content'); ?>
         <br/>
+        <br/>
         <div>
-            Atentamente, el equipo de <a href="<?php echo $this->Html->url('/', true)?>"><em>YoTeLlevo</em></a>
+            <p>Atentamente, el equipo de <a href="<?php echo $this->Html->url('/', true)?>"><em>YoTeLlevo</em></a></p>
         </div>
     </body>
 </html>

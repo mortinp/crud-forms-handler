@@ -159,7 +159,8 @@ class IncomingMailShell extends AppShell {
                                         'template'=>'new_travel_by_email', 
                                         'format'=>'html',
                                         'subject'=>'Nuevo Anuncio de Viaje (#'.$travel_id.' por correo)',
-                                        'config'=>'no_responder'));
+                                        'config'=>'no_responder')
+                                    );
                         } else {
                             $Email = new CakeEmail('no_responder');
                             $Email->template('new_travel_by_email')
@@ -208,7 +209,10 @@ class IncomingMailShell extends AppShell {
                             'template'=>'travel_by_email_no_match',
                             'format'=>'html',
                             'subject'=>'Anuncio de Viaje abortado',
-                            'config'=>'no_responder'));
+                            'config'=>'no_responder')
+                        );
+                
+                $this->out('email enqueued');
             } else {
                 $Email = new CakeEmail('no_responder');
                 $Email->template('travel_by_email_no_match')

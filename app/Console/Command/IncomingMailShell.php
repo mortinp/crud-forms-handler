@@ -194,7 +194,40 @@ class IncomingMailShell extends AppShell {
             $datasource->commit();
         } else {
             CakeLog::write('viaje_por_correo', $travelText.' [NO ACEPTADO]');
-            //$this->out('Ocurrió un error');
+            
+            if(Configure::read('enqueue_mail')) {
+                ClassRegistry::init('EmailQueue.EmailQueue')->enqueue(
+                        $sender,
+                        array(
+                            'user_origin' => $origin, 
+                            'user_destination' => $destination,
+                            'localities' =>$localities,
+                            'thesaurus' => $thesaurus
+                            ), 
+                        array(
+                            'template'=>'travel_by_email_no_match',
+                            'format'=>'html',
+                            'subject'=>'Anuncio de Viaje abortado',
+                            'config'=>'no_responder'));
+            } else {
+                $Email = new CakeEmail('no_responder');
+                $Email->template('travel_by_email_no_match')
+                ->viewVars(array(
+                    'user_origin' => $origin, 
+                    'user_destination' => $destination,
+                    'localities' =>$localities,
+                    'thesaurus' => $thesaurus
+                ))
+                ->emailFormat('html')
+                ->to($sender)
+                ->subject('Anuncio de Viaje abortado');
+                try {
+                    $Email->send();
+                } catch ( Exception $e ) {
+                    // TODO: What to do here?
+                }
+            } 
+            
             $datasource->rollback();
         }
     }

@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             
-            <h2>Bienvenido a <em>YoTeLlevo</em> <div><small class="text-muted">Ahora te será mucho más fácil viajar</small></div></h2>
+            <h2>Bienvenido a <em>YoTeLlevo</em> <div><small class="text-muted">Ahora te será mucho más fácil viajar en Cuba</small></div></h2>
             <h3>
                 Ya puedes crear tu primer anuncio de viaje: <?php echo $this->Html->link('<i class="glyphicon glyphicon-flag"></i> Crear Viaje', array('controller'=>'travels', 'action'=>'add'), array('escape'=>false))?>.                
             </h3>

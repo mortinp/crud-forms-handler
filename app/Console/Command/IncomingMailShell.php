@@ -1,6 +1,7 @@
 <?php
 
 App::uses('Travel', 'Model');
+App::uses('CakeEmail', 'Network/Email');
 
 class IncomingMailShell extends AppShell {
     
@@ -61,22 +62,6 @@ class IncomingMailShell extends AppShell {
             }
         }
         
-        /*if(!$perfectMatch) { // Si no hay match perfecto, ver si hay un mejor matcheo con las provincias
-            foreach ($localities as $province => $municipalities) { 
-                
-                $result = $this->match($origin, $destination, $province, $shortest);
-                if($result != null && !empty ($result)) {
-                    $closest = $result + array('municipalities'=>$municipalities);
-                    $shortest = $closest['distance'];
-                    
-                    if($shortest == 0) {
-                        $perfectMatch = true;
-                        break;
-                    }
-                }
-            }
-        }*/
-        
         $datasource = $this->TravelByEmail->getDataSource();
         $datasource->begin();
         $OK = true;
@@ -127,11 +112,13 @@ class IncomingMailShell extends AppShell {
             if($OK) {
                 if(count($drivers) > 0) {
                     $travel = array('TravelByEmail');
+                    $travel['TravelByEmail']['user_origin'] = $origin;
+                    $travel['TravelByEmail']['user_destination'] = $destination;
+                    $travel['TravelByEmail']['description'] = $description;
+                    $travel['TravelByEmail']['matched'] = $closest['name'];
                     $travel['TravelByEmail']['locality_id'] = $closest['locality_id'];
-                    $travel['TravelByEmail']['user_locality'] = $closest['name'];
                     $travel['TravelByEmail']['where'] = $closest['direction'] == 0? $destination : $origin;
                     $travel['TravelByEmail']['direction'] = $closest['direction'];
-                    $travel['TravelByEmail']['description'] = $description;
                     $travel['TravelByEmail']['user_id'] = $userId;
                     $travel['TravelByEmail']['state'] = Travel::$STATE_CONFIRMED;
                     $travel['TravelByEmail']['drivers_sent_count'] = count($drivers);

@@ -111,10 +111,9 @@ if($isLoggedIn) {
                                         <b class="caret"></b>
                                     </a>
                                     <ul class="dropdown-menu">
+                                        <li><?php echo $this->Html->link(__('Perfil'), array('controller' => 'users', 'action' => 'profile')) ?></li>
+                                        <li class="divider"></li>
                                         <li><?php echo $this->Html->link(__('Salir'), array('controller' => 'users', 'action' => 'logout')) ?></li>
-                                        <li><?php echo $this->Html->link(__('Preferencias'), array('controller' => 'users', 'action' => 'profile')) ?></li>
-                                        <!--<li class="divider"></li>
-                                        <li><a href="#">Settings</a></li>-->
                                     </ul>
                                 </li>
                             <?php else: ?>

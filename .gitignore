@@ -24,7 +24,7 @@ build.properties
 .travis.yml
 CONTRIBUTING.md
 README.md
-*.sql
+yotellevo*.sql
 
 
 /docs

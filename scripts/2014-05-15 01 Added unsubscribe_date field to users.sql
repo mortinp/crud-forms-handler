@@ -1,0 +1,1 @@
+ALTER TABLE  `users` ADD  `unsubscribe_date` DATE NULL

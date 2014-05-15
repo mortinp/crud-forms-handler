@@ -14,7 +14,7 @@ class UsersController extends AppController {
         $this->Auth->allow('change_password');
         
         if($this->Auth->loggedIn()) {
-            $this->Auth->allow('logout', 'send_confirm_email');
+            $this->Auth->allow('logout', 'send_confirm_email', 'unsubscribe');
         }
         else $this->Auth->allow('login', 'register', 'register_welcome', /*'authorize',*/ 'forgot_password', 'send_change_password');
     }
@@ -157,6 +157,19 @@ class UsersController extends AppController {
         }
         $this->Session->setFlash(__('User was not deleted'));
         return $this->redirect(array('action' => 'index'));
+    }
+    
+    
+    
+    public function unsubscribe($code = null) {
+        if(!$this->Auth->loggedIn() && $code == null) {
+            $this->setErrorMessage ('Ocurrió un error eliminando tu cuenta. Intenta de nuevo');
+            return $this->redirect(array('action'=>'login'));
+        }       
+    }
+    
+    public function resubscribe() {
+        
     }
     
     

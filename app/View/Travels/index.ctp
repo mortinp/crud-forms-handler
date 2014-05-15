@@ -2,39 +2,16 @@
 <div class="row">
 <?php if(!empty ($travels)): ?>
     <div class="col-md-5">
-        <?php
-            $months_es = array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');
-            $days_es = array('Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado');
-            ?>
-            <h3>Tus Anuncios de Viajes</h3>
-            <br/>
+        <h3>Tus Anuncios de Viajes</h3>
+        <br/>
 
-            <ul style="list-style-type: none;padding: 0px">
-            <?php foreach ($travels as $travel) :?>
-                <?php
-                $pretty_people_count = $travel['Travel']['people_count'].' persona';
-                if($travel['Travel']['people_count'] > 1) $pretty_people_count .='s';
-
-
-                $date_converted = strtotime($travel['Travel']['date']);
-                $day = date('j', $date_converted);
-                $month = $months_es[date('n', $date_converted) - 1];
-                $day_of_week = $days_es[date('w', $date_converted)];
-                $year = date('Y', $date_converted);
-                $pretty_date = $day.' '.$month.', '.$year.' ('.$day_of_week.')';
-                //$pretty_date = date('j F, Y (l)', strtotime($travel['Travel']['date']));
-                ?>
-
-                
-                <li style="margin-bottom: 20px">
-                    <?php echo $this->element('travel', array('travel'=>$travel))?>
-                </li>
-                
-            <?php endforeach; ?>
-            </ul>
-            
-        <!--<?php echo $this->Html->link("<i class='glyphicon glyphicon-flag'></i> <big>Crear un nuevo anuncio</big>", array('controller'=>'travels', 'action'=>'add'), array('escape'=>false))?>-->
-            
+        <ul style="list-style-type: none;padding: 0px">
+        <?php foreach ($travels as $travel) :?>                
+            <li style="margin-bottom: 20px">
+                <?php echo $this->element('travel', array('travel'=>$travel))?>
+            </li>                
+        <?php endforeach; ?>
+        </ul>
     </div>
     <div class="col-md-6 col-md-offset-1">
         <legend>Crea un anuncio de viaje</legend>

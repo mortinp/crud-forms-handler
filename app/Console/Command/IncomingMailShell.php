@@ -3,6 +3,8 @@
 App::uses('Travel', 'Model');
 App::uses('CakeEmail', 'Network/Email');
 
+require_once("PlancakeEmailParser.php");
+
 class IncomingMailShell extends AppShell {
     
     private static $MAX_MATCHING_OFFSET = 0.2;
@@ -258,6 +260,12 @@ class IncomingMailShell extends AppShell {
         } 
         
         return $closest;
+        
+    }
+    
+    
+    
+    public function process2() {
         
     }
 }

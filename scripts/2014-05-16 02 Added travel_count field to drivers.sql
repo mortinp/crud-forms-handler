@@ -1,0 +1,1 @@
+ALTER TABLE  `drivers` ADD  `travel_count` BIGINT NOT NULL

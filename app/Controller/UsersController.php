@@ -86,8 +86,10 @@ class UsersController extends AppController {
             $user = $this->request->data;
             
             if(strlen($user['User']['password']) == 0) unset ($user['User']['password']);
-            if($this->User->save($user)) {
-                $this->Session->write('Auth.User', $user['User']);
+            if($this->User->save($user)) {                
+                //$this->Session->write('Auth.User', $user['User']);
+                $this->Session->write('Auth.User.display_name', $user['User']['display_name']);
+                if(isset ($user['User']['password']))$this->Session->write('Auth.User.display_name', $user['User']['password']);
                 
                 // TODO: redirect???
                 $this->setSuccessMessage('Tu nueva información ha sido guardada');
@@ -161,11 +163,16 @@ class UsersController extends AppController {
     
     
     
-    public function unsubscribe($code = null) {
-        if(!$this->Auth->loggedIn() && $code == null) {
-            $this->setErrorMessage ('Ocurrió un error eliminando tu cuenta. Intenta de nuevo');
+    public function unsubscribe() {
+        if(!$this->Auth->loggedIn()) {
+            $this->setErrorMessage('Ocurrió un error eliminando tu cuenta. Intenta de nuevo');
             return $this->redirect(array('action'=>'login'));
-        }       
+        }  
+        
+        if($this->request->is('post')) {
+            $this->setErrorMessage('Cuenta de usuario eliminada: '.$this->request->data['Unsubscribe']['text']);
+            return $this->redirect(array('action'=>'profile'));
+        }
     }
     
     public function resubscribe() {
@@ -236,7 +243,7 @@ class UsersController extends AppController {
         }
         
         if($OK) {
-            $Email = new CakeEmail('no_responder');
+            /*$Email = new CakeEmail('no_responder');
             $Email->template('email_confirmation')
             ->viewVars(array('confirmation_code' => $code))
             ->emailFormat('html')
@@ -246,7 +253,7 @@ class UsersController extends AppController {
                 $Email->send();
             } catch ( Exception $e ) {
                 $OK = false;
-            }
+            }*/
         } 
         
         return $OK;

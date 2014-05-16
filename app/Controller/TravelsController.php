@@ -7,6 +7,8 @@ class TravelsController extends AppController {
     
     public $uses = array('Travel', 'Locality', 'User', 'DriverLocality', 'Province');
     
+    public $components = array('TravelLogic');
+    
     /*public function beforeFilter() {
         parent::beforeFilter();
         //$this->Auth->allow('add', 'view');
@@ -81,7 +83,29 @@ class TravelsController extends AppController {
     public function confirm($id) {
         $travel = $this->Travel->findById($id);
         
-        if($travel != null) {
+        $OK = true;
+        
+        if($travel != null && Travel::isConfirmed($travel['Travel']['state'])) {
+            $this->setErrorMessage('Este viaje ya ha sido confirmado.');
+            $OK = false;
+        }
+        
+        if($OK) {
+            $datasource = $this->Travel->getDataSource();
+            $datasource->begin();
+            
+            $result = $this->TravelLogic->confirmTravel('Travel', $travel);
+
+            if($result['success']) $datasource->commit();
+            else {
+                $datasource->rollback();
+                $this->setErrorMessage($result['message']);
+            }
+        }   
+        
+        return $this->redirect(array('action'=>'view/'.$travel['Travel']['id']));
+        
+        /*if($travel != null) {
             $OK = true;
             if(Travel::isConfirmed($travel['Travel']['state'])) {
                 $this->setErrorMessage('Este viaje ya ha sido confirmado.');
@@ -115,7 +139,7 @@ class TravelsController extends AppController {
             $drivers_sent_count = 0;
             
             if($OK) {
-                $send_to_drivers = $travel['User']['role'] === 'regular' /*$travel['User']['role'] === 'admin' || $travel['User']['role'] === 'tester'*/;
+                $send_to_drivers = $travel['User']['role'] === 'regular';
                 if($send_to_drivers) {
                     
                     foreach ($drivers as $d) {
@@ -179,7 +203,7 @@ class TravelsController extends AppController {
             }
             
             return $this->redirect(array('action'=>'view/'.$travel['Travel']['id']));
-        }
+        }*/
         
     }
 

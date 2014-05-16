@@ -11,10 +11,19 @@
             </legend>
             <p>
                 Consideraríamos una gran amabilidad que nos escribieras las razones de tu decisión, y sería además de grandísima utilidad
-                para nosotros el conocer esas razones. Incluso, dado que creemos en las segundas oportunidades, tal vez podamos
-                acordar un mejor servicio contigo. <?php echo $this->Html->link('Contáctanos', array('controller'=>'pages', 'action'=>'contact'))?> 
-                para resolver cualquier incidente.
+                para nosotros el conocerlas. Dado que creemos en las segundas oportunidades, tal vez puedas <big><?php echo $this->Html->link('contactarnos', array('controller'=>'pages', 'action'=>'contact'))?></big>
+                para valorar cualquier situación antes de irte.
             </p>
+            <?php
+            echo $this->Form->create('Unsubscribe', array('url' => array('controller' => 'users', 'action' => 'unsubscribe')));
+            ?>
+            <fieldset>
+                <?php
+                echo $this->Form->input('text', array('type'=>'textarea', 'label' => false, 'placeholder'=>'Si realmente quieres irte ahora, explícanos tus razones aquí', 'required'=>false));                
+                echo $this->Form->submit('Eliminar mi cuenta ahora mismo', array('class'=>'btn btn-danger'));        
+                ?>
+            </fieldset>
+            <?php echo $this->Form->end(); ?>
         </div>
     </div>
 </div>

@@ -11,20 +11,23 @@ class TravelLogicComponent extends Component {
             
             $this->DriverLocality = ClassRegistry::init('DriverLocality');
             $this->DriverTravel = ClassRegistry::init('DriverTravel');
-            $this->Travel = ClassRegistry::init('Travel');
+            $this->Travel = ClassRegistry::init($modelType);
             
             $drivers_conditions = array(
-                'DriverLocality.locality_id'=>$travel['Travel']['locality_id'], 
-                'Driver.active'=>true, 
-                'Driver.max_people_count >='=>$travel['Travel']['people_count']);
-            if($travel['Travel']['need_modern_car']) $drivers_conditions['Driver.has_modern_car'] = true;
-            if($travel['Travel']['need_air_conditioner']) $drivers_conditions['Driver.has_air_conditioner'] = true;
+                'DriverLocality.locality_id'=>$travel[$modelType]['locality_id'], 
+                'Driver.active'=>true);
+            if(isset ($travel[$modelType]['people_count'])) $drivers_conditions['Driver.max_people_count >='] = $travel[$modelType]['people_count'];
+            if(isset ($travel[$modelType]['need_modern_car']) && $travel[$modelType]['need_modern_car']) $drivers_conditions['Driver.has_modern_car'] = true;
+            if(isset ($travel[$modelType]['need_air_conditioner']) && $travel[$modelType]['need_air_conditioner']) $drivers_conditions['Driver.has_air_conditioner'] = true;
             
-            $drivers = $this->DriverLocality->find('all', array('conditions'=>$drivers_conditions));
+            $drivers = $this->DriverLocality->find('all', array(
+                'conditions'=>$drivers_conditions, 
+                'order'=>'Driver.travel_count ASC',
+                'limit'=>3));
             
             if (count($drivers) > 0) {
-                $travel['Travel']['state'] = Travel::$STATE_CONFIRMED;
-                $travel['Travel']['drivers_sent_count'] = count($drivers);
+                $travel[$modelType]['state'] = Travel::$STATE_CONFIRMED;
+                $travel[$modelType]['drivers_sent_count'] = count($drivers);
                 if(!$this->Travel->save($travel)) {
                     //$this->setErrorMessage('Ocurrió un error confirmando el viaje. Intenta de nuevo.');
                     $errorMessage = 'Ocurrió un error confirmando el viaje. Intenta de nuevo.';
@@ -50,7 +53,7 @@ class TravelLogicComponent extends Component {
                                     array(
                                         'template'=>'new_travel', 
                                         'format'=>'html',
-                                        'subject'=>'Nuevo Anuncio de Viaje (#'.$travel['Travel']['id'].')',
+                                        'subject'=>'Nuevo Anuncio de Viaje (#'.$travel[$modelType]['id'].')',
                                         'config'=>'no_responder'));
                         } else {
                             $Email = new CakeEmail('no_responder');
@@ -58,7 +61,7 @@ class TravelLogicComponent extends Component {
                             ->viewVars(array('travel' => $travel))
                             ->emailFormat('html')
                             ->to($d['Driver']['username'])
-                            ->subject('Nuevo Anuncio de Viaje (#'.$travel['Travel']['id'].')');
+                            ->subject('Nuevo Anuncio de Viaje (#'.$travel[$modelType]['id'].')');
                             try {
                                 $Email->send();
                             } catch ( Exception $e ) {
@@ -73,7 +76,8 @@ class TravelLogicComponent extends Component {
                         
                         if($OK) {
                             $drivers_sent_count++;
-                            $this->DriverTravel->save(array('DriverTravel'=>array('driver_id'=>$d['Driver']['id'], 'travel_id'=>$travel['Travel']['id'])));
+                            $this->DriverTravel->create();
+                            $this->DriverTravel->save(array('DriverTravel'=>array('driver_id'=>$d['Driver']['id'], 'travel_id'=>$travel[$modelType]['id'])));
                         }
                     }
                 }
@@ -87,7 +91,7 @@ class TravelLogicComponent extends Component {
                         array(
                             'template'=>'new_travel', 
                             'format'=>'html',
-                            'subject'=>'Nuevo Anuncio de Viaje (#'.$travel['Travel']['id'].')',
+                            'subject'=>'Nuevo Anuncio de Viaje (#'.$travel[$modelType]['id'].')',
                             'config'=>'no_responder'));
             } else {
                 $Email = new CakeEmail('no_responder');
@@ -95,7 +99,7 @@ class TravelLogicComponent extends Component {
                 ->viewVars(array('travel'=>$travel, 'admin'=>array('drivers'=>$drivers, 'notified_count'=>$drivers_sent_count), 'creator_role'=>$travel['User']['role']))
                 ->emailFormat('html')
                 ->to('mproenza@grm.desoft.cu')
-                ->subject('Nuevo Anuncio de Viaje (#'.$travel['Travel']['id'].')');
+                ->subject('Nuevo Anuncio de Viaje (#'.$travel[$modelType]['id'].')');
                 try {
                     $Email->send();
                 } catch ( Exception $e ) {
@@ -103,7 +107,7 @@ class TravelLogicComponent extends Component {
                 }
             }
             
-            //return $this->redirect(array('action'=>'view/'.$travel['Travel']['id']));
+            //return $this->redirect(array('action'=>'view/'.$travel[$modelType]['id']));
         }
         
         

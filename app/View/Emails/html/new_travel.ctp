@@ -5,7 +5,6 @@ if(!isset ($creator_role)) $creator_role = 'regular';
 <?php echo $this->element('travel', array('travel'=>$travel, 'actions'=>false))?>
 
 <br/>
-<br/>
 
 <?php if(isset ($admin)):?>
     <p>

@@ -32,13 +32,13 @@
             <p>La cantidad de anuncios es ilimitada. Puedes crear todos los anuncios que quieras.</p>
             
             <h3>¿Puedo viajar por toda Cuba con un chofer de <em>YoTeLlevo</em>?</h3>
-            <p>Actualmente sólo disponemos de choferes radicados en Granma y Santiago de Cuba. Estos choferes brindan posibilidad de viajes por toda Cuba,
+            <p>Actualmente sólo disponemos de choferes radicados en Granma, Santiago de Cuba y Holguín. Estos choferes brindan posibilidad de viajes por toda Cuba,
             pero siempre y cuando el origen o destino del viaje sean esos territorios, o territorios cercanos. Por ejemplo, un chofer de Santiago de Cuba
-            puede llevarte a La Habana, o traerte hacia Guantánamo desde Pinar del Río; un chofer de Granma puede llevarte de Holguín a Varadero, 
-            o traerte desde Villa Clara hasta Las Tunas. Pero un viaje de Villa Clara a La Habana probablemente ahora no se puede brindar.
+            puede llevarte a La Habana, o traerte hacia Guantánamo desde Pinar del Río; un chofer de Granma puede llevarte a Varadero, 
+            o traerte desde Villa Clara hasta Las Tunas. Pero un viaje de Sancti Spíritus a La Habana probablemente ahora no se puede brindar.
             </p>
-            <p class="text-info"><b>Pero espera!!! La idea de <em>YoTeLlevo</em> es abarcar todo el territorio cubano, y nos estamos expandiendo rápidamente. Pronto tendremos 
-            choferes en toda Cuba, y estamos listos para anunciar que casi abriremos bases de choferes en Ciego de Ávila, Camagüey y Holguín.    
+            <p class="text-info"><b>Pero espera!!! La idea de <em>YoTeLlevo</em> es abarcar todo el territorio cubano, y nos estamos expandiendo rápidamente. 
+            Pronto tendremos choferes en toda Cuba, y estamos listos para anunciar que casi abriremos bases de choferes en Ciego de Ávila y Camagüey.    
             </b></p>
             
             <h3>¿Los datos de contacto que yo escribo al crear un anuncio son públicos? ¿Los puede ver cualquier persona?</h3>

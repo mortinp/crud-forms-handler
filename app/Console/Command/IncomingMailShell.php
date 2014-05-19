@@ -54,6 +54,7 @@ class IncomingMailShell extends AppShell {
         $emailParser = new PlancakeEmailParser(stream_get_contents($stdin)/*$email*/);
         fclose($stdin);
         
+        // TODO: Verificar el formato del to, segun lo que me dijo Manuel
         $target = $emailParser->getTo();
         
         if($target === 'viajes@yotellevo.ahiteva.net') {

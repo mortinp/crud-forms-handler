@@ -144,7 +144,6 @@ if($isLoggedIn) {
                         <div class="col-md-3">
                             <p class="text-muted" style="margin: 20px 0;">
                                 Creado por <a href="http://ksabes.com">Casabe&trade;</a>
-                            <!--<?php echo __('Creado por ').$this->Html->link('YoTeLlevo&trade;', '/', array('escape' => false)); ?>-->
                             </p>
                         </div>
                         <div class="col-md-6" style="text-align: center">

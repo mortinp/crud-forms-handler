@@ -91,7 +91,7 @@ $form_disabled = !User::canCreateTravel()/*AuthComponent::user('travel_count') >
             echo $this->Form->custom_date('date', array('label' => __('Cuándo'), 'dateFormat' => 'dd/mm/yyyy'));
             echo $this->Form->input('people_count', array('label' => __('Personas que viajan <small class="text-info">(máximo número de personas)</small>'), 'default' => 1, 'min' => 1));
             echo $this->Form->checkbox_group(Travel::$preferences, array('header'=>'Preferencias <small class="text-info">(selecciona sólo si quieres esto obligatoriamente)</small>'));
-            echo $this->Form->input('contact', array('label' => __('Contactos'), 
+            echo $this->Form->input('contact', array('label' => __('Información de Contacto'), 
                 'placeholder' => 'Explica a los choferes la forma de contactarte (número de teléfono, correo electrónico o cualquier otra forma que prefieras). Escribe algo como: llamar al teléfono xx-xxxx a Pepito.'));
             echo $this->Form->input('id', array('type' => 'hidden'));
             

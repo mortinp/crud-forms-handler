@@ -85,7 +85,7 @@ foreach (Travel::$preferences as $key => $value) {
 <?php endif?>
 </div>
 
-<p><b>Contactos:</b> <span id='travel-contact-label'><?php echo $travel['Travel']['contact']?></span></p>
+<p><b>Información de Contacto:</b> <span id='travel-contact-label'><?php echo $travel['Travel']['contact']?></span></p>
 
 <?php if($actions):?>
     <ul style="list-style-type: none;padding:0px">

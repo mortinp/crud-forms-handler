@@ -21,6 +21,69 @@ class IncomingMailShell extends AppShell {
         $destination = $this->args[2];
         $description = $this->args[3];
         
+        $this->do_process($sender, $origin, $destination, $description);
+    }
+    
+    public function process2() {
+        /*$email = "Return-Path: <manuel@ksabes.com>
+            Delivered-To: viajes@yotellevo.ahiteva.net
+            Received: from h0.host.net (HELO queue) (123.123.33.50)
+                            by h0.host.net with SMTP; 10 May 2012 16:41:46 +0200
+            Received: from mx.aruba.it (321.321.157.29)
+              by mx.host.net with SMTP; 10 May 2012 16:41:44 +0200
+            Received: (qmail 11142 invoked by uid 89); 10 May 2012 14:41:43 -0000
+            Date: 10 May 2012 14:41:43 -0000
+            Message-ID: <1336660903.11137.blah@host.it>
+            Delivered-To: Autoresponder
+            To: viajes@yotellevo.ahiteva.net
+            From: manuel@ksabes.com
+            Subject: Bayamo-Habana
+            Subject1: Re: =?UTF-8?Q?Testo=20Del=20di=20Soggetto=20Che=20?=
+                            =?UTF-8?Q?Va=20A=20Capo=20In=20UTF8=20?=
+            X-Spam-Check: DONE|U 0.500569/N
+            X-Spam-Check: OK
+
+            Da: info@domain.it
+            Oggetto: Grazie!!!
+
+            Nome Cognome
+            ";*/
+        
+        
+        $stdin = fopen('php://stdin', 'r');
+        $emailParser = new PlancakeEmailParser(stream_get_contents($stdin)/*$email*/);
+        fclose($stdin);
+        
+        $target = $emailParser->getTo();
+        
+        if($target === 'viajes@yotellevo.ahiteva.net') {
+            
+            $sender = $emailParser->getHeader('From');
+            
+            $subject = trim($emailParser->getSubject());
+            $subject = str_replace("'", "", $subject);
+            $subject = str_replace('"', "", $subject);
+
+            // TODO: Verificar que origen y destino se pudieron sacar del asunto
+            preg_match('/(?<from>.+)-(?<to>.+)/', $subject, $matches);
+            $origin = $matches['from'];
+            $destination = $matches['to'];            
+
+            $description = $emailParser->getPlainBody();
+
+            $now = date("Y-m-d H:i:s");
+            $log = fopen('/tmp/email_receiver.log', 'a');
+            fprintf($log, "($now) $sender ($origin => $destination)\n");
+            fclose($log);
+
+            $this->do_process($sender, $origin, $destination, $description);  
+            
+        } else if($target === 'info@yotellevo.ahiteva.net') {
+            // TODO
+        }    
+    }
+    
+    private function do_process($sender, $origin, $destination, $description) {
         $shortest = -1;
         $closest = array();
         $perfectMatch = false;
@@ -261,13 +324,8 @@ class IncomingMailShell extends AppShell {
         
         return $closest;
         
-    }
+    }   
     
-    
-    
-    public function process2() {
-        
-    }
 }
 
 ?>

@@ -243,7 +243,7 @@ class UsersController extends AppController {
         }
         
         if($OK) {
-            /*$Email = new CakeEmail('no_responder');
+            $Email = new CakeEmail('no_responder');
             $Email->template('email_confirmation')
             ->viewVars(array('confirmation_code' => $code))
             ->emailFormat('html')
@@ -253,7 +253,7 @@ class UsersController extends AppController {
                 $Email->send();
             } catch ( Exception $e ) {
                 $OK = false;
-            }*/
+            }
         } 
         
         return $OK;

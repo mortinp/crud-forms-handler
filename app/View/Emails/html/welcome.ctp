@@ -1,11 +1,13 @@
-<?php $urlDef = array('controller' => 'users', 'action' => 'authorize/' . $user_id) ?>
-<p><?php echo __('Ya has sido registrado en <em>YoTeLlevo</em> y casi estás listo para usar sus servicios. Solamente falta que confirmes tu cuenta en ')?> 
-    <a href='<?php echo $this->Html->url($urlDef, true) ?>'>
-        <?php echo __('este link')?>
-    </a>.
+<?php $urlDef = array('controller' => 'users', 'action' => 'confirm_email/' . $confirmation_code) ?>
+<h4>Hola y bienvenido a <em>YoTeLlevo</em>. <small>Ahora te será mucho más fácil viajar en Cuba.</small></h4>
+
+<p>
+    Ya puedes comenzar a crear viajes en <a href='<?php echo $this->Html->url('/', true) ?>'><em>YoTeLlevo</em></a>. Podrás crear 1 anuncio de viaje
+    sin verificar tu cuenta de correo electrónico, pero tendrás que verificarla para crear más anuncios.
+</p>
+<p> 
+    Para verficar tu cuenta, da click en <a href='<?php echo $this->Html->url($urlDef, true) ?>'>este enlace</a>.
 </p>
 
-<p><?php echo __('Si este correo te llegó por error, simplemente bórralo y olvida lo ocurrido')?>.</p>
-<a href='<?php echo $this->Html->url($urlDef, true) ?>'>
-    <?php echo __('Da click aquí para confirmar')?>
-</a>
+<p>Si este correo te llegó por error, simplemente bórralo y olvida lo ocurrido.</p>
+<a href='<?php echo $this->Html->url($urlDef, true) ?>'>Da click aquí para verificar tu cuenta</a>

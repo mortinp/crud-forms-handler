@@ -69,7 +69,7 @@ class UsersController extends AppController {
             $OK = true;            
             $OK = $this->User->save($this->request->data['User']);
             if($OK) $this->request->data['User']['id'] = $this->User->getLastInsertID();
-            if($OK) $OK = $this->do_send_confirm_email($this->request->data['User']);
+            if($OK) $OK = $this->do_send_confirm_email($this->request->data['User'], true);
                 
             if($OK) {
                 $datasource->commit();
@@ -221,7 +221,7 @@ class UsersController extends AppController {
         }
     }
     
-    private function do_send_confirm_email($user) {
+    private function do_send_confirm_email($user, $welcome = false) {
         $interaction = $this->UserInteraction->find('first', array('conditions'=>array(
             'user_id'=>$user['id'],
             'interaction_due'=>'confirm email',
@@ -243,8 +243,11 @@ class UsersController extends AppController {
         }
         
         if($OK) {
+            if($welcome) $template = 'welcome';
+            else $template = 'email_confirmation';
+            
             $Email = new CakeEmail('no_responder');
-            $Email->template('email_confirmation')
+            $Email->template($template)
             ->viewVars(array('confirmation_code' => $code))
             ->emailFormat('html')
             ->to($user['username'])

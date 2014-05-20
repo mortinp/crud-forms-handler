@@ -65,7 +65,7 @@ class IncomingMailShell extends AppShell {
         
         // TODO: Verificar el formato del to, segun lo que me dijo Manuel
         $target = $emailParser->getTo();
-        CakeLog::write('viaje_por_correo', 'target: '.$target);
+        //CakeLog::write('viaje_por_correo', 'target: '.$target);
         foreach ($target as $key => $value) {
             CakeLog::write('viaje_por_correo', $key.'=>'.$value);
         }

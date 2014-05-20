@@ -183,12 +183,14 @@ class IncomingMailShell extends AppShell {
         $travelText = '('.$origin.' - '.$destination.' : '.$sender.')';
         
         if($OK) {
-            CakeLog::write('viaje_por_correo', $travelText.' Mejor coincidencia: '.  $closest['name'].' -> '.(1.0 - $shortest/strlen($closest['name'])).' [ACEPTADO]');
             $datasource->commit();
+            CakeLog::write('viaje_por_correo', $travelText.' Mejor coincidencia: '.  $closest['name'].' -> '.(1.0 - $shortest/strlen($closest['name'])).' [ACEPTADO]');
         } else {
+            $datasource->rollback();
             CakeLog::write('viaje_por_correo', $travelText.' [NO ACEPTADO]');
             
             if(Configure::read('enqueue_mail')) {
+                $this->out('Fail');
                 ClassRegistry::init('EmailQueue.EmailQueue')->enqueue(
                         $sender,
                         array(
@@ -200,7 +202,7 @@ class IncomingMailShell extends AppShell {
                         array(
                             'template'=>'travel_by_email_no_match',
                             'format'=>'html',
-                            'subject'=>'Anuncio de Viaje abortado',
+                            'subject'=>'Anuncio de Viaje abortado ('.$origin.'-'.$destination.')',
                             'config'=>'no_responder')
                         );
                 
@@ -223,8 +225,6 @@ class IncomingMailShell extends AppShell {
                     // TODO: What to do here?
                 }
             } 
-            
-            $datasource->rollback();
         }
     }
     

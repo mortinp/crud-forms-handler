@@ -71,7 +71,10 @@ class IncomingMailShell extends AppShell {
         }
         //$this->out('target: '.$target);
         
-        if($target === 'viajes@yotellevo.ahiteva.net') {
+        $to = $target[0];
+        CakeLog::write('viaje_por_correo', 'to: '.$to);
+        $this->out('to: '.$to);
+        if($to === 'viajes@yotellevo.ahiteva.net') {
             
             $sender = $emailParser->getHeader('From');
             CakeLog::write('viaje_por_correo', 'sender: '.$sender);

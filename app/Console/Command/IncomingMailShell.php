@@ -64,8 +64,8 @@ class IncomingMailShell extends AppShell {
 
             // TODO: Verificar que origen y destino se pudieron sacar del asunto
             preg_match('/(?<from>.+)-(?<to>.+)/', $subject, $matches);
-            $origin = $matches['from'];
-            $destination = $matches['to']; 
+            $origin = trim($matches['from']);
+            $destination = trim($matches['to']);
             /*CakeLog::write('viaje_por_correo', 'origin: '.$origin);
             $this->out('origin: '.$origin);
             CakeLog::write('viaje_por_correo', 'destination: '.$destination);

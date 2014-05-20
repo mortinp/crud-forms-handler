@@ -3,9 +3,15 @@
 App::uses('Travel', 'Model');
 App::uses('CakeEmail', 'Network/Email');
 
+App::uses('ComponentCollection', 'Controller');
+App::uses('Controller', 'Controller');
+App::uses('TravelLogicComponent', 'Controller/Component');
+
 require_once("PlancakeEmailParser.php");
 
-class IncomingMailShell extends AppShell {
+class IncomingMailShell extends AppShell {   
+    
+    private $TravelLogic;
     
     private static $MAX_MATCHING_OFFSET = 0.2;
     
@@ -153,9 +159,27 @@ class IncomingMailShell extends AppShell {
         }
         
         if($OK && $closest != null && !empty ($closest)) {
-            $this->out(print_r($closest, true));            
+            $this->out(print_r($closest, true));
             
-            if(isset ($closest['locality_id'])) {
+            $travel = array('TravelByEmail');
+            $travel['TravelByEmail']['user_origin'] = $origin;
+            $travel['TravelByEmail']['user_destination'] = $destination;
+            $travel['TravelByEmail']['description'] = $description;
+            $travel['TravelByEmail']['matched'] = $closest['name'];
+            $travel['TravelByEmail']['locality_id'] = $closest['locality_id'];
+            $travel['TravelByEmail']['where'] = $closest['direction'] == 0? $destination : $origin;
+            $travel['TravelByEmail']['direction'] = $closest['direction'];
+            $travel['TravelByEmail']['user_id'] = $userId;
+            $travel['TravelByEmail']['state'] = Travel::$STATE_CONFIRMED;
+            $travel['User'] = $user['User'];
+            
+            
+            $this->TravelLogic =& new TravelLogicComponent(new ComponentCollection());
+            $result = $this->TravelLogic->confirmTravel('TravelByEmail', $travel);
+            
+            $OK = $result['success'];
+            
+            /*if(isset ($closest['locality_id'])) {
                 $drivers = $this->DriverLocality->find('all', array('conditions'=>
                     array(
                         'DriverLocality.locality_id'=>$closest['locality_id'],
@@ -235,7 +259,7 @@ class IncomingMailShell extends AppShell {
                         $drivers_sent_count++;
                     }
                 }                
-            }
+            }*/
             
         } else {
             $OK = false;

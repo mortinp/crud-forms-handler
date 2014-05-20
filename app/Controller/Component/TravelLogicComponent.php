@@ -10,7 +10,7 @@ class TravelLogicComponent extends Component {
         if($travel != null) {
             
             $this->DriverLocality = ClassRegistry::init('DriverLocality');
-            $this->DriverTravel = ClassRegistry::init('DriverTravel');
+            $this->DriverTravel = ClassRegistry::init('Driver'.$modelType);
             $this->Travel = ClassRegistry::init($modelType);
             
             $drivers_conditions = array(
@@ -19,22 +19,22 @@ class TravelLogicComponent extends Component {
             if(isset ($travel[$modelType]['people_count'])) $drivers_conditions['Driver.max_people_count >='] = $travel[$modelType]['people_count'];
             if(isset ($travel[$modelType]['need_modern_car']) && $travel[$modelType]['need_modern_car']) $drivers_conditions['Driver.has_modern_car'] = true;
             if(isset ($travel[$modelType]['need_air_conditioner']) && $travel[$modelType]['need_air_conditioner']) $drivers_conditions['Driver.has_air_conditioner'] = true;
-            
+
             $drivers = $this->DriverLocality->find('all', array(
                 'conditions'=>$drivers_conditions, 
-                'order'=>'Driver.travel_count ASC',
+                'order'=>'Driver.'.Inflector::underscore($modelType).'_count ASC',
                 'limit'=>3));
             
             if (count($drivers) > 0) {
                 $travel[$modelType]['state'] = Travel::$STATE_CONFIRMED;
                 $travel[$modelType]['drivers_sent_count'] = count($drivers);
-                if(!$this->Travel->save($travel)) {
-                    //$this->setErrorMessage('Ocurrió un error confirmando el viaje. Intenta de nuevo.');
+                if($this->Travel->save($travel)) {
+                    if(!isset ($travel[$modelType]['id'])) $travel[$modelType]['id'] = $this->Travel->getLastInsertID();
+                } else {
                     $errorMessage = 'Ocurrió un error confirmando el viaje. Intenta de nuevo.';
                     $OK = false;
                 }
             } else {
-                //$this->setErrorMessage('No hay choferes para atender este viaje. Intente confirmarlo más tarde. Ya estamos trabajando para resolver este problema.');
                 $errorMessage = 'No hay choferes para atender este viaje. Intente confirmarlo más tarde. Ya estamos trabajando para resolver este problema.';
                 $OK = false;
             }
@@ -42,7 +42,7 @@ class TravelLogicComponent extends Component {
             $drivers_sent_count = 0;
             
             if($OK) {
-                $send_to_drivers = $travel['User']['role'] === 'regular' /*$travel['User']['role'] === 'admin' || $travel['User']['role'] === 'tester'*/;
+                $send_to_drivers = $travel['User']['role'] === 'regular';
                 if($send_to_drivers) {
                     
                     foreach ($drivers as $d) {
@@ -77,7 +77,7 @@ class TravelLogicComponent extends Component {
                         if($OK) {
                             $drivers_sent_count++;
                             $this->DriverTravel->create();
-                            $this->DriverTravel->save(array('DriverTravel'=>array('driver_id'=>$d['Driver']['id'], 'travel_id'=>$travel[$modelType]['id'])));
+                            $this->DriverTravel->save(array('Driver'.$modelType=>array('driver_id'=>$d['Driver']['id'], 'travel_id'=>$travel[$modelType]['id'])));
                         }
                     }
                 }

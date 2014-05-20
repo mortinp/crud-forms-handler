@@ -1,0 +1,1 @@
+ALTER TABLE  `drivers` ADD  `travel_by_email_count` BIGINT( 20 ) NOT NULL;

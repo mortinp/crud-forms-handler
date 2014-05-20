@@ -95,10 +95,10 @@ class IncomingMailShell extends AppShell {
             CakeLog::write('viaje_por_correo', 'body: '.$description);
             $this->out('body: '.$description);
 
-            $now = date("Y-m-d H:i:s");
+            /*$now = date("Y-m-d H:i:s");
             $log = fopen('/tmp/email_receiver.log', 'a');
             fprintf($log, "($now) $sender ($origin => $destination)\n");
-            fclose($log);
+            fclose($log);*/
 
             $this->do_process($sender, $origin, $destination, $description);  
             

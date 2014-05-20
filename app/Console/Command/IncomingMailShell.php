@@ -55,21 +55,26 @@ class IncomingMailShell extends AppShell {
             Nome Cognome
             ";*/
         
+        CakeLog::write('viaje_por_correo', 'Email Received');
         
         $stdin = fopen('php://stdin', 'r');
+        //$email = trim(fgets(STDIN));
         $emailParser = new PlancakeEmailParser(stream_get_contents($stdin)/*$email*/);
         fclose($stdin);
         
         // TODO: Verificar el formato del to, segun lo que me dijo Manuel
         $target = $emailParser->getTo();
+        CakeLog::write('viaje_por_correo', 'target: '.$target);
         
         if($target === 'viajes@yotellevo.ahiteva.net') {
             
             $sender = $emailParser->getHeader('From');
+            CakeLog::write('viaje_por_correo', 'sender: '.$sender);
             
             $subject = trim($emailParser->getSubject());
             $subject = str_replace("'", "", $subject);
             $subject = str_replace('"', "", $subject);
+            CakeLog::write('viaje_por_correo', 'subject: '.$subject);
 
             // TODO: Verificar que origen y destino se pudieron sacar del asunto
             preg_match('/(?<from>.+)-(?<to>.+)/', $subject, $matches);
@@ -77,6 +82,7 @@ class IncomingMailShell extends AppShell {
             $destination = $matches['to'];            
 
             $description = $emailParser->getPlainBody();
+            CakeLog::write('viaje_por_correo', 'body: '.$description);
 
             $now = date("Y-m-d H:i:s");
             $log = fopen('/tmp/email_receiver.log', 'a');

@@ -20,9 +20,10 @@ class TravelLogicComponent extends Component {
             if(isset ($travel[$modelType]['need_modern_car']) && $travel[$modelType]['need_modern_car']) $drivers_conditions['Driver.has_modern_car'] = true;
             if(isset ($travel[$modelType]['need_air_conditioner']) && $travel[$modelType]['need_air_conditioner']) $drivers_conditions['Driver.has_air_conditioner'] = true;
 
+            $inflectedTravelType = Inflector::underscore($modelType);
             $drivers = $this->DriverLocality->find('all', array(
                 'conditions'=>$drivers_conditions, 
-                'order'=>'Driver.'.Inflector::underscore($modelType).'_count ASC',
+                'order'=>'Driver.'.$inflectedTravelType.'_count ASC',
                 'limit'=>3));
             
             if (count($drivers) > 0) {
@@ -51,13 +52,13 @@ class TravelLogicComponent extends Component {
                                     $d['Driver']['username'], 
                                     array('travel' => $travel), 
                                     array(
-                                        'template'=>'new_travel', 
+                                        'template'=>'new_'.$inflectedTravelType,
                                         'format'=>'html',
                                         'subject'=>'Nuevo Anuncio de Viaje (#'.$travel[$modelType]['id'].')',
                                         'config'=>'no_responder'));
                         } else {
                             $Email = new CakeEmail('no_responder');
-                            $Email->template('new_travel')
+                            $Email->template('new_'.$inflectedTravelType)
                             ->viewVars(array('travel' => $travel))
                             ->emailFormat('html')
                             ->to($d['Driver']['username'])
@@ -95,7 +96,7 @@ class TravelLogicComponent extends Component {
                             'config'=>'no_responder'));
             } else {
                 $Email = new CakeEmail('no_responder');
-                $Email->template('new_travel')
+                $Email->template('new_'.$inflectedTravelType)
                 ->viewVars(array('travel'=>$travel, 'admin'=>array('drivers'=>$drivers, 'notified_count'=>$drivers_sent_count), 'creator_role'=>$travel['User']['role']))
                 ->emailFormat('html')
                 ->to('mproenza@grm.desoft.cu')

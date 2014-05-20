@@ -82,6 +82,7 @@ class IncomingMailShell extends AppShell {
             $text = $emailParser->getHeader('From');
             preg_match('#\<(.*?)\>#', $text, $match);
             $sender = $match[1];
+            if($sender == null || strlen($sender) == 0) $sender = $text;
             //$sender = $emailParser->getHeader('From');
             CakeLog::write('viaje_por_correo', 'sender: '.$sender);
             $this->out('sender: '.$sender);

@@ -43,6 +43,8 @@ class TravelLogicComponent extends Component {
             $drivers_sent_count = 0;
             
             if($OK) {
+                $subject = 'Nuevo Anuncio de Viaje (#'.$travel[$modelType]['id'].' '.$this->Travel->travelType.')';
+                
                 $send_to_drivers = $travel['User']['role'] === 'regular';
                 if($send_to_drivers) {
                     
@@ -54,7 +56,7 @@ class TravelLogicComponent extends Component {
                                     array(
                                         'template'=>'new_'.$inflectedTravelType,
                                         'format'=>'html',
-                                        'subject'=>'Nuevo Anuncio de Viaje (#'.$travel[$modelType]['id'].')',
+                                        'subject'=>$subject,
                                         'config'=>'no_responder'));
                         } else {
                             $Email = new CakeEmail('no_responder');
@@ -62,7 +64,7 @@ class TravelLogicComponent extends Component {
                             ->viewVars(array('travel' => $travel))
                             ->emailFormat('html')
                             ->to($d['Driver']['username'])
-                            ->subject('Nuevo Anuncio de Viaje (#'.$travel[$modelType]['id'].')');
+                            ->subject($subject);
                             try {
                                 $Email->send();
                             } catch ( Exception $e ) {
@@ -90,9 +92,9 @@ class TravelLogicComponent extends Component {
                         'mproenza@grm.desoft.cu',
                         array('travel'=>$travel, 'admin'=>array('drivers'=>$drivers, 'notified_count'=>$drivers_sent_count), 'creator_role'=>$travel['User']['role']), 
                         array(
-                            'template'=>'new_travel', 
+                            'template'=>'new_'.$inflectedTravelType,
                             'format'=>'html',
-                            'subject'=>'Nuevo Anuncio de Viaje (#'.$travel[$modelType]['id'].')',
+                            'subject'=>$subject,
                             'config'=>'no_responder'));
             } else {
                 $Email = new CakeEmail('no_responder');
@@ -100,15 +102,13 @@ class TravelLogicComponent extends Component {
                 ->viewVars(array('travel'=>$travel, 'admin'=>array('drivers'=>$drivers, 'notified_count'=>$drivers_sent_count), 'creator_role'=>$travel['User']['role']))
                 ->emailFormat('html')
                 ->to('mproenza@grm.desoft.cu')
-                ->subject('Nuevo Anuncio de Viaje (#'.$travel[$modelType]['id'].')');
+                ->subject($subject);
                 try {
                     $Email->send();
                 } catch ( Exception $e ) {
                     // TODO: Should I do something here???
                 }
             }
-            
-            //return $this->redirect(array('action'=>'view/'.$travel[$modelType]['id']));
         }
         
         

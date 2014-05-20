@@ -2,6 +2,8 @@
 App::uses('AppModel', 'Model');
 class Travel extends AppModel {
     
+    public $travelType = '';
+    
     public static $STATE = array(
         'U' => array('color'=>'goldenrod', 'label'=>'Sin Confirmar'),
         'C' => array('color'=>'lightskyblue', 'label'=>'Confirmado'),

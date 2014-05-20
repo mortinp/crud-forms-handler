@@ -72,11 +72,17 @@ class IncomingMailShell extends AppShell {
         //$this->out('target: '.$target);
         
         $to = $target[0];
+        $to = str_replace('<', '', $to);
+        $to = str_replace('>', '', $to);
         CakeLog::write('viaje_por_correo', 'to: '.$to);
         $this->out('to: '.$to);
+        
         if($to === 'viajes@yotellevo.ahiteva.net') {
             
-            $sender = $emailParser->getHeader('From');
+            $text = $emailParser->getHeader('From');
+            preg_match('#\<(.*?)\>#', $text, $match);
+            $sender = $match[1];
+            //$sender = $emailParser->getHeader('From');
             CakeLog::write('viaje_por_correo', 'sender: '.$sender);
             $this->out('sender: '.$sender);
             
@@ -89,7 +95,11 @@ class IncomingMailShell extends AppShell {
             // TODO: Verificar que origen y destino se pudieron sacar del asunto
             preg_match('/(?<from>.+)-(?<to>.+)/', $subject, $matches);
             $origin = $matches['from'];
-            $destination = $matches['to'];            
+            $destination = $matches['to']; 
+            CakeLog::write('viaje_por_correo', 'origin: '.$origin);
+            $this->out('origin: '.$origin);
+            CakeLog::write('viaje_por_correo', 'destination: '.$destination);
+            $this->out('destination: '.$destination);
 
             $description = $emailParser->getPlainBody();
             CakeLog::write('viaje_por_correo', 'body: '.$description);

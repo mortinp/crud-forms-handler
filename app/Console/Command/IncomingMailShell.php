@@ -56,6 +56,7 @@ class IncomingMailShell extends AppShell {
             ";*/
         
         CakeLog::write('viaje_por_correo', 'Email Received');
+        $this->out('Email Received');
         
         $stdin = fopen('php://stdin', 'r');
         //$email = trim(fgets(STDIN));
@@ -65,16 +66,19 @@ class IncomingMailShell extends AppShell {
         // TODO: Verificar el formato del to, segun lo que me dijo Manuel
         $target = $emailParser->getTo();
         CakeLog::write('viaje_por_correo', 'target: '.$target);
+        $this->out('target: '.$target);
         
         if($target === 'viajes@yotellevo.ahiteva.net') {
             
             $sender = $emailParser->getHeader('From');
             CakeLog::write('viaje_por_correo', 'sender: '.$sender);
+            $this->out('sender: '.$sender);
             
             $subject = trim($emailParser->getSubject());
             $subject = str_replace("'", "", $subject);
             $subject = str_replace('"', "", $subject);
             CakeLog::write('viaje_por_correo', 'subject: '.$subject);
+            $this->out('subject: '.$subject);
 
             // TODO: Verificar que origen y destino se pudieron sacar del asunto
             preg_match('/(?<from>.+)-(?<to>.+)/', $subject, $matches);
@@ -83,6 +87,7 @@ class IncomingMailShell extends AppShell {
 
             $description = $emailParser->getPlainBody();
             CakeLog::write('viaje_por_correo', 'body: '.$description);
+            $this->out('body: '.$description);
 
             $now = date("Y-m-d H:i:s");
             $log = fopen('/tmp/email_receiver.log', 'a');

@@ -7,7 +7,7 @@
         <?php else:?>
         <span id='travel-where-label'><?php echo $travel['TravelByEmail']['where']?></span>
         - 
-        <span id='travel-locality-label'><?php echo $travel['Locality']['matched']?></span>
+        <span id='travel-locality-label'><?php echo $travel['TravelByEmail']['matched']?></span>
         <?php endif?>
     </big> 
 </legend>

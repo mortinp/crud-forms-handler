@@ -1,7 +1,7 @@
 <h2>Hola</h2>
 <div>
     <p>
-        El <em>ORIGEN</em> y <em>DESTINO</em> especificados en su correo no son reconocidos por <em>YoTeLlevo</em>. 
+        El <em>ORIGEN</em> y <em>DESTINO</em> especificados en el asunto de su correo no son reconocidos por <em>YoTeLlevo</em>. 
         Por favor chequee que <em><b><?php echo $user_origin ?></b></em> y <em><b><?php echo $user_destination ?></b></em> 
         estén bien escritos. Nuestros especialistas analizarán dichas localidades para programar su inclusión
         en el sistema. Aquí le mostramos un listado de las localidades que manejamos hasta el momento, 
@@ -39,6 +39,6 @@
 <div>
     <p>
     Si alguna de estas localidades o términos le es conveniente, vuelva a escribir un correo a <b>viajes@yotellevo.ahiteva.net</b>
-    usando una de estas localidades o términos en el asunto, como <em>ORIGEN</em> o como <em>DESTINO</em>.
+    usando uno de ellos en el asunto como <em>ORIGEN</em> o como <em>DESTINO</em>.
     </p>
 </div>

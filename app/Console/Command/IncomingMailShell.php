@@ -63,24 +63,53 @@ class IncomingMailShell extends AppShell {
             $this->out('subject: '.$subject);*/
 
             // TODO: Verificar que origen y destino se pudieron sacar del asunto
-            preg_match('/(?<from>.+)-(?<to>.+)/', $subject, $matches);
-            $origin = trim($matches['from']);
-            $destination = trim($matches['to']);
-            /*CakeLog::write('viaje_por_correo', 'origin: '.$origin);
-            $this->out('origin: '.$origin);
-            CakeLog::write('viaje_por_correo', 'destination: '.$destination);
-            $this->out('destination: '.$destination);*/
+            $parseOK = preg_match('/(?<from>.+)-(?<to>.+)/', $subject, $matches);
+            if($parseOK) {
+                $origin = trim($matches['from']);
+                $destination = trim($matches['to']);
+                /*CakeLog::write('viaje_por_correo', 'origin: '.$origin);
+                $this->out('origin: '.$origin);
+                CakeLog::write('viaje_por_correo', 'destination: '.$destination);
+                $this->out('destination: '.$destination);*/
 
-            $description = h($emailParser->getPlainBody()); // h() para escapar los caracteres html
-            /*CakeLog::write('viaje_por_correo', 'body: '.$description);
-            $this->out('body: '.$description);*/
+                $description = h($emailParser->getPlainBody()); // h() para escapar los caracteres html
+                /*CakeLog::write('viaje_por_correo', 'body: '.$description);
+                $this->out('body: '.$description);*/
 
-            /*$now = date("Y-m-d H:i:s");
-            $log = fopen('/tmp/email_receiver.log', 'a');
-            fprintf($log, "($now) $sender ($origin => $destination)\n");
-            fclose($log);*/
+                /*$now = date("Y-m-d H:i:s");
+                $log = fopen('/tmp/email_receiver.log', 'a');
+                fprintf($log, "($now) $sender ($origin => $destination)\n");
+                fclose($log);*/
 
-            $this->do_process($sender, $origin, $destination, $description);  
+                $this->do_process($sender, $origin, $destination, $description);
+            } else {
+                $this->out('Fail');
+                if(Configure::read('enqueue_mail')) {
+                    ClassRegistry::init('EmailQueue.EmailQueue')->enqueue(
+                            $sender,
+                            array('subject' => $subject), 
+                            array(
+                                'template'=>'travel_by_email_wrong_subject',
+                                'format'=>'html',
+                                'subject'=>'Anuncio de Viaje abortado (ORIGEN-DESTINO incorrectos)',
+                                'config'=>'no_responder')
+                            );
+
+                    //$this->out('email enqueued');
+                } else {
+                    $Email = new CakeEmail('no_responder');
+                    $Email->template('travel_by_email_wrong_subject')
+                    ->viewVars(array('subject' => $subject))
+                    ->emailFormat('html')
+                    ->to($sender)
+                    ->subject('Anuncio de Viaje abortado (ORIGEN-DESTINO incorrectos)');
+                    try {
+                        $Email->send();
+                    } catch ( Exception $e ) {
+                        // TODO: What to do here?
+                    }
+                } 
+            }
             
         } else if($target === 'info@yotellevo.ahiteva.net') {
             // TODO
@@ -222,8 +251,8 @@ class IncomingMailShell extends AppShell {
             $datasource->rollback();
             CakeLog::write('viaje_por_correo', $travelText.' [NO ACEPTADO]');
             
+            $this->out('Fail');
             if(Configure::read('enqueue_mail')) {
-                $this->out('Fail');
                 ClassRegistry::init('EmailQueue.EmailQueue')->enqueue(
                         $sender,
                         array(

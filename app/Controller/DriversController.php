@@ -50,18 +50,16 @@ class DriversController extends AppController {
     }
 
     public function remove($id = null) {
-        if (!$this->request->is('post')) {
-            throw new MethodNotAllowedException();
-        }
-        $this->User->id = $id;
-        if (!$this->User->exists()) {
+        $this->Driver->id = $id;
+        if (!$this->Driver->exists()) {
             throw new NotFoundException(__('Invalid user'));
         }
-        if ($this->User->delete()) {
-            $this->Session->setFlash(__('User deleted'));
-            return $this->redirect(array('action' => 'index'));
+        if ($this->Driver->delete()) {
+            $this->setInfoMessage('El chofer se eliminó exitosamente.');
+        } else {
+            $this->setErrorMessage('Ocurrió un error eliminando el chofer');
         }
-        $this->Session->setFlash(__('User was not deleted'));
+        
         return $this->redirect(array('action' => 'index'));
     }
 }

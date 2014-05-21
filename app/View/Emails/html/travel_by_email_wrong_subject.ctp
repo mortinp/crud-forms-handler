@@ -1,7 +1,7 @@
 <h2>Hola</h2>
 <div>
     <p>
-        El asunto de su correo (<b><?php echo $subject?></b>) no se corresponde con el formato esperado por <em>YoTeLlevo</em>.
+        El asunto de su correo (<b><?php if($subject != null && strlen(trim($subject)) > 0)echo $subject; else echo h('<vacío>')?></b>) no se corresponde con el formato esperado por <em>YoTeLlevo</em>.
     </p>
     <p>
         Para crear un viaje por correo, escriba en el asunto el origen y el destino de la forma <em><b>ORIGEN-DESTINO</b></em> 

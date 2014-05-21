@@ -38,7 +38,14 @@ class IncomingMailShell extends AppShell {
         $emailParser = new PlancakeEmailParser(stream_get_contents($stdin));
         fclose($stdin);
         
-        // TODO: Verificar el formato del to, segun lo que me dijo Manuel
+        $text = $emailParser->getHeader('From');
+        preg_match('#\<(.*?)\>#', $text, $match);
+        $sender = $match[1];
+        if($sender == null || strlen($sender) == 0) $sender = $text;
+        //$sender = $emailParser->getHeader('From');
+        /*CakeLog::write('viaje_por_correo', 'sender: '.$sender);
+        $this->out('sender: '.$sender);*/
+        
         $target = $emailParser->getTo();        
         $to = $target[0];
         $to = str_replace('<', '', $to);
@@ -46,16 +53,7 @@ class IncomingMailShell extends AppShell {
         /*CakeLog::write('viaje_por_correo', 'to: '.$to);
         $this->out('to: '.$to);*/
         
-        if($to === 'viajes@yotellevo.ahiteva.net') {
-            
-            $text = $emailParser->getHeader('From');
-            preg_match('#\<(.*?)\>#', $text, $match);
-            $sender = $match[1];
-            if($sender == null || strlen($sender) == 0) $sender = $text;
-            //$sender = $emailParser->getHeader('From');
-            /*CakeLog::write('viaje_por_correo', 'sender: '.$sender);
-            $this->out('sender: '.$sender);*/
-            
+        if($to === 'viajes@yotellevo.ahiteva.net') {            
             $subject = trim($emailParser->getSubject());
             $subject = str_replace("'", "", $subject);
             $subject = str_replace('"', "", $subject);
@@ -91,7 +89,7 @@ class IncomingMailShell extends AppShell {
                             array(
                                 'template'=>'travel_by_email_wrong_subject',
                                 'format'=>'html',
-                                'subject'=>'Anuncio de Viaje abortado (ORIGEN-DESTINO incorrectos)',
+                                'subject'=>'Anuncio de Viaje Fallido (ORIGEN-DESTINO incorrectos)',
                                 'config'=>'no_responder')
                             );
 
@@ -102,7 +100,7 @@ class IncomingMailShell extends AppShell {
                     ->viewVars(array('subject' => $subject))
                     ->emailFormat('html')
                     ->to($sender)
-                    ->subject('Anuncio de Viaje abortado (ORIGEN-DESTINO incorrectos)');
+                    ->subject('Anuncio de Viaje Fallido (ORIGEN-DESTINO incorrectos)');
                     try {
                         $Email->send();
                     } catch ( Exception $e ) {
@@ -111,8 +109,30 @@ class IncomingMailShell extends AppShell {
                 } 
             }
             
-        } else if($target === 'info@yotellevo.ahiteva.net') {
-            // TODO
+        } else if($to === 'info@yotellevo.ahiteva.net') {
+            if(Configure::read('enqueue_mail')) {
+                ClassRegistry::init('EmailQueue.EmailQueue')->enqueue(
+                        $sender,
+                        array(), 
+                        array(
+                            'template'=>'info',
+                            'format'=>'html',
+                            'subject'=>'Sobre YoTeLlevo',
+                            'config'=>'no_responder')
+                        );
+            } else {
+                $Email = new CakeEmail('no_responder');
+                $Email->template('info')
+                ->viewVars(array())
+                ->emailFormat('html')
+                ->to($sender)
+                ->subject('Sobre YoTeLlevo');
+                try {
+                    $Email->send();
+                } catch ( Exception $e ) {
+                    // TODO: What to do here?
+                }
+            }
         }    
     }
     

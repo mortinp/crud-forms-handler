@@ -264,7 +264,7 @@ class IncomingMailShell extends AppShell {
                         array(
                             'template'=>'travel_by_email_no_match',
                             'format'=>'html',
-                            'subject'=>'Anuncio de Viaje abortado ('.$origin.'-'.$destination.')',
+                            'subject'=>'Anuncio de Viaje Fallido ('.$origin.'-'.$destination.')',
                             'config'=>'no_responder')
                         );
                 
@@ -280,7 +280,7 @@ class IncomingMailShell extends AppShell {
                 ))
                 ->emailFormat('html')
                 ->to($sender)
-                ->subject('Anuncio de Viaje abortado');
+                ->subject('Anuncio de Viaje Fallido');
                 try {
                     $Email->send();
                 } catch ( Exception $e ) {

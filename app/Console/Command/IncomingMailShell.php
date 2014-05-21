@@ -153,6 +153,13 @@ class IncomingMailShell extends AppShell {
 
         } else {
             $userId = $user['User']['id'];
+            
+            if(!$user['User']['email_confirmed']) {
+                
+                $user['User']['email_confirmed'] = true;
+                $this->User->id = $userId;
+                $OK = $this->User->saveField('email_confirmed', '1');
+            }
         }
         
         if($OK && $closest != null && !empty ($closest)) {

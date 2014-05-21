@@ -1,0 +1,1 @@
+ALTER TABLE  `users` ADD  `travel_by_email_count` BIGINT NOT NULL AFTER  `travel_count`

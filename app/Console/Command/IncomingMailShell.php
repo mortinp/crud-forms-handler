@@ -71,7 +71,7 @@ class IncomingMailShell extends AppShell {
             CakeLog::write('viaje_por_correo', 'destination: '.$destination);
             $this->out('destination: '.$destination);*/
 
-            $description = $emailParser->getPlainBody();
+            $description = h($emailParser->getPlainBody()); // h() para escapar los caracteres html
             /*CakeLog::write('viaje_por_correo', 'body: '.$description);
             $this->out('body: '.$description);*/
 
@@ -185,6 +185,32 @@ class IncomingMailShell extends AppShell {
         if($OK) {
             $datasource->commit();
             CakeLog::write('viaje_por_correo', $travelText.' Mejor coincidencia: '.  $closest['name'].' -> '.(1.0 - $shortest/strlen($closest['name'])).' [ACEPTADO]');
+            
+            if(Configure::read('enqueue_mail')) {
+                ClassRegistry::init('EmailQueue.EmailQueue')->enqueue(
+                        $sender,
+                        array('travel' => $travel), 
+                        array(
+                            'template'=>'travel_by_email_match',
+                            'format'=>'html',
+                            'subject'=>'Creado Anuncio de Viaje ('.$origin.'-'.$destination.')',
+                            'config'=>'no_responder')
+                        );
+                
+                //$this->out('email enqueued');
+            } else {
+                $Email = new CakeEmail('no_responder');
+                $Email->template('travel_by_email_match')
+                ->viewVars(array('travel' => $travel))
+                ->emailFormat('html')
+                ->to($sender)
+                ->subject('Creado Anuncio de Viaje ('.$origin.'-'.$destination.')');
+                try {
+                    $Email->send();
+                } catch ( Exception $e ) {
+                    // TODO: What to do here?
+                }
+            }
         } else {
             $datasource->rollback();
             CakeLog::write('viaje_por_correo', $travelText.' [NO ACEPTADO]');

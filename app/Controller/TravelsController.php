@@ -5,7 +5,7 @@ App::uses('User', 'Model');
 
 class TravelsController extends AppController {
     
-    public $uses = array('Travel', 'Locality', 'User', 'DriverLocality', 'Province');
+    public $uses = array('Travel', 'TravelByEmail', 'Locality', 'User', 'DriverLocality', 'Province');
     
     public $components = array('TravelLogic');
     
@@ -39,7 +39,11 @@ class TravelsController extends AppController {
         $travels = $this->Travel->find('all', array('conditions' => 
             array('user_id' => $this->Auth->user('id')/*, 'state'=>Travel::$STATE_UNCONFIRMED*/)));
         
+        $travels_by_email = $this->TravelByEmail->find('all', array('conditions' => 
+            array('user_id' => $this->Auth->user('id')/*, 'state'=>Travel::$STATE_UNCONFIRMED*/)));
+        
         $this->set('travels', $travels); 
+        $this->set('travels_by_email', $travels_by_email); 
         
         $this->set('localities', $this->Locality->getAsList());
     }

@@ -1,4 +1,4 @@
-<h2>Hola</h2>
+<h2>Hola Viajero</h2>
 <div>
     <p>
         El <em>ORIGEN</em> y <em>DESTINO</em> especificados en el asunto de su correo no son reconocidos por <em>YoTeLlevo</em>. 

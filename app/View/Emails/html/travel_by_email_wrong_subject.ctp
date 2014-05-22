@@ -1,4 +1,4 @@
-<h2>Hola</h2>
+<h2>Hola Viajero</h2>
 <div>
     <p>
         El asunto de su correo (<b><?php if($subject != null && strlen(trim($subject)) > 0)echo $subject; else echo h('<vacío>')?></b>) no se corresponde con el formato esperado por <em>YoTeLlevo</em>.

@@ -5,10 +5,32 @@
         lugar de Cuba, sin demoras. Y lo puedes hacer desde Internet accediendo a <a href="http://yotellevo.ahiteva.net/">http://yotellevo.ahiteva.net/</a>,
         o por correo escribiendo a <a href="mailto:viajes@yotellevo.ahiteva.net">viajes@yotellevo.ahiteva.net</a>.
     </p>
+    
+    <h4><b>Anuncios de Viajes por Internet</b></h4>
     <p>
+        <ul>
+            <li>Entra a <a href="http://yotellevo.ahiteva.net/">http://yotellevo.ahiteva.net/</a> y regístrate.</li>
+            <li>Crea un anuncio especificando los detalles del viaje (a dónde, cuándo, cuántas personas, etc.)</li>
+            <li>Especifica la forma de contactarte (preferiblemente un teléfono).</li>
+            <li>Espera a ser contactado por uno de nuestros choferes para acordar los términos del viaje.</li>
+        </ul>
+    </p>
+    
+    <h4><b>Anuncios de Viajes por Correo Electrónico</b></h4>
+    <p>
+        <ul>
+            <li>Escribe un correo a <a href="mailto:viajes@yotellevo.ahiteva.net">viajes@yotellevo.ahiteva.net</a>.</li>
+            <li>Escribe en el asunto el origen y el destino de la forma <em><b>ORIGEN-DESTINO</b></em> (un guión o signo de menos en el medio). 
+                Por ejemplo, puedes escribir en el asunto <em>La Habana-Santiago de Cuba</em>. Sigue este formato para tener buenos resultados.</li>
+            <li>Escribe en el cuerpo del mensaje una forma de contactarte (preferiblemente un número de teléfono). 
+                Por ejemplo, puedes escribir en el cuerpo <em>Llamar a Pepito al teléfono xx-xxxx</em>. También puedes escribir cualquier 
+                otro detalle del viaje, como la fecha, la cantidad de personas que viajan, etc.</li>
+        </ul>
+    </p>
+    
+    <!--<p>
         La respuesta larga es el resto de este correo.
     </p>
-    <!--<h3><em>YoTeLlevo</em> es la vía más rápida de encontrar un chofer que te lleve a cualquier lado.</h3>-->
     
     <h4><b>¿Qué es <em>YoTeLlevo</em>?</b></h4>
     <p>
@@ -20,7 +42,7 @@
         Tú decides los términos del viaje. En <em>YoTeLlevo</em> puedes anunciar que quieres viajar a alguna parte, y luego esperar a que 
         un chofer te contacte y se ponga de acuerdo contigo. Es así de simple. Lo mejor de <em>YoTeLlevo</em> es que es <big>gratis</big>: puedes hacer 
         todos los anuncios de viajes que desees, sin costo alguno.
-    </p>  
+    </p>
     
     <h4><b>¿Cómo funciona <em>YoTeLlevo</em>?</b></h4>
     <p>
@@ -62,17 +84,8 @@
                 Por ejemplo, puedes escribir en el cuerpo <em>Llamar a Pepito al teléfono xx-xxxx</em>. También puedes escribir cualquier 
                 otro detalle del viaje, como la fecha, la cantidad de personas que viajan, etc.</li>
         </ul>
-    </p>
-    
-    <!--<p>
-        <em>YoTeLlevo</em> es una página web pensada para ayudar a todos los que quieran viajar desde y hasta cualquier punto de la geografía cubana, 
-        a encontrar un chofer que los lleve. En esta página web los viajeros pueden reservar un viaje con alguno de nuestros choferes, 
-        llenando un formulario con los datos del viaje.
-    </p>    
-    <p>
-        Es importante conocer que el trabajo de <em>YoTeLlevo</em> consiste en poner en contacto al viajero con el chofer que lo puede llevar.
-        El viajero tiene la oportunidad de negociar los términos del viaje con el chofer, de primera mano y sin intermediarios.
     </p>-->
+
     
 </div>
 <br/>

@@ -1,7 +1,7 @@
 <h2><em>YoTeLlevo</em>: <small>La mejor manera de viajar en Cuba si no tienes carro.</small></h2>
 <div>
     <p>
-        Entonces viajero, ¿qué hace <em>YoTeLlevo</em> por tí? La respuesta rápida es: conseguirte un chofer con carro que te lleve a cualquier 
+        Entonces viajero, ¿qué puede hacer <em>YoTeLlevo</em> por tí? La respuesta rápida es: conseguirte un chofer con carro que te lleve a cualquier 
         lugar de Cuba, sin demoras. Y lo puedes hacer desde Internet accediendo a <a href="http://yotellevo.ahiteva.net/">http://yotellevo.ahiteva.net/</a>,
         o por correo escribiendo a <a href="mailto:viajes@yotellevo.ahiteva.net">viajes@yotellevo.ahiteva.net</a>.
     </p>

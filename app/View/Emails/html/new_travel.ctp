@@ -1,10 +1,21 @@
+<h2>Hola Chofer,</h2>
+<div>
+    <p>
+        Un nuevo anuncio de viaje ha sido registrado recientemente con los siguientes datos:
+    </p>
+    <p>
+        <?php echo $this->element('travel', array('travel'=>$travel, 'actions'=>false))?>
+    </p>
+    
+    <br/>
+    <p>
+        <b>¡Ponte en contacto con el viajero y haz que tu oferta sea la mejor!</b>
+    </p>
+</div>
+
 <?php 
 if(!isset ($creator_role)) $creator_role = 'regular';
 ?>
-
-<?php echo $this->element('travel', array('travel'=>$travel, 'actions'=>false))?>
-
-<br/>
 
 <?php if(isset ($admin)):?>
     <p>

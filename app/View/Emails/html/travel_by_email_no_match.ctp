@@ -1,11 +1,11 @@
-<h2>Hola Viajero</h2>
+<h2>Hola Viajero,</h2>
 <div>
     <p>
-        El <em>ORIGEN</em> y <em>DESTINO</em> especificados en el asunto de su correo no son reconocidos por <em>YoTeLlevo</em>. 
-        Por favor chequee que <em><b><?php echo $user_origin ?></b></em> y <em><b><?php echo $user_destination ?></b></em> 
+        El <em>ORIGEN</em> y <em>DESTINO</em> especificados en el asunto de tu correo no son reconocidos por <em>YoTeLlevo</em>. 
+        Por favor chequea que <em><b><?php echo $user_origin ?></b></em> y <em><b><?php echo $user_destination ?></b></em> 
         estén bien escritos. Nuestros especialistas analizarán dichas localidades para programar su inclusión
-        en el sistema. Aquí le mostramos un listado de las localidades que manejamos hasta el momento, 
-        y otros términos que puede usar como <em>ORIGEN</em> o como <em>DESTINO</em> de sus viajes:
+        en el sistema. Aquí te mostramos un listado de las localidades que manejamos hasta el momento<!--, 
+        y otros términos--> y que puedes usar como <em>ORIGEN</em> o como <em>DESTINO</em> de tus viajes:
     </p>
 </div>
 <div> 
@@ -23,7 +23,7 @@
     ?>
     </p>
     
-    <p>
+    <!--<p>
     <?php
     echo '<b>Términos:</b> ';
     
@@ -33,12 +33,13 @@
         $sep = ', ';
     }
     ?>
-    </p>
+    </p>-->
 </div>
 
 <div>
     <p>
-    Si alguna de estas localidades o términos le es conveniente, vuelva a escribir un correo a <b>viajes@yotellevo.ahiteva.net</b>
-    usando uno de ellos en el asunto como <em>ORIGEN</em> o como <em>DESTINO</em>.
+    Si alguna de estas localidades <!--o términos--> te es conveniente, vuelve a escribir un correo a 
+    <b><a href="mailto:viajes@yotellevo.ahiteva.net">viajes@yotellevo.ahiteva.net</a></b>
+    usando una de ellas en el asunto como <em>ORIGEN</em> o como <em>DESTINO</em>.
     </p>
 </div>

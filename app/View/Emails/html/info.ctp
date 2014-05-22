@@ -2,7 +2,7 @@
 <div>
     <p>
         Entonces viajero, ¿qué hace <em>YoTeLlevo</em> por tí? La respuesta rápida es: conseguirte un chofer con carro que te lleve a cualquier 
-        lugar de Cuba, sin demoras. Y lo puedes hacer desde Internet accediendo a <a href="<?php echo $this->Html->url('/', true)?>">www.yotellevo.ahiteva.net</a>,
+        lugar de Cuba, sin demoras. Y lo puedes hacer desde Internet accediendo a <a href="http://yotellevo.ahiteva.net/">http://yotellevo.ahiteva.net/</a>,
         o por correo escribiendo a <a href="mailto:viajes@yotellevo.ahiteva.net">viajes@yotellevo.ahiteva.net</a>.
     </p>
     <p>
@@ -24,10 +24,10 @@
     
     <h4><b>¿Cómo funciona <em>YoTeLlevo</em>?</b></h4>
     <p>
-        <big>Entra a <big><a href="<?php echo $this->Html->url('/', true)?>">www.yotellevo.ahiteva.net</a></big> y publica un anuncio de viaje</big>.
+        <big>Entra a <big><a href="http://yotellevo.ahiteva.net/">http://yotellevo.ahiteva.net/</a></big> y publica un anuncio de viaje</big>.
     </p>
     <p>
-        Los que deseen contactar un chofer para viajar a alguna parte, deben entrar a la página web <a href="<?php echo $this->Html->url('/', true)?>">www.yotellevo.ahiteva.net</a>. 
+        Los que deseen contactar un chofer para viajar a alguna parte, deben entrar a la página web <a href="http://yotellevo.ahiteva.net/">http://yotellevo.ahiteva.net/</a>. 
         En esta página puedes crear anuncios de viaje diciendo el lugar a donde quieres ir y cuándo lo deseas hacer. 
         Cuando creas el anuncio, debes poner algún dato para contactarte (teléfono, correo electrónico u otra vía).
         Al confirmar el viaje, varios choferes reciben una notificación de tu anuncio, con tus datos de contacto.
@@ -46,7 +46,7 @@
     <br/>
     <h4><b><em>YoTeLlevo</em> por correo electrónico</b></h4>
     <p>
-        <big>Crea anuncios de viajes por correo, sin necesidad de tener Internet</big>.
+        <big>Crea anuncios de viajes por correo, sin necesidad de tener Internet. Escribe a <big><a href="mailto:viajes@yotellevo.ahiteva.net">viajes@yotellevo.ahiteva.net</a></big></big>.
     </p>
     <p>
         Para los que no tienen Internet, <em>YoTeLlevo</em> tiene diseñada una alternativa: se pueden crear anuncios de viajes directamente 
@@ -77,9 +77,8 @@
 </div>
 <br/>
 <div>
-    <p>Para conocer más sobre <em>YoTeLlevo</em> visita la página de 
-        <?php echo $this->Html->link('Preguntas y Respuestas', array('controller'=>'pages', 'action'=>'faq'))?>, o escribe
-        al correo <a href="mailto:contacto@yotellevo.ahiteva.net">contacto@yotellevo.ahiteva.net</a> o al correo 
+    <p>Para conocer más sobre <em>YoTeLlevo</em> visita la página de <a href="http://yotellevo.ahiteva.net/pages/faq">Preguntas y Respuestas</a>,
+        o escribe al correo <a href="mailto:contacto@yotellevo.ahiteva.net">contacto@yotellevo.ahiteva.net</a> o al correo 
         <a href="mailto:soporte@yotellevo.ahiteva.net">soporte@yotellevo.ahiteva.net</a> para hacer cualquier pregunta.
     </p>
 </div>

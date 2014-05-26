@@ -1,0 +1,1 @@
+ALTER TABLE  `drivers` ADD  `role` VARCHAR( 100 ) NOT NULL DEFAULT  'driver' AFTER  `password`;

@@ -50,6 +50,10 @@ class User extends AppModel {
     public static function canCreateTravel() {
         return AuthComponent::user('travel_count') < 1 || AuthComponent::user('email_confirmed');
     }
+    
+    public static function isRegular() {
+        return AuthComponent::user('role') === 'regular';
+    }
 }
 
 ?>

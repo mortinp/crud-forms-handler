@@ -30,7 +30,7 @@ if($isConfirmed) {
                 <b>Este anuncio de viaje fue confirmado exitosamente y enviado a <big><?php echo $pretty_drivers_count?></big></b>. Pronto serás contactado.
                 
                 <?php else:?>
-                <b>Se encontaron <big><?php echo $pretty_drivers_count?></big></b> para notificar, pero <b>el anuncio no fue enviado</b> porque eres un usuario <b><?php echo AuthComponent::user('role')?></b>.
+                <b>Se encontaron <big><?php echo $pretty_drivers_count?></big></b> para notificar, pero son <b>choferes de prueba</b> porque eres un usuario <b><?php echo AuthComponent::user('role')?></b>.
                 <?php endif?>
             </div>
         <?php endif;?>

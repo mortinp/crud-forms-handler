@@ -2,7 +2,7 @@
 App::uses('AppModel', 'Model');
 class Driver extends AppModel {
     
-    public $order = 'travel_count DESC';
+    public $order = 'travel_count DESC, id ASC';
     
     public $hasAndBelongsToMany = 'Locality';
 

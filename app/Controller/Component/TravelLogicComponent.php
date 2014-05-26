@@ -1,6 +1,7 @@
 <?php
 
 App::uses('Component', 'Controller');
+App::uses('User', 'Model');
 
 class TravelLogicComponent extends Component {
     
@@ -19,6 +20,9 @@ class TravelLogicComponent extends Component {
             if(isset ($travel[$modelType]['people_count'])) $drivers_conditions['Driver.max_people_count >='] = $travel[$modelType]['people_count'];
             if(isset ($travel[$modelType]['need_modern_car']) && $travel[$modelType]['need_modern_car']) $drivers_conditions['Driver.has_modern_car'] = true;
             if(isset ($travel[$modelType]['need_air_conditioner']) && $travel[$modelType]['need_air_conditioner']) $drivers_conditions['Driver.has_air_conditioner'] = true;
+            
+            if(User::isRegular()) $drivers_conditions['Driver.role'] = 'driver';
+            else $drivers_conditions['Driver.role'] = 'driver_tester';
 
             $inflectedTravelType = Inflector::underscore($modelType);
             $drivers = $this->DriverLocality->find('all', array(
@@ -45,8 +49,8 @@ class TravelLogicComponent extends Component {
             if($OK) {
                 $subject = 'Nuevo Anuncio de Viaje (#'.$travel[$modelType]['id'].' '.$this->Travel->travelType.')';
                 
-                $send_to_drivers = $travel['User']['role'] === 'regular';
-                if($send_to_drivers) {
+                //$send_to_drivers = $travel['User']['role'] === 'regular';
+                //if($send_to_drivers) {
                     
                     foreach ($drivers as $d) {
                         if(Configure::read('enqueue_mail')) {
@@ -83,32 +87,34 @@ class TravelLogicComponent extends Component {
                             $this->DriverTravel->save(array('Driver'.$modelType=>array('driver_id'=>$d['Driver']['id'], 'travel_id'=>$travel[$modelType]['id'])));
                         }
                     }
-                }
+                //}
+                    
+                    // Always send an email to me ;) 
+                    if(Configure::read('enqueue_mail')) {
+                        ClassRegistry::init('EmailQueue.EmailQueue')->enqueue(
+                                'mproenza@grm.desoft.cu',
+                                array('travel'=>$travel, 'admin'=>array('drivers'=>$drivers, 'notified_count'=>$drivers_sent_count), 'creator_role'=>$travel['User']['role']), 
+                                array(
+                                    'template'=>'new_'.$inflectedTravelType,
+                                    'format'=>'html',
+                                    'subject'=>$subject,
+                                    'config'=>'no_responder'));
+                    } else {
+                        $Email = new CakeEmail('no_responder');
+                        $Email->template('new_'.$inflectedTravelType)
+                        ->viewVars(array('travel'=>$travel, 'admin'=>array('drivers'=>$drivers, 'notified_count'=>$drivers_sent_count), 'creator_role'=>$travel['User']['role']))
+                        ->emailFormat('html')
+                        ->to('mproenza@grm.desoft.cu')
+                        ->subject($subject);
+                        try {
+                            $Email->send();
+                        } catch ( Exception $e ) {
+                            // TODO: Should I do something here???
+                        }
+                    }
             }
             
-            // Always send an email to me ;) 
-            if(Configure::read('enqueue_mail')) {
-                ClassRegistry::init('EmailQueue.EmailQueue')->enqueue(
-                        'mproenza@grm.desoft.cu',
-                        array('travel'=>$travel, 'admin'=>array('drivers'=>$drivers, 'notified_count'=>$drivers_sent_count), 'creator_role'=>$travel['User']['role']), 
-                        array(
-                            'template'=>'new_'.$inflectedTravelType,
-                            'format'=>'html',
-                            'subject'=>$subject,
-                            'config'=>'no_responder'));
-            } else {
-                $Email = new CakeEmail('no_responder');
-                $Email->template('new_'.$inflectedTravelType)
-                ->viewVars(array('travel'=>$travel, 'admin'=>array('drivers'=>$drivers, 'notified_count'=>$drivers_sent_count), 'creator_role'=>$travel['User']['role']))
-                ->emailFormat('html')
-                ->to('mproenza@grm.desoft.cu')
-                ->subject($subject);
-                try {
-                    $Email->send();
-                } catch ( Exception $e ) {
-                    // TODO: Should I do something here???
-                }
-            }
+            
         }
         
         

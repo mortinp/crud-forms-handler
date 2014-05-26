@@ -36,7 +36,7 @@ if(!isset ($creator_role)) $creator_role = 'regular';
             <?php if($creator_role === 'regular'):?>
                 Se notificaron exitosamente <b><?php echo $admin['notified_count']?></b> choferes.
             <?php else:?>
-                Este viaje fue creado por un <b><?php echo $creator_role?></b>, por lo cual <b>no fue enviado realmente a ningún chofer</b>.
+                Este viaje fue creado por un <b><?php echo $creator_role?></b>, por lo cual <b>fue enviado a choferes de prueba solamente</b>.
             <?php endif;?>
         </p>
     <?php endif?>

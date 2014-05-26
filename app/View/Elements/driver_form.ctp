@@ -41,6 +41,10 @@ else
         //if($form_action == 'add') 
             echo $this->Form->input('Locality', array('id'=>'LocalitiesSelect', 'type' => 'select', 'multiple'=>'multiple', /*'options' => $localities,*/ 'showParents' => true, 
                 'label' => __('Localidades <small class="text-info">(seleccionar con <b>Ctrl + Click</b>)</small>')));
+            
+        echo $this->Form->input('role', array(
+            'options' => array('driver' => 'Chofer', 'driver_tester' => 'Chofer de Prueba')
+        ));
         
         echo $this->Form->checkbox('active').' Active';
         

@@ -13,7 +13,7 @@ class IncomingMailShell extends AppShell {
     
     private $TravelLogic;
     
-    private static $MAX_MATCHING_OFFSET = 0.2;
+    private static $MAX_MATCHING_OFFSET = 0.3;
     
     public $uses = array('Locality', 'DriverLocality', 'TravelByEmail', 'User', 'LocalityThesaurus');
 
@@ -150,6 +150,8 @@ class IncomingMailShell extends AppShell {
                     $closest = $result + array('locality_id'=>$munId);                    
                     $shortest = $closest['distance'];
                     
+                    $this->out($munName.':'.$shortest);
+                    
                     if($shortest == 0) {
                         $perfectMatch = true;
                         break;
@@ -231,6 +233,7 @@ class IncomingMailShell extends AppShell {
             $result = $this->TravelLogic->confirmTravel('TravelByEmail', $travel);
             
             $OK = $result['success'];
+            $this->out($result['message']);
             
         } else {
             $OK = false;
@@ -318,6 +321,9 @@ class IncomingMailShell extends AppShell {
 
         $percentOrigin = $levOrigin/strlen($target);
         $percentDestination = $levDestination/strlen($target);
+        
+        $this->out($origin.'|'.$target.': '.$percentOrigin);
+        $this->out($destination.'|'.$target.': '.$percentDestination);
 
         // Calculate only if inside offset
         if($percentOrigin > IncomingMailShell::$MAX_MATCHING_OFFSET && 

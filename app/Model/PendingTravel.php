@@ -1,17 +1,15 @@
 <?php
 App::uses('AppModel', 'Model');
-class Travel extends AppModel {
+class PendingTravel extends AppModel {
     
-    public $travelType = '';
+    /*public $travelType = '';
     
     public static $STATE = array(
-        'P' => array('color'=>'green', 'label'=>'Pendiente'),
         'U' => array('color'=>'goldenrod', 'label'=>'Sin Confirmar'),
         'C' => array('color'=>'lightskyblue', 'label'=>'Confirmado'),
         'E' => array('color'=>'lightcoral', 'label'=>'Expirado'),
     );
     
-    public static $STATE_PENDING = 'P';
     public static $STATE_UNCONFIRMED = 'U';
     public static $STATE_CONFIRMED = 'C';
     public static $STATE_SOLVED = 'S';
@@ -21,17 +19,13 @@ class Travel extends AppModel {
     public static $preferences = array(
         'need_modern_car'=>'Carro Moderno',
         'need_air_conditioner'=>'Aire Acondicionado'
-    );
+    );*/
     
-    public $order = 'Travel.id DESC';
+    public $order = 'PendingTravel.id DESC';
     
     public $belongsTo = array(
         'Locality' => array(
             'fields'=>array('id', 'name')
-        ),
-        'User' => array(
-            'fields'=>array('id', 'username', 'role'),
-            'counterCache'=>true
         )
     );
 
@@ -83,14 +77,18 @@ class Travel extends AppModel {
     
     public function afterFind($results, $primary = false) {
         foreach ($results as $key => $val) {
-            if (isset($val['Travel']['date'])) {
-                $results[$key]['Travel']['date'] = $this->dateFormatAfterFind($val['Travel']['date']);
+            if (isset($val[$this->alias]['date'])) {
+                $results[$key][$this->alias]['date'] = $this->dateFormatAfterFind($val[$this->alias]['date']);
             }
         }
         return $results;
     }
     
-    public function afterSave($created, array $options = array()) {
+    public function dateFormatAfterFind($date) {
+        return date('d-m-Y', strtotime($date));
+    }
+    
+    /*public function afterSave($created, array $options = array()) {
         parent::afterSave($created, $options);
         
         if($created) {
@@ -102,11 +100,8 @@ class Travel extends AppModel {
         parent::afterDelete();
             
         CakeSession::write('Auth.User.travel_count', CakeSession::read('Auth.User.travel_count') - 1);
-    }
-        
-    public function dateFormatAfterFind($date) {
-        return date('d-m-Y', strtotime($date));
-    }
+    }       
+    
 
     public function isOwnedBy($id, $user_id) {
         return $this->field('id', array('id' => $id, 'user_id' => $user_id)) == $id;
@@ -114,7 +109,7 @@ class Travel extends AppModel {
     
     public static function isConfirmed($travelState) {
         return $travelState === Travel::$STATE_CONFIRMED || $travelState === Travel::$STATE_SOLVED;
-    }
+    }*/
 }
 
 ?>

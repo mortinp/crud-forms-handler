@@ -58,7 +58,8 @@ class AppController extends Controller {
         
         'travels.index' =>'Anuncios de Viajes',
         'travels.add' =>'Crear Anuncio de Viaje',
-        'travels.view' =>'Ver Anuncio de Viaje'
+        'travels.view' =>'Ver Anuncio de Viaje',
+        'travels.add_pending' =>'Crear Anuncio de Viaje',
     );
     
     public $helpers = array(

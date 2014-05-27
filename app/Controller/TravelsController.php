@@ -2,17 +2,18 @@
 App::uses('AppController', 'Controller');
 App::uses('CakeEmail', 'Network/Email');
 App::uses('User', 'Model');
+App::uses('Travel', 'Model');
 
 class TravelsController extends AppController {
     
-    public $uses = array('Travel', 'TravelByEmail', 'Locality', 'User', 'DriverLocality', 'Province');
+    public $uses = array('Travel', 'TravelByEmail', 'PendingTravel', 'Locality', 'User', 'DriverLocality', 'Province');
     
     public $components = array('TravelLogic');
     
-    /*public function beforeFilter() {
+    public function beforeFilter() {
         parent::beforeFilter();
-        //$this->Auth->allow('add', 'view');
-    }*/
+        if(!$this->Auth->loggedIn()) $this->Auth->allow('add_pending', 'view_pending', 'edit_pending');
+    }
     
     public function isAuthorized($user) {
         if ($this->action ==='index') {
@@ -56,15 +57,19 @@ class TravelsController extends AppController {
         
         $this->request->data = $travel;
     }
+    
+    public function view_pending($id) {
+        $travel = $this->PendingTravel->findById($id);
+        $travel['PendingTravel']['state'] = Travel::$STATE_PENDING;
+        
+        $this->set('localities', $this->Locality->getAsList());
+        $this->set('travel', $travel);
+        
+        $this->request->data = $travel;
+    }
 
     public function add() {
-        if ($this->request->is('post')) {
-            /*for ($i = 0; $i < 10000; $i++) {
-                for ($j = 0; $j < 1000; $j++) {
-
-                }
-            }*/
-            
+        if ($this->request->is('post')) {            
             $this->Travel->create();
 
             $this->request->data['Travel']['user_id'] = $this->Auth->user('id');
@@ -75,6 +80,25 @@ class TravelsController extends AppController {
                 
                 $id = $this->Travel->getLastInsertID();
                 return $this->redirect(array('action' => 'view/' . $id));
+            }
+            $this->setErrorMessage(__('Error al crear el viaje'));
+            $this->set('localities', $this->Locality->getAsList());
+            return;
+        }
+        
+        $this->set('localities', $this->Locality->getAsList());
+    }
+    
+    public function add_pending() {
+        if ($this->request->is('post')) {            
+            $this->PendingTravel->create();
+
+            $this->request->data['PendingTravel']['created_from_ip'] = $this->request->clientIp();
+            if ($this->PendingTravel->save($this->request->data)) {
+                //$this->setSuccessMessage('Este viaje ha sido creado exitosamente.');
+                
+                $id = $this->PendingTravel->getLastInsertID();
+                return $this->redirect(array('action' => 'view_pending/' . $id));
             }
             $this->setErrorMessage(__('Error al crear el viaje'));
             $this->set('localities', $this->Locality->getAsList());
@@ -109,106 +133,6 @@ class TravelsController extends AppController {
         
         return $this->redirect(array('action'=>'view/'.$travel['Travel']['id']));
         
-        /*if($travel != null) {
-            $OK = true;
-            if(Travel::isConfirmed($travel['Travel']['state'])) {
-                $this->setErrorMessage('Este viaje ya ha sido confirmado.');
-                $OK = false;
-            }
-            
-            $drivers_conditions = array(
-                'DriverLocality.locality_id'=>$travel['Travel']['locality_id'], 
-                'Driver.active'=>true, 
-                'Driver.max_people_count >='=>$travel['Travel']['people_count']);
-            if($travel['Travel']['need_modern_car']) $drivers_conditions['Driver.has_modern_car'] = true;
-            if($travel['Travel']['need_air_conditioner']) $drivers_conditions['Driver.has_air_conditioner'] = true;
-            
-            $drivers = $this->DriverLocality->find('all', array('conditions'=>$drivers_conditions));
-            
-            $datasource = $this->Travel->getDataSource();
-            $datasource->begin();
-            
-            if (count($drivers) > 0) {
-                $travel['Travel']['state'] = Travel::$STATE_CONFIRMED;
-                $travel['Travel']['drivers_sent_count'] = count($drivers);
-                if(!$this->Travel->save($travel)) {
-                    $this->setErrorMessage('Ocurrió un error confirmando el viaje. Intenta de nuevo.');
-                    $OK = false;
-                }
-            } else {
-                $this->setErrorMessage('No hay choferes para atender este viaje. Intente confirmarlo más tarde. Ya estamos trabajando para resolver este problema.');
-                $OK = false;
-            }
-            
-            $drivers_sent_count = 0;
-            
-            if($OK) {
-                $send_to_drivers = $travel['User']['role'] === 'regular';
-                if($send_to_drivers) {
-                    
-                    foreach ($drivers as $d) {
-                        if(Configure::read('enqueue_mail')) {
-                            ClassRegistry::init('EmailQueue.EmailQueue')->enqueue(
-                                    $d['Driver']['username'], 
-                                    array('travel' => $travel), 
-                                    array(
-                                        'template'=>'new_travel', 
-                                        'format'=>'html',
-                                        'subject'=>'Nuevo Anuncio de Viaje (#'.$travel['Travel']['id'].')',
-                                        'config'=>'no_responder'));
-                        } else {
-                            $Email = new CakeEmail('no_responder');
-                            $Email->template('new_travel')
-                            ->viewVars(array('travel' => $travel))
-                            ->emailFormat('html')
-                            ->to($d['Driver']['username'])
-                            ->subject('Nuevo Anuncio de Viaje (#'.$travel['Travel']['id'].')');
-                            try {
-                                $Email->send();
-                            } catch ( Exception $e ) {
-                                if($drivers_sent_count < 1) {
-                                    $this->setErrorMessage('Ocurrió un error enviando el viaje a los choferes. Intenta de nuevo.');
-                                    $OK = false;
-                                    continue;
-                                }
-                            }
-                        }                        
-                        
-                        $drivers_sent_count++;
-                    }
-                }
-            }
-            
-            if($OK) $datasource->commit();
-            else $datasource->rollback();
-            
-            // Always send an email to me ;) 
-            if(Configure::read('enqueue_mail')) {
-                ClassRegistry::init('EmailQueue.EmailQueue')->enqueue(
-                        'mproenza@grm.desoft.cu',
-                        array('travel'=>$travel, 'admin'=>array('drivers'=>$drivers, 'notified_count'=>$drivers_sent_count), 'creator_role'=>$travel['User']['role']), 
-                        array(
-                            'template'=>'new_travel', 
-                            'format'=>'html',
-                            'subject'=>'Nuevo Anuncio de Viaje (#'.$travel['Travel']['id'].')',
-                            'config'=>'no_responder'));
-            } else {
-                $Email = new CakeEmail('no_responder');
-                $Email->template('new_travel')
-                ->viewVars(array('travel'=>$travel, 'admin'=>array('drivers'=>$drivers, 'notified_count'=>$drivers_sent_count), 'creator_role'=>$travel['User']['role']))
-                ->emailFormat('html')
-                ->to('mproenza@grm.desoft.cu')
-                ->subject('Nuevo Anuncio de Viaje (#'.$travel['Travel']['id'].')');
-                try {
-                    $Email->send();
-                } catch ( Exception $e ) {
-                    // TODO: Should I do something here???
-                }
-            }
-            
-            return $this->redirect(array('action'=>'view/'.$travel['Travel']['id']));
-        }*/
-        
     }
 
     public function edit($tId) {        
@@ -220,13 +144,7 @@ class TravelsController extends AppController {
         }
 
         $editing = $this->request->is('ajax') || $this->request->is('post') || $this->request->is('put');
-        if($editing) {
-            /*for ($i = 0; $i < 10000; $i++) {
-                for ($j = 0; $j < 1000; $j++) {
-
-                }
-            }*/
-            
+        if($editing) {            
             if ($this->Travel->save($travel)) {
                 if($this->request->is('ajax')) {
                     echo json_encode(array('object'=>$travel['Travel']));
@@ -240,6 +158,32 @@ class TravelsController extends AppController {
         $travel = $this->Travel->findById($tId);
         if (!$this->request->data) {
             $this->request->data['Travel'] = $travel['Travel'];
+        }
+    }
+    
+    public function edit_pending($tId) {        
+        if ($this->request->is('ajax')) {
+            $this->autoRender = false;
+            $travel = $this->data;
+        } else if ($this->request->is('post') || $this->request->is('put')) {
+            $travel = $this->request->data;
+        }
+
+        $editing = $this->request->is('ajax') || $this->request->is('post') || $this->request->is('put');
+        if($editing) {            
+            if ($this->PendingTravel->save($travel)) {
+                if($this->request->is('ajax')) {
+                    echo json_encode(array('object'=>$travel['PendingTravel']));
+                    return;
+                }
+                return $this->redirect(array('action' => 'index'));
+            }
+            $this->setErrorMessage(__('Ocurrió un error guardando los datos de este viaje. Intenta de nuevo.'));
+        }
+        
+        $travel = $this->PendingTravel->findById($tId);
+        if (!$this->request->data) {
+            $this->request->data['PendingTravel'] = $travel['PendingTravel'];
         }
     }
 

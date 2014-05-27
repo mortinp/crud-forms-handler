@@ -1,13 +1,14 @@
 <?php App::uses('User', 'Model')?>
+<?php App::uses('Travel', 'Model')?>
 
 <?php
 if (!isset($do_ajax))
     $do_ajax = false;
 
-if(!isset ($intent)) $intent = 'add';
+if(!isset ($intent)) $intent = 'add_pending';
 if (!isset($form_action)) {
-    $form_action = 'add';
-    $intent = 'add';
+    $form_action = 'add_pending';
+    $intent = 'add_pending';
 }
 
 if (!isset($style))
@@ -23,13 +24,9 @@ if (empty($this->request->data))
     $saveButtonText = 'Crear Viaje';
 else
     $saveButtonText = 'Cambiar Datos';
-
-$form_disabled = !User::canCreateTravel()/*AuthComponent::user('travel_count') > 0 && !AuthComponent::user('email_confirmed')*/;
-
-//echo levenshtein('Magento', 'Magneto');
 ?>
 
-<?php if($intent === 'add' && $form_disabled):?>
+<?php if(/*$intent === 'add_pending' && $form_disabled*/false):?>
     <div class="alert alert-warning">
         <b>Verifica tu cuenta de correo electrónico</b> para crear más anuncios de viajes. 
         El formulario de viajes permanecerá desactivado hasta que verifiques tu cuenta. 
@@ -43,7 +40,7 @@ $form_disabled = !User::canCreateTravel()/*AuthComponent::user('travel_count') >
         <div id='travel-ajax-message'></div>
         <div id="TravelFormDiv">
             <?php
-            echo $this->Form->create('Travel', array('default' => !$do_ajax, 'url' => array('controller' => 'travels', 'action' => $form_action), 'style' => $style, 'id' => 'TravelForm'));
+            echo $this->Form->create('PendingTravel', array('default' => !$do_ajax, 'url' => array('controller' => 'travels', 'action' => $form_action), 'style' => $style, 'id' => 'TravelForm'));
             ?>
         
         <fieldset>
@@ -55,7 +52,7 @@ $form_disabled = !User::canCreateTravel()/*AuthComponent::user('travel_count') >
             // Viajes que son desde una localidad, hacia otro lugar
             $travel_out =
                 $this->Form->input('locality_id', array('type' => 'select', 'options' => $localities, 'showParents' => true,
-                'label' => __('Origen del viaje'))).
+                'label' => __('Origen del viaje'), 'id'=>'TravelLocalityId')).
                 $this->Form->input('where', array('type' => 'text', 'label' => __('Destino del viaje'), 'placeholder' => 'Nombre de tu destino (puede ser cualquier lugar)')).
                 $this->Form->input('direction', array('type'=>'hidden', 'value'=>'0'));
             
@@ -63,23 +60,31 @@ $form_disabled = !User::canCreateTravel()/*AuthComponent::user('travel_count') >
             $travel_in =                
                 $this->Form->input('where', array('type' => 'text', 'label' => __('Origen del viaje'), 'placeholder' => 'Nombre de tu origen de viaje (puede ser cualquier lugar)')).
                     $this->Form->input('locality_id', array('type' => 'select', 'options' => $localities, 'showParents' => true,
-                'label' => __('Destino del viaje'))).
+                'label' => __('Destino del viaje'), 'id'=>'TravelLocalityId')).
                 $this->Form->input('direction', array('type'=>'hidden', 'value'=>'1'));
             
             ?>
             
             <div id="travel-def">
                 <?php
-                    if($intent == 'add') {
+                    if($intent == 'add_pending') {
                         echo $travel_out_switcher.$travel_out;
                     } else {
-                         if($travel['Travel']['direction'] == 0) echo $travel_out;
+                         if($travel['PendingTravel']['direction'] == 0) echo $travel_out;
                          else echo $travel_in;
                     }   
                 ?>
             </div>
             
-            <?php            
+            <?php
+            /*echo $this->Form->input('locality_id', array('type' => 'select', 'options' => $localities, 'showParents' => true,
+                'label' => __('Origen del viaje') . ' 
+            <small><a class="popover-info" href="#!" data-container="body" data-toggle="popover" data-placement="bottom" 
+                data-content="Para que un origen de viaje aparezca en esta lista, <b>debe haber choferes registrados para ese origen</b>, de tal forma que los viajeros puedan ser atendidos. Los orígenes de viaje se adicionan en cuanto se registra el primer chofer para ese origen.">&ndash; ¿Por qué mi <em>origen de viaje</em> no aparece aquí?</a>
+            </small>'));
+            echo $this->Form->input('where', array('type' => 'text', 'label' => __('Destino'), 'placeholder' => 'Nombre de tu destino (puede ser cualquier lugar)'));
+            echo $this->Form->input('direction', array('type'=>'hidden', 'value'=>'0'));*/
+            
             echo $this->Form->custom_date('date', array('label' => __('Cuándo'), 'dateFormat' => 'dd/mm/yyyy'));
             echo $this->Form->input('people_count', array('label' => __('Personas que viajan <small class="text-info">(máximo número de personas)</small>'), 'default' => 1, 'min' => 1));
             echo $this->Form->checkbox_group(Travel::$preferences, array('header'=>'Preferencias <small class="text-info">(selecciona sólo si quieres esto obligatoriamente)</small>'));
@@ -118,7 +123,7 @@ $this->Html->script('jquery-validation-1.10.0/localization/messages_es', array('
 
     
 // Pass to js
-if($intent == 'add' && !$form_disabled) {
+if($intent == 'add_pending' /*&& !$form_disabled*/) {
     $this->Js->set('travel_on', $travel_out_switcher.$travel_out);
     $this->Js->set('travel_off', $travel_in_switcher.$travel_in);
     echo $this->Js->writeBuffer(array('inline' => false));
@@ -127,7 +132,7 @@ if($intent == 'add' && !$form_disabled) {
 
 <script type="text/javascript">
     $(document).ready(function() {
-        <?php if($intent == 'add' && !$form_disabled):?>
+        <?php if($intent == 'add_pending' /*&& !$form_disabled*/):?>
         var travelOn = window.app.travel_on;
         var travelOff = window.app.travel_off;
         var switcher = function() {

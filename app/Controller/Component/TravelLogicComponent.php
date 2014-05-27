@@ -2,6 +2,7 @@
 
 App::uses('Component', 'Controller');
 App::uses('User', 'Model');
+App::uses('Travel', 'Model');
 
 class TravelLogicComponent extends Component {
     
@@ -21,7 +22,7 @@ class TravelLogicComponent extends Component {
             if(isset ($travel[$modelType]['need_modern_car']) && $travel[$modelType]['need_modern_car']) $drivers_conditions['Driver.has_modern_car'] = true;
             if(isset ($travel[$modelType]['need_air_conditioner']) && $travel[$modelType]['need_air_conditioner']) $drivers_conditions['Driver.has_air_conditioner'] = true;
             
-            if(User::isRegular()) $drivers_conditions['Driver.role'] = 'driver';
+            if(User::isRegular($travel['User'])) $drivers_conditions['Driver.role'] = 'driver';
             else $drivers_conditions['Driver.role'] = 'driver_tester';
 
             $inflectedTravelType = Inflector::underscore($modelType);

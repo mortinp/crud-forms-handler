@@ -51,7 +51,8 @@ class User extends AppModel {
         return AuthComponent::user('travel_count') < 1 || AuthComponent::user('email_confirmed');
     }
     
-    public static function isRegular() {
+    public static function isRegular($user = null) {
+        if($user != null) return $user['role'] === 'regular';
         return AuthComponent::user('role') === 'regular';
     }
 }

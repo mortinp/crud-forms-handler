@@ -20,10 +20,7 @@ body {
 
 .navbar-nav > li > a, .navbar-brand {padding-top:5px !important; padding-bottom:5px !important;}
 .navbar {min-height:30px !important}
-
-#myNavbar {
-    height: 35px;
-}
+#myNavbar {height: 35px;}
 
 
 /* Custom page CSS

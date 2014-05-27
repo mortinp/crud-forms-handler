@@ -126,7 +126,7 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
 <div class="container" style="background-color: lightblue">
     <div class="row">
         <div class="col-md-6">
-            <legend class="text-muted">
+            <legend class="text-info">
                 <b>¿No tienes una cuenta todavía?</b> Regístrate ahora: 
             </legend>
             <?php echo $this->element('register_form')?>

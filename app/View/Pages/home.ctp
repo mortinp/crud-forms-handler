@@ -56,24 +56,24 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
             <br/>
             <?php echo $this->element('register_form')?>
             <br/>
-            <!--<div><big><b>o puedes</b></big></div>
+            <div><big><b>O puedes</b></big></div>
             <br/>
-            <?php echo $this->Html->link('Crear un Anuncio de Viaje y registrarte luego', 
+            <?php echo $this->Html->link('Crear un Anuncio de Viaje y Registrarte luego', 
                     array('controller'=>'travels', 'action'=>'add_pending'), array('class'=>'btn btn-success'));?>
             
             <br/>
-            <br/>-->
+            <br/>
             <p><b>¿Ya estás registrado en <em>YoTeLlevo</em>?</b> <big><?php echo $this->Html->link(__('Entra con tu cuenta'), array('controller' => 'users', 'action' => 'login')) ?></big></p>
-                        
-            <div class="text-muted" style="padding: 40px;">
+              
+            <br/>
+            <div class="text-muted" style="/*padding: 40px;*/">
                 <big>
-                    <div style="position: absolute;margin-left: -10px"><big><b>"</b></big></div> 
-                    Con <em>YoTeLlevo</em> las personas no dependen de nadie que les gestione sus viajes. 
+                    <blockquote>Con <em>YoTeLlevo</em> las personas no dependen de nadie que les gestione sus viajes. 
                     Uno mismo puede gestionárselos entrando a la página web y publicando un anuncio. 
                     Es tan fácil como llenar los datos de un formulario, enviarlo, y esperar a que los mismos choferes te contacten. 
                     Y es gratis
-                    <big><b>"</b></big>
-                    <span style="/*color: #000*/">&ndash; <!--<a href="http://twitter.com/martinproenza" style="text-decoration: none">Martín</a>, c-->Creador de <em>YoTeLlevo</em></span>
+                    <small>Creador de <em>YoTeLlevo</em></small>
+                    </blockquote>
                 </big>
             </div>
         </div>
@@ -86,7 +86,7 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
     <div class="row">
         
         <div class="col-md-2">
-          <h3>Base de Choferes</h3>
+          <h3>Base de choferes</h3>
           <p>Tenemos una base de choferes dispuestos a atender tu petición de viaje. </p>
         </div>
         

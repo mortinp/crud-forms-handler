@@ -16,6 +16,23 @@ App::uses('Auth', 'Component');
             <br/>
         </div>
         
+        <br/>
+        <br/>
+        <div id="travel">
+            <legend>Regístrate para confirmar este viaje 
+                <div><small class="text-muted">Para confirmar y notificar a los choferes debes estar registrado</small></div>
+            </legend>
+            <?php echo $this->Form->create('User', array('controller' => 'users', 'action' => 'register_and_create/'.$travel['PendingTravel']['id'])); ?>
+            <fieldset>
+                <?php
+                echo $this->Form->input('username', array('label' => 'Correo electrónico', 'type' => 'email', 'id'=>'UserRegisterForm'));
+                echo $this->Form->input('password', array('label'=> 'Contraseña', 'placeholder'=>'Escribe la contraseña que usarás para YoTeLlevo'));
+                echo $this->Form->submit(__('Registrarme y Confirmar este Anuncio de Viaje'));
+                ?>
+            </fieldset>
+            <?php echo $this->Form->end(); ?>
+        </div>
+        
         <br/> 
     </div>
     

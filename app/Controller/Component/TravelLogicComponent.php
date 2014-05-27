@@ -6,7 +6,7 @@ App::uses('Travel', 'Model');
 
 class TravelLogicComponent extends Component {
     
-    public function confirmTravel($modelType /*Travel or TravelByEmail*/, $travel) {
+    public function confirmTravel($modelType /*Travel or TravelByEmail*/, &$travel) {
         $OK = true;
         $errorMessage = '';
         if($travel != null) {
@@ -121,5 +121,57 @@ class TravelLogicComponent extends Component {
         
         return array('success'=>$OK, 'message'=>$errorMessage);
     }
+    
+    
+    public function confirmPendingTravel($tId, $userId) {
+        $OK = true;
+        $errorMessage = '';
+        if($tId != null) {
+            
+            $this->PendingTravel = ClassRegistry::init('PendingTravel');
+            $this->Travel = ClassRegistry::init('Travel');
+            
+            $pending = $this->PendingTravel->findById($tId);
+            
+            if($pending != null && !empty ($pending)) {
+                
+                $travel['Travel'] = $pending['PendingTravel'];
+                unset ($travel['Travel']['id']);
+                
+                $travel['Travel']['user_id'] = $userId;
+                
+                $OK = $this->Travel->save($travel);
+                $travel['Travel']['id'] = $this->Travel->getLastInsertID();
+                $travel = $this->Travel->findById($travel['Travel']['id']);
+                
+                if($OK) $OK = $this->PendingTravel->delete($tId);
+                
+                if($OK) $result = $this->confirmTravel('Travel', $travel);
+                
+                if(!$OK) $errorMessage = 'Ocurrió un error confirmando este viaje.';
+                
+                if(!$result['success']) {
+                    $OK = false;
+                    $errorMessage = $result['message'];
+                }
+                
+            } else {
+                $OK = false;
+                $errorMessage = 'El viaje especificado no existe como pendiente.';
+            }
+            
+        } else {
+            $OK = false;
+            $errorMessage = 'No has especificado el viaje que quieres confirmar.';
+        }
+        
+        if($OK ) {
+            return array('success'=>$OK, 'message'=>$errorMessage, 'travel'=>$travel);
+        }
+        return array('success'=>$OK, 'message'=>$errorMessage);
+    }
+    
+    
+    
 }
 ?>

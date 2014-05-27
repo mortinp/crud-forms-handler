@@ -6,6 +6,8 @@ App::uses('CakeEmail', 'Network/Email');
 class UsersController extends AppController {
     
     public $uses = array('User', /*'PendingUser',*/ 'UserInteraction');
+    
+    public $components = array('TravelLogic');
 
     public function beforeFilter() {
         parent::beforeFilter();
@@ -16,7 +18,7 @@ class UsersController extends AppController {
         if($this->Auth->loggedIn()) {
             $this->Auth->allow('logout', 'send_confirm_email', 'unsubscribe');
         }
-        else $this->Auth->allow('login', 'register', 'register_welcome', /*'authorize',*/ 'forgot_password', 'send_change_password');
+        else $this->Auth->allow('login', 'register', 'register_welcome', 'register_and_create', 'forgot_password', 'send_change_password');
     }
 
     public function isAuthorized($user) {
@@ -66,10 +68,12 @@ class UsersController extends AppController {
             $datasource = $this->User->getDataSource();
             $datasource->begin();
             
-            $OK = true;            
+            $OK = $this->do_register($this->request->data['User']);
+            
+            /*$OK = true;            
             $OK = $this->User->save($this->request->data['User']);
             if($OK) $this->request->data['User']['id'] = $this->User->getLastInsertID();
-            if($OK) $OK = $this->do_send_confirm_email($this->request->data['User'], true);
+            if($OK) $OK = $this->do_send_confirm_email($this->request->data['User'], true);*/
                 
             if($OK) {
                 $datasource->commit();
@@ -79,7 +83,54 @@ class UsersController extends AppController {
                 $this->setErrorMessage(__('Ocurrió un error registrando su usuario. Intente de nuevo'));
             }
         }
-    }    
+    } 
+    
+    public function register_and_create($pendingTravelId) {
+        if ($this->request->is('post')) {
+            if($this->User->loginExists($this->request->data['User']['username'])) {
+                $this->setErrorMessage(__('Este correo electrónico ya está registrado en <em>YoTeLlevo</em>. Escribe una dirección diferente o 
+                    <a href="'.Router::url(array('action'=>'login')).'">entra con tu cuenta</a>.'));// TODO: esta direccion estatica es un hack
+                return $this->redirect($this->referer());
+            }
+
+            $this->request->data['User']['role'] = 'regular';
+            $this->request->data['User']['active'] = true;
+            $this->request->data['User']['registered_from_ip'] = $this->request->clientIp();
+            $this->request->data['User']['register_type'] = 'pending_travel_register_form';
+            
+            $datasource = $this->User->getDataSource();
+            $datasource->begin();
+            
+            $OK = $this->do_register($this->request->data['User']);
+            
+            if($OK) $result = $this->TravelLogic->confirmPendingTravel($pendingTravelId, $this->request->data['User']['id']);
+            
+            if(!$result['success']) {
+                $OK = false;
+            }
+                
+            if($OK) {
+                $datasource->commit();
+                if($this->do_login()) {
+                    $this->set('travel', $result['travel']);
+                    return $this->render('register_welcome');
+                }
+            } else {
+                $datasource->rollback();
+                $this->setErrorMessage(__('Ocurrió un error registrando tu usuario y confirmando el viaje. Intenta de nuevo'));
+                $this->redirect($this->referer());
+            }
+        }
+    } 
+    
+    private function do_register(&$user) {
+        $OK = true;            
+        $OK = $this->User->save($user);
+        if($OK) $user['id'] = $this->User->getLastInsertID();
+        if($OK) $OK = $this->do_send_confirm_email($user, true);
+        
+        return $OK;
+    }
     
     public function profile() {
         if ($this->request->is('post')|| $this->request->is('put')) {

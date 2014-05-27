@@ -5,7 +5,7 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
 <div class="container">
     <div class="row">
         <div class="col-md-4">
-            <h1><big><big><i class="glyphicon glyphicon-road"></i> <em>YoTeLlevo</em></big></big></h1>
+            <h1><big><big><!--<i class="glyphicon glyphicon-road"></i>-->YoTeLlevo</big></big></h1>
         </div>
         <div class="col-md-8">
             <h1><small>Consigue un chofer con carro que te lleve a cualquier parte de Cuba, de la manera más fácil, cómoda y rápida. Garantizado.</small></h1>
@@ -71,7 +71,7 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
                     <blockquote>Con <em>YoTeLlevo</em> las personas no dependen de nadie que les gestione sus viajes. 
                     Uno mismo puede gestionárselos entrando a la página web y publicando un anuncio. 
                     Es tan fácil como llenar los datos de un formulario, enviarlo, y esperar a que los mismos choferes te contacten. 
-                    Y es gratis
+                    Y es gratis.
                     <small>Creador de <em>YoTeLlevo</em></small>
                     </blockquote>
                 </big>

@@ -68,7 +68,7 @@ if($isLoggedIn) {
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <div class="navbar-brand"><i class="glyphicon glyphicon-road"></i> YoTeLlevo</div>
+                        <div class="navbar-brand"><!--<i class="glyphicon glyphicon-road"></i> -->YoTeLlevo</div>
                         <!--<big><?php echo $this->Html->link('<i class="glyphicon glyphicon-road"></i> YoTeLlevo', '/', array('class' => 'navbar-brand', 'escape' => false));?></big>-->
                     </div>
                     <!-- Collect the nav links, forms, and other content for toggling -->

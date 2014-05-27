@@ -81,6 +81,8 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
 </div>
 
 <br/>
+<br/>
+<br/>
 
 <div class="container" style="/*background-color: lightcoral*/">
     <div class="row">

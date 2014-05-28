@@ -78,7 +78,7 @@ if($isLoggedIn) {
                             
                                 <?php if($role === 'regular' || $role === 'admin' || $role === 'tester') :?>
                                     <li><?php echo $this->Html->link(__('<i class="glyphicon glyphicon-bell"></i> Mis anuncios'), array('controller' => 'travels', 'action' => 'index'), array('escape'=>false));?></li>
-                                    <li><?php echo $this->Html->link(__('<i class="glyphicon glyphicon-flag"></i> <big><b>Anunciar viaje</b></big>'), array('controller' => 'travels', 'action' => 'add'), array('escape'=>false));?></li> 
+                                    <li><?php echo $this->Html->link(__('<i class="glyphicon glyphicon-flag"></i> <b>Anunciar viaje</b>'), array('controller' => 'travels', 'action' => 'add'), array('escape'=>false));?></li> 
                                     
                                     <?php if($role === 'admin') :?>
                                     <li class="dropdown">

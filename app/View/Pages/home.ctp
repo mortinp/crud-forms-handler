@@ -89,12 +89,12 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
         
         <div class="col-md-2">
           <h3>Base de choferes</h3>
-          <p>Tenemos una base de choferes dispuestos a atender tu petición de viaje. </p>
+          <p>Tenemos una base de choferes dispuestos a atender tu petición de viaje. Todos los carros son confortables.</p>
         </div>
         
         <div class="col-md-2">
           <h3>Todo tipo de viajes</h3>
-          <p>Los viajes pueden ser de corta o larga distancia; y pueden ser para llevarte y/o para recogerte.</p>
+          <p>Los viajes pueden ser de corta o larga distancia; y pueden ser para llevarte y/o para recogerte. Por toda Cuba.</p>
         </div>
         
         <div class="col-md-2">

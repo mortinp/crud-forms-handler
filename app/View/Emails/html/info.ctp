@@ -21,9 +21,9 @@
         <ul>
             <li>Escribe un correo a <a href="mailto:viajes@yotellevo.ahiteva.net">viajes@yotellevo.ahiteva.net</a>.</li>
             <li>Escribe en el asunto el origen y el destino de la forma <em><b>ORIGEN-DESTINO</b></em> (un guión o signo de menos en el medio). 
-                Por ejemplo, puedes escribir en el asunto <em>La Habana-Santiago de Cuba</em>. Sigue este formato para tener buenos resultados.</li>
+                Por ejemplo, puedes escribir en el asunto <em><b>La Habana-Santiago de Cuba</b></em>. Sigue este formato para tener buenos resultados.</li>
             <li>Escribe en el cuerpo del mensaje una forma de contactarte (preferiblemente un número de teléfono). 
-                Por ejemplo, puedes escribir en el cuerpo <em>Llamar a Pepito al teléfono xx-xxxx</em>. También puedes escribir cualquier 
+                Por ejemplo, puedes escribir en el cuerpo <em><b>Llamar a Pepito al teléfono xx-xxxx</b></em>. También puedes escribir cualquier 
                 otro detalle del viaje, como la fecha, la cantidad de personas que viajan, etc.</li>
         </ul>
     </p>

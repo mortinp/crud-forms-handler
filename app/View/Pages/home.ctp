@@ -28,10 +28,11 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
                 </big>
             </div>-->  
             <br/>
-            <?php echo $this->Html->link('Crear un Anuncio de Viaje ahora mismo', 
+            <?php echo $this->Html->link('Crear un Anuncio de Viaje ahora mismo 
+                <div style="font-size:10pt;padding-left:50px;padding-right:50px">En poco tiempo te contactará un chofer para acordar los términos del viaje</div>', 
                     array('controller'=>'travels', 'action'=>'add_pending'), 
-                    array('class'=>'btn btn-success', 'style'=>'height:50px;padding-top:10px;font-size:16pt'));?>
-            
+                    array('class'=>'btn btn-success', 'style'=>'height:80px;padding-top:10px;font-size:16pt;white-space: normal;', 'escape'=>false));?>
+                        
             <br/>
             <br/>
             <p><b>¿Ya estás registrado en <em>YoTeLlevo</em>?</b> <big><?php echo $this->Html->link(__('Entra con tu cuenta'), array('controller' => 'users', 'action' => 'login')) ?></big></p>
@@ -79,7 +80,7 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
                 </li>
                 <li style="padding-bottom: 15px">
                     <i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> 
-                    <b>Esperas a que un chofer te contacte en poco tiempo para acordar los términos del viaje contigo directamente</b>; 
+                    <b>Esperas a que un chofer te contacte para acordar los términos del viaje contigo directamente</b>; 
                     no hay intermediarios.
                 </li>
             </ul>
@@ -123,7 +124,7 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
         
         <div class="col-md-2">
           <h3>Datos privados</h3>
-          <p>Los datos de tu viaje son compartidos exclusivamente con algunos choferes que puede atender tu petición.</p>
+          <p>Los datos de tu viaje lo pueden ver exclusivamente tú y algunos choferes que pudieran atender tu petición.</p>
         </div>
     </div>
 </div>

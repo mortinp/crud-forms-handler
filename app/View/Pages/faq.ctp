@@ -7,8 +7,8 @@
                 <b><em>YoTeLlevo</em> es diferente a los demás sitios</b> de anuncios clasificados:
             <ul>
                 <li><em>YoTeLlevo</em> está <b>dedicado exclusivamente a ayudarte a encontrar un chofer con carro</b>.</li>
-                <li>Tus anuncios en <em>YoTeLlevo</em> no tienen que esperar a que un chofer con carro los vea. En <em>YoTeLlevo</em> <b>los choferes se enteran
-                en cuanto publicas tu anuncio</b>.</li>
+                <li>Tus anuncios en <em>YoTeLlevo</em> no tienen que esperar a que un chofer con carro los encuentre. 
+                    En <em>YoTeLlevo</em> <b>los choferes se enteran en cuanto publicas tu anuncio</b>. Esto quiere decir que el contacto es casi inmediato.</li>
                 <li>En <em>YoTeLlevo</em>, <b>los datos de tus anuncios NO son públicos</b>.</li>
             </ul>
             

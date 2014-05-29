@@ -6,7 +6,12 @@
             
             <br/>            
             <?php if(isset ($travel)):?>
-                <h4>Tienes el siguiente viaje confirmado:</h4>
+                <p>
+                    Tienes el siguiente viaje 
+                    <span style="color:<?php echo Travel::$STATE[$travel['Travel']['state']]['color']?>">
+                        <b><?php echo Travel::$STATE[$travel['Travel']['state']]['label']?></b>
+                    </span>:
+                </p>
                 <?php echo $this->element('travel', array('travel'=>$travel))?>
             <?php else:?>
                 <h3>
@@ -16,6 +21,7 @@
             
             <br/>
             <br/>
+            
             <p>                
                 Enviamos un correo a tu cuenta (<b><?php echo AuthComponent::user('username')?></b>) para ser verificada. <b>Revisa tu correo y sigue las instrucciones</b>.
                 Ten en cuenta que sólo podrás crear <b>1 anuncio de viaje</b> hasta que verifiques tu cuenta.

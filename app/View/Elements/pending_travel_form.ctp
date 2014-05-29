@@ -21,9 +21,16 @@ if ($is_modal)
     $buttonStyle = 'display:inline-block;float:left';
 
 if (empty($this->request->data))
-    $saveButtonText = 'Crear Viaje';
+    $saveButtonText = 'Crear Anuncio';
 else
-    $saveButtonText = 'Cambiar Datos';
+    $saveButtonText = 'Salvar Datos';
+
+$labelOrigin = 'Origen del viaje';
+$labelDestination = 'Destino del Viaje';
+if($intent == 'add_pending') {
+    $labelOrigin .= ' <div style="display:inline"><a href="#!" class="travel-switch">&ndash; Prefiero usar esta lista como <em><b>Destino del Viaje</b></em></a></div>';
+    $labelDestination .= ' <div style="display:inline"><a href="#!" class="travel-switch">&ndash; Prefiero usar esta lista como <em><b>Origen del Viaje</b></em></a></div>';
+}
 ?>
 
 <?php if(/*$intent === 'add_pending' && $form_disabled*/false):?>
@@ -46,13 +53,13 @@ else
         <fieldset>
             <?php
             
-            $travel_out_switcher = 'Selecciona el <b>Origen del viaje</b> <div style="display:inline"><a href="#!" class="travel-switch">&ndash; Prefiero seleccionar el <b>Destino del viaje</b></a></div><br/><br/>';
-            $travel_in_switcher = 'Selecciona el <b>Destino del viaje</b> <div style="display:inline"><a href="#!" class="travel-switch">&ndash; Prefiero seleccionar el <b>Origen del viaje</b></a></div><br/><br/>';
+            //$travel_out_switcher = 'Selecciona el <b>Origen del viaje</b> <div style="display:inline"><a href="#!" class="travel-switch">&ndash; Prefiero seleccionar el <b>Destino del viaje</b></a></div><br/><br/>';
+            //$travel_in_switcher = 'Selecciona el <b>Destino del viaje</b> <div style="display:inline"><a href="#!" class="travel-switch">&ndash; Prefiero seleccionar el <b>Origen del viaje</b></a></div><br/><br/>';
             
             // Viajes que son desde una localidad, hacia otro lugar
             $travel_out =
                 $this->Form->input('locality_id', array('type' => 'select', 'options' => $localities, 'showParents' => true,
-                'label' => __('Origen del viaje'), 'id'=>'TravelLocalityId')).
+                'label' => __($labelOrigin), 'id'=>'TravelLocalityId')).
                 $this->Form->input('where', array('type' => 'text', 'label' => __('Destino del viaje'), 'placeholder' => 'Nombre de tu destino (puede ser cualquier lugar)')).
                 $this->Form->input('direction', array('type'=>'hidden', 'value'=>'0'));
             
@@ -60,7 +67,7 @@ else
             $travel_in =                
                 $this->Form->input('where', array('type' => 'text', 'label' => __('Origen del viaje'), 'placeholder' => 'Nombre de tu origen de viaje (puede ser cualquier lugar)')).
                     $this->Form->input('locality_id', array('type' => 'select', 'options' => $localities, 'showParents' => true,
-                'label' => __('Destino del viaje'), 'id'=>'TravelLocalityId')).
+                'label' => __($labelDestination), 'id'=>'TravelLocalityId')).
                 $this->Form->input('direction', array('type'=>'hidden', 'value'=>'1'));
             
             ?>
@@ -68,7 +75,7 @@ else
             <div id="travel-def">
                 <?php
                     if($intent == 'add_pending') {
-                        echo $travel_out_switcher.$travel_out;
+                        echo /*$travel_out_switcher.*/$travel_out;
                     } else {
                          if($travel['PendingTravel']['direction'] == 0) echo $travel_out;
                          else echo $travel_in;
@@ -77,14 +84,6 @@ else
             </div>
             
             <?php
-            /*echo $this->Form->input('locality_id', array('type' => 'select', 'options' => $localities, 'showParents' => true,
-                'label' => __('Origen del viaje') . ' 
-            <small><a class="popover-info" href="#!" data-container="body" data-toggle="popover" data-placement="bottom" 
-                data-content="Para que un origen de viaje aparezca en esta lista, <b>debe haber choferes registrados para ese origen</b>, de tal forma que los viajeros puedan ser atendidos. Los orígenes de viaje se adicionan en cuanto se registra el primer chofer para ese origen.">&ndash; ¿Por qué mi <em>origen de viaje</em> no aparece aquí?</a>
-            </small>'));
-            echo $this->Form->input('where', array('type' => 'text', 'label' => __('Destino'), 'placeholder' => 'Nombre de tu destino (puede ser cualquier lugar)'));
-            echo $this->Form->input('direction', array('type'=>'hidden', 'value'=>'0'));*/
-            
             echo $this->Form->custom_date('date', array('label' => __('Cuándo'), 'dateFormat' => 'dd/mm/yyyy'));
             echo $this->Form->input('people_count', array('label' => __('Personas que viajan <small class="text-info">(máximo número de personas)</small>'), 'default' => 1, 'min' => 1));
             echo $this->Form->checkbox_group(Travel::$preferences, array('header'=>'Preferencias <small class="text-info">(selecciona sólo si quieres esto obligatoriamente)</small>'));
@@ -101,6 +100,11 @@ else
         </fieldset>
     <?php echo $this->Form->end(); ?>
         </div>
+        <?php
+        if($intent == 'add_pending'):?>
+        <br/>
+        <div class="alert alert-warning">La <b>Información de Contacto</b> es importante para que los choferes lleguen a tí. Asegúrate de que esta información sea correcta</div>
+        <?php endif?>
     </div>
 <?php endif?>
 
@@ -124,8 +128,8 @@ $this->Html->script('jquery-validation-1.10.0/localization/messages_es', array('
     
 // Pass to js
 if($intent == 'add_pending' /*&& !$form_disabled*/) {
-    $this->Js->set('travel_on', $travel_out_switcher.$travel_out);
-    $this->Js->set('travel_off', $travel_in_switcher.$travel_in);
+    $this->Js->set('travel_on', /*$travel_out_switcher.*/$travel_out);
+    $this->Js->set('travel_off', /*$travel_in_switcher.*/$travel_in);
     echo $this->Js->writeBuffer(array('inline' => false));
 }
 ?>

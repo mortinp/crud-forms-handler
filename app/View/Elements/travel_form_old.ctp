@@ -22,16 +22,11 @@ if ($is_modal)
 if (empty($this->request->data))
     $saveButtonText = 'Crear Viaje';
 else
-    $saveButtonText = 'Salvar Datos';
+    $saveButtonText = 'Cambiar Datos';
 
 $form_disabled = !User::canCreateTravel()/*AuthComponent::user('travel_count') > 0 && !AuthComponent::user('email_confirmed')*/;
 
-$labelOrigin = 'Origen del viaje';
-$labelDestination = 'Destino del Viaje';
-if($intent == 'add') {
-    $labelOrigin .= ' <div style="display:inline"><a href="#!" class="travel-switch">&ndash; Prefiero usar esta lista como <em><b>Destino del Viaje</b></em></a></div>';
-    $labelDestination .= ' <div style="display:inline"><a href="#!" class="travel-switch">&ndash; Prefiero usar esta lista como <em><b>Origen del Viaje</b></em></a></div>';
-}
+//echo levenshtein('Magento', 'Magneto');
 ?>
 
 <?php if($intent === 'add' && $form_disabled):?>
@@ -54,13 +49,13 @@ if($intent == 'add') {
         <fieldset>
             <?php
             
-            //$travel_out_switcher = 'Selecciona el <b>Origen del viaje</b> <div style="display:inline"><a href="#!" class="travel-switch">&ndash; Prefiero seleccionar el <b>Destino del viaje</b></a></div><br/><br/>';
-            //$travel_in_switcher = 'Selecciona el <b>Destino del viaje</b> <div style="display:inline"><a href="#!" class="travel-switch">&ndash; Prefiero seleccionar el <b>Origen del viaje</b></a></div><br/><br/>';
+            $travel_out_switcher = 'Selecciona el <b>Origen del viaje</b> <div style="display:inline"><a href="#!" class="travel-switch">&ndash; Prefiero seleccionar el <b>Destino del viaje</b></a></div><br/><br/>';
+            $travel_in_switcher = 'Selecciona el <b>Destino del viaje</b> <div style="display:inline"><a href="#!" class="travel-switch">&ndash; Prefiero seleccionar el <b>Origen del viaje</b></a></div><br/><br/>';
             
             // Viajes que son desde una localidad, hacia otro lugar
             $travel_out =
                 $this->Form->input('locality_id', array('type' => 'select', 'options' => $localities, 'showParents' => true,
-                'label' => __($labelOrigin))).
+                'label' => __('Origen del viaje'))).
                 $this->Form->input('where', array('type' => 'text', 'label' => __('Destino del viaje'), 'placeholder' => 'Nombre de tu destino (puede ser cualquier lugar)')).
                 $this->Form->input('direction', array('type'=>'hidden', 'value'=>'0'));
             
@@ -68,7 +63,7 @@ if($intent == 'add') {
             $travel_in =                
                 $this->Form->input('where', array('type' => 'text', 'label' => __('Origen del viaje'), 'placeholder' => 'Nombre de tu origen de viaje (puede ser cualquier lugar)')).
                     $this->Form->input('locality_id', array('type' => 'select', 'options' => $localities, 'showParents' => true,
-                'label' => __($labelDestination))).
+                'label' => __('Destino del viaje'))).
                 $this->Form->input('direction', array('type'=>'hidden', 'value'=>'1'));
             
             ?>
@@ -76,7 +71,7 @@ if($intent == 'add') {
             <div id="travel-def">
                 <?php
                     if($intent == 'add') {
-                        echo /*$travel_out_switcher.*/$travel_out;
+                        echo $travel_out_switcher.$travel_out;
                     } else {
                          if($travel['Travel']['direction'] == 0) echo $travel_out;
                          else echo $travel_in;
@@ -124,8 +119,8 @@ $this->Html->script('jquery-validation-1.10.0/localization/messages_es', array('
     
 // Pass to js
 if($intent == 'add' && !$form_disabled) {
-    $this->Js->set('travel_on', /*$travel_out_switcher.*/$travel_out);
-    $this->Js->set('travel_off', /*$travel_in_switcher.*/$travel_in);
+    $this->Js->set('travel_on', $travel_out_switcher.$travel_out);
+    $this->Js->set('travel_off', $travel_in_switcher.$travel_in);
     echo $this->Js->writeBuffer(array('inline' => false));
 }
 ?>

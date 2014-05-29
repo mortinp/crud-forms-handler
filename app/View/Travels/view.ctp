@@ -37,11 +37,11 @@ if($isConfirmed) {
         
         <div id="travel">
             <?php echo $this->element('travel', array('actions'=>false))?>
-            <?php if(!$isConfirmed):?><a title="Edita este viaje" href="#!" class="edit-travel">&ndash; Editar</a><?php endif?>
+            <?php if(!$isConfirmed):?><a title="Edita este viaje" href="#!" class="edit-travel">&ndash; Editar este Viaje</a><?php endif?>
         </div>
         <?php if(!$isConfirmed):?>
         <div id='travel-form' style="display:none">
-            <legend>Edita los datos de este viaje antes de confirmar <a href="#!" class="cancel-edit-travel">&ndash; no editar</a></legend>
+            <legend>Edita los datos de este viaje antes de confirmar <div><a href="#!" class="cancel-edit-travel">&ndash; no editar este viaje</a></div></legend>
             <?php echo $this->element('travel_form', array('do_ajax' => true, 'form_action' => 'edit/' . $travel['Travel']['id'], 'intent'=>'edit')); ?>
             <br/>
         </div>

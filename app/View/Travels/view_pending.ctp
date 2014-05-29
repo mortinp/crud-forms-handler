@@ -3,25 +3,50 @@ App::uses('Auth', 'Component');
 ?>
 
 <div class="container">
-<div class="row">
-    <div class="col-md-6">         
-        
-        <div id="travel">
-            <?php echo $this->element('pending_travel', array('actions'=>false))?>
-            <a title="Edita este viaje" href="#!" class="edit-travel">&ndash; Editar</a>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+
+            <div id="travel">
+                <p>
+                    Tienes el siguiente viaje 
+                    <span style="color:<?php echo Travel::$STATE[$travel['PendingTravel']['state']]['color']?>">
+                        <b><?php echo Travel::$STATE[$travel['PendingTravel']['state']]['label']?></b>
+                    </span>:
+                </p>
+                <?php echo $this->element('pending_travel', array('actions'=>false))?>
+                <a title="Edita este viaje" href="#!" class="edit-travel">&ndash; Editar este Viaje</a>
+            </div>
+            <div id='travel-form' style="display:none">
+                <legend>Edita los datos de este viaje antes de confirmarlo <div><a href="#!" class="cancel-edit-travel">&ndash; no editar este viaje</a></div></legend>
+                <?php echo $this->element('pending_travel_form', array('do_ajax' => true, 'form_action' => 'edit_pending/' . $travel['PendingTravel']['id'], 'intent'=>'edit')); ?>
+                <br/>
+            </div>
         </div>
-        <div id='travel-form' style="display:none">
-            <legend>Edita los datos de este viaje antes de confirmar <a href="#!" class="cancel-edit-travel">&ndash; no editar</a></legend>
-            <?php echo $this->element('pending_travel_form', array('do_ajax' => true, 'form_action' => 'edit_pending/' . $travel['PendingTravel']['id'], 'intent'=>'edit')); ?>
-            <br/>
-        </div>
+
+    </div>
+</div>
+<br/>
+<br/>
+<div class="row alert alert-info" style="/*background-color: lightblue*/">
+    <div class="col-md-8 col-md-offset-2">
         
-        <br/>
-        <br/>
-        <div id="travel">
-            <legend>Regístrate para confirmar este viaje 
-                <div><small class="text-muted">Para confirmar y notificar a los choferes debes estar registrado</small></div>
-            </legend>
+        <div class="col-md-6">
+            <p><b>Estás a sólo un paso</b> de que los choferes puedan contactarte para acordar los términos del viaje.</p>
+        
+            <p>
+            <big><big><b>Regístrate para confirmar este viaje</b></big></big> <span style="display: inline-block">(usa el formulario de la derecha)</span>
+                <!--<div>Para confirmar y notificar a los choferes debes estar registrado.</div>-->
+                
+                <br/>
+                <p>Además podrás:</p>
+                <ul>
+                    <li>Entrar a <em>YoTeLlevo</em> y crear un número ilimitado de viajes.</li>
+                    <li>Tener acceso a todas las funcionalidades de <em>YoTeLlevo</em>.</li>
+                </ul>
+            </p>
+        </div>
+        <!--<div style="background-color: lightblue;width: 20px;height: 20px"></div>-->
+        <div class="col-md-6">
             <?php echo $this->Form->create('User', array('controller' => 'users', 'action' => 'register_and_create/'.$travel['PendingTravel']['id'])); ?>
             <fieldset>
                 <?php
@@ -32,39 +57,7 @@ App::uses('Auth', 'Component');
             </fieldset>
             <?php echo $this->Form->end(); ?>
         </div>
-        
-        <br/> 
     </div>
-    
-    
-    <div class="col-md-4 col-md-offset-1">
-                
-            <legend>Sobre este viaje:</legend>
-            <ul style="list-style-type: none;padding-left:20px">
-                <li style="padding-bottom: 15px">
-                    <i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> 
-                    Este viaje está sin confirmar y no ha sido enviado a ningún chofer todavía.
-                    <b>Hasta que confirmes este viaje, tu anuncio no será atendido</b>.
-                </li>
-                <li style="padding-bottom: 15px">
-                    <i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> 
-                    <b>Puedes hacer modificaciones a los datos del viaje antes de confirmalo</b>.
-                    Al confirmarlo, ya no podrás hacer cambios al anuncio.
-                </li>
-                <li style="padding-bottom: 15px">
-                    <i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> 
-                    Al confirmar el viaje, varios choferes que pudieran atenderte serán notificados.
-                    <b>Los choferes interesados contactarán contigo por la vía que indiques en los contactos</b>.
-                </li>
-                <li style="padding-bottom: 15px">
-                    <i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> 
-                    <b>Asegúrate de que los datos del viaje son correctos antes de confirmarlo</b>. Esto evita que los choferes sean
-                    notificados y tú contactado equivocadamente.
-                </li>
-            </ul>
-    </div>
-    
-</div>
 </div>
 
 <?php

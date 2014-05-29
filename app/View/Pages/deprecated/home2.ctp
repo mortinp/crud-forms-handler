@@ -3,59 +3,23 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
 ?>
 
 <div class="container">
-    <!--<div class="row">
+    <div class="row">
         <div class="col-md-4">
-            <h1><big><big>YoTeLlevo</big></big></h1>
+            <h1><big><big><!--<i class="glyphicon glyphicon-road"></i>-->YoTeLlevo</big></big></h1>
         </div>
         <div class="col-md-8">
             <h1><small>Consigue un chofer con carro que te lleve a cualquier parte de Cuba, de la manera más fácil, cómoda y rápida. Garantizado.</small></h1>
         </div>
     </div>
-    <br/>-->
+    <br/>
     <div class="row">
         <div class="col-md-5">
-           <div style="font-size: 40pt"><!--<i class="glyphicon glyphicon-road"></i>-->YoTeLlevo</div>
-            <div style="font-size: 16pt">
-                <p>
-                    Consigue un chofer con carro que te lleve a cualquier parte de Cuba, de la manera más fácil, cómoda y rápida. Garantizado.
-                </p>
-            </div>
-            
-            <!--<div>
+            <div>
                 <big><b><em>YoTeLlevo</em> te permite encontrar un chofer con carro para que te lleve a cualquier lugar en Cuba.</b> 
                 Avísale a los choferes sobre tu necesidad de viaje directamente a través de nuestra página web, 
                 llenando un formulario con los datos del viaje. No tienes que contactarlos; ellos te contactarán a tí.
                 </big>
-            </div>-->  
-            <br/>
-            <?php echo $this->Html->link('Crear un Anuncio de Viaje ahora mismo', 
-                    array('controller'=>'travels', 'action'=>'add_pending'), 
-                    array('class'=>'btn btn-success', 'style'=>'height:50px;padding-top:10px;font-size:16pt'));?>
-            
-            <br/>
-            <br/>
-            <p><b>¿Ya estás registrado en <em>YoTeLlevo</em>?</b> <big><?php echo $this->Html->link(__('Entra con tu cuenta'), array('controller' => 'users', 'action' => 'login')) ?></big></p>
-              
-            <br/>
-            <br/>
-            <div class="text-muted" style="/*padding: 40px;*/">
-                <big>
-                    <blockquote>Con <em>YoTeLlevo</em> las personas no dependen de nadie que les gestione sus viajes. 
-                    Uno mismo puede gestionárselos entrando a la página web y publicando un anuncio. 
-                    Es tan fácil como llenar los datos de un formulario, enviarlo, y esperar a que los mismos choferes te contacten. 
-                    Y es gratis.
-                    <small>Creador de <em>YoTeLlevo</em></small>
-                    </blockquote>
-                </big>
             </div>
-        </div>
-        <div class="col-md-6 col-md-offset-1" style="/*margin-top:-20px*/">
-            <!--<h3>Comienza registrándote en <em>YoTeLlevo</em> <p><small>Enseguida podrás hacer anuncios de viajes y encontrar un chofer que te lleve</small></p></h3>
-            <br/>
-            <?php echo $this->element('register_form')?>
-            <br/>
-            <div><big><b>O puedes</b></big></div>
-            <br/>-->
             
             <h2>¿Cómo funciona?</h2>
             <br/>
@@ -84,7 +48,34 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
                 </li>
             </ul>
             </big>
-            <p><b>¿Quieres saber más?</b> Las <?php echo $this->Html->link('Preguntas Frecuentes', array('action'=>'faq'))?> pudieran ayudarte.</p>              
+            <p><b>¿Quieres saber más?</b> Las <?php echo $this->Html->link('Preguntas Frecuentes', array('action'=>'faq'))?> pudieran ayudarte.</p>        
+            
+        </div>
+        <div class="col-md-6 col-md-offset-1" style="margin-top:-20px">
+            <h3>Comienza registrándote en <em>YoTeLlevo</em> <p><small>Enseguida podrás hacer anuncios de viajes y encontrar un chofer que te lleve</small></p></h3>
+            <br/>
+            <?php echo $this->element('register_form')?>
+            <br/>
+            <div><big><b>O puedes</b></big></div>
+            <br/>
+            <?php echo $this->Html->link('Crear un Anuncio de Viaje y Registrarte luego', 
+                    array('controller'=>'travels', 'action'=>'add_pending'), array('class'=>'btn btn-success'));?>
+            
+            <br/>
+            <br/>
+            <p><b>¿Ya estás registrado en <em>YoTeLlevo</em>?</b> <big><?php echo $this->Html->link(__('Entra con tu cuenta'), array('controller' => 'users', 'action' => 'login')) ?></big></p>
+              
+            <br/>
+            <div class="text-muted" style="/*padding: 40px;*/">
+                <big>
+                    <blockquote>Con <em>YoTeLlevo</em> las personas no dependen de nadie que les gestione sus viajes. 
+                    Uno mismo puede gestionárselos entrando a la página web y publicando un anuncio. 
+                    Es tan fácil como llenar los datos de un formulario, enviarlo, y esperar a que los mismos choferes te contacten. 
+                    Y es gratis.
+                    <small>Creador de <em>YoTeLlevo</em></small>
+                    </blockquote>
+                </big>
+            </div>
         </div>
     </div>
 </div>
@@ -93,7 +84,7 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
 <br/>
 <br/>
 
-<div class="container" style="background-color: lightblue">
+<div class="container" style="/*background-color: lightcoral*/">
     <div class="row">
         
         <div class="col-md-2">
@@ -118,12 +109,12 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
         
         <div class="col-md-2">
           <h3>Anuncios gratis</h3>
-          <p>Puedes crear tu anuncio de viaje de forma <big>gratis</big>. La cantidad de anuncios es ilimitada.</p>
+          <p>Puedes realizar todos los anuncios de viajes que quieras, de forma <big>gratis</big>. No cuesta nada realizar un anuncio de viaje.</p>
         </div>
         
         <div class="col-md-2">
           <h3>Datos privados</h3>
-          <p>Los datos de tu viaje son compartidos exclusivamente con algunos choferes que puede atender tu petición.</p>
+          <p>Los datos de tu viaje no son compartidos con nadie, excepto con los choferes que te pueden llevar.</p>
         </div>
     </div>
 </div>
@@ -131,7 +122,7 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
 <br/>
 <br/>
 
-<!--<?php if(!$isLoggedIn):?>
+<?php if(!$isLoggedIn):?>
 <div class="container" style="background-color: lightblue">
     <div class="row">
         <div class="col-md-6">
@@ -147,7 +138,7 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
     </div>
     <br/>
 </div>
-<?php endif?>-->
+<?php endif?>
 
 
 <?php $this->Html->css('home', null, array('inline' => false));?>

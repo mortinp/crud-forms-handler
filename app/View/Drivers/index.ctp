@@ -21,7 +21,7 @@
                 }
                 ?>
             </td>
-            <td><?php echo $d['Driver']['travel_count']?></td>
+            <td><?php echo $this->Html->link($d['Driver']['travel_count'], array('action'=>'view_travels/'.$d['Driver']['id']))?></td>
             <td><?php echo $d['Driver']['travel_by_email_count']?></td>
             <td>
                 <ul class="list-inline">

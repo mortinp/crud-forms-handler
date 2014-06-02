@@ -5,11 +5,29 @@ App::uses('CakeEmail', 'Network/Email');
 
 class DriversController extends AppController {
     
-    public $uses = array('Driver', 'Locality', 'DriverLocality');
+    public $uses = array('Driver', 'Locality', 'DriverLocality', 'DriverTravel', 'DriverTravelByEmail', 'Travel', 'TravelByEmail');
     
     public function index() {
         $this->Driver->recursive = 1;
         $this->set('drivers', $this->paginate());
+    }
+    
+    public function view_travels($driverId) {
+        $this->set('driver', $this->Driver->findById($driverId));
+        
+        $driverTavels = $this->DriverTravel->find('all', array('conditions'=>array('Driver.id'=>$driverId)));
+        $ids = array();
+        foreach ($driverTavels as $dt) {
+            $ids[] = $dt['Travel']['id'];
+        }
+        $this->set('travels', $this->Travel->find('all', array('conditions'=>array('Travel.id'=>$ids))));
+        
+        $driverTavelsByEmail = $this->DriverTravelByEmail->find('all', array('conditions'=>array('Driver.id'=>$driverId)));
+        $ids = array();
+        foreach ($driverTavelsByEmail as $dt) {
+            $ids[] = $dt['TravelByEmail']['id'];
+        }
+        $this->set('travels_by_email', $this->TravelByEmail->find('all', array('conditions'=>array('TravelByEmail.id'=>$ids))));
     }
 
     public function add() {

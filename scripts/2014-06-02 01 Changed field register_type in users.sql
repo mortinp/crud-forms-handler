@@ -1,0 +1,1 @@
+ALTER TABLE  `users` CHANGE  `register_type`  `register_type` VARCHAR( 100 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL

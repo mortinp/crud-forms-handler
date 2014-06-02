@@ -10,7 +10,11 @@ class DriverTravelByEmail extends AppModel {
         'Driver' => array(
             'fields'=>array('id', 'username', 'max_people_count'),
             'counterCache'=>'travel_by_email_count'
-        )        
+        ),
+        'TravelByEmail'=>array(
+            'fields'=>array('id'),
+            'foreignKey'=>'travel_id'
+        )       
     );
 }
 

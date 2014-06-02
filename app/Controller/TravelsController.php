@@ -48,6 +48,13 @@ class TravelsController extends AppController {
         
         $this->set('localities', $this->Locality->getAsList());
     }
+    
+    // Admins only
+    public function all() {
+        //$this->User->recursive = 0;
+        $this->set('travels', $this->Travel->find('all', array('conditions'=>array('User.role'=>'regular'))));
+        $this->set('travels_by_email', $this->TravelByEmail->find('all', array('conditions'=>array('User.role'=>'regular'))));
+    }
 
     public function view($id) {
         $travel = $this->Travel->findById($id);

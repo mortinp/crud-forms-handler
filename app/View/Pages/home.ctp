@@ -31,7 +31,7 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
             <?php echo $this->Html->link('Crear un Anuncio de Viaje ahora mismo 
                 <div style="font-size:10pt;padding-left:50px;padding-right:50px">En poco tiempo te contactará un chofer para acordar los términos del viaje</div>', 
                     array('controller'=>'travels', 'action'=>'add_pending'), 
-                    array('class'=>'btn btn-success', 'style'=>'height:80px;padding-top:10px;font-size:16pt;white-space: normal;', 'escape'=>false));?>
+                    array('class'=>'btn btn-success', 'style'=>'font-size:16pt;white-space: normal;', 'escape'=>false));?>
                         
             <br/>
             <br/>

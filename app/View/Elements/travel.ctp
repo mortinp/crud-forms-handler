@@ -111,7 +111,7 @@ foreach (Travel::$preferences as $key => $value) {
         <?php if(!$expired):?>
         <li style="padding-right: 10px;display: inline-block">
         <?php echo $this->Html->link(
-            '<big><big><i class="glyphicon glyphicon-envelope"></i> <b>Confirmar</b></big></big>', 
+            '<i class="glyphicon glyphicon-envelope"></i> <big><big><b>Confirmar</b></big></big>', 
             array('controller'=>'travels', 'action'=>'confirm/'.$travel['Travel']['id']), 
                 array('escape'=>false, 'title'=>'Confirmar y Enviar este viaje a los choferes'));?>
         </li>

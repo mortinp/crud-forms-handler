@@ -11,46 +11,79 @@ if($isConfirmed) {
 
 <div class="container">
 <div class="row">
-    <div class="col-md-6 col-md-offset-3"> 
+    <div class="col-md-6"> 
+        <?php if(!$isConfirmed):?>
+            <div class="alert alert-info">
+                Este viaje <span class="text-danger"><b>NO HA SIDO ENVIADO A LOS CHOFERES</b></span> todavía, pues está <span style="color:<?php echo Travel::$STATE[$travel['Travel']['state']]['color']?>"><b>sin confirmar</b></span>.
+                
+                <div style="padding-top: 10px">
+                    <big><big>
+                        <?php echo $this->Html->link('<i class="glyphicon glyphicon-envelope"></i> Confirmar viaje ahora', 
+                        array('controller'=>'travels', 'action'=>'confirm/'.$travel['Travel']['id']), 
+                        array('escape'=>false, 'class'=>'alert-link', 'title'=>'Confirmar y Enviar este viaje a los choferes'))?>
+                    </big></big> y enviar a los choferes.
+                </div>
+            </div>
+        <?php else:?>
+            <div class="alert alert-info">
+                <?php if(AuthComponent::user('role') == 'regular'):?>
+                <b>Este anuncio de viaje fue confirmado exitosamente y enviado a <big><?php echo $pretty_drivers_count?></big></b>. Pronto serás contactado.
+                
+                <?php else:?>
+                <b>Se encontaron <big><?php echo $pretty_drivers_count?></big></b> para notificar, pero son <b>choferes de prueba</b> porque eres un usuario <b><?php echo AuthComponent::user('role')?></b>.
+                <?php endif?>
+            </div>
+        <?php endif;?>
+        
         <div id="travel">
-            <p>
-                Tienes el siguiente viaje 
-                <span style="color:<?php echo Travel::$STATE[$travel['Travel']['state']]['color']?>">
-                    <b><?php echo Travel::$STATE[$travel['Travel']['state']]['label']?></b>
-                </span>:
-            </p>
             <?php echo $this->element('travel', array('actions'=>false))?>
-            <?php if(!$isConfirmed):?>
-                <a title="Edita este viaje" href="#!" class="edit-travel">&ndash; Editar este Viaje</a>    
-                <br/>
-                <br/>
-                <?php echo $this->Html->link('Confirmar este Anuncio de Viaje 
-                <div style="font-size:10pt;padding-left:50px;padding-right:50px">Estos datos serán enviados enseguida a algunos choferes que pudieran atenderte</div>', 
-                    array('controller'=>'travels', 'action'=>'confirm/'.$travel['Travel']['id']), 
-                    array('class'=>'btn btn-primary', 'style'=>'font-size:16pt;white-space: normal;', 'escape'=>false));?>
-            <?php else:?>   
-                <br/>
-                <p class="text-info">
-                    <?php if(AuthComponent::user('role') == 'regular'):?>
-                    <b>Los datos de este viaje fueron eviados a <big><?php echo $pretty_drivers_count?></big></b>. Pronto serás contactado.
-
-                    <?php else:?>
-                    <b>Se encontaron <big><?php echo $pretty_drivers_count?></big></b> para notificar, pero son <b>choferes de prueba</b> porque eres un usuario <b><?php echo AuthComponent::user('role')?></b>.
-                    <?php endif?>
-                </p>
-            <?php endif?>
+            <?php if(!$isConfirmed):?><a title="Edita este viaje" href="#!" class="edit-travel">&ndash; Editar este Viaje</a><?php endif?>
         </div>
         <?php if(!$isConfirmed):?>
-            <div id='travel-form' style="display:none">
-                <legend>Edita los datos de este viaje antes de confirmar <div><a href="#!" class="cancel-edit-travel">&ndash; no editar este viaje</a></div></legend>
-                <?php echo $this->element('travel_form', array('do_ajax' => true, 'form_action' => 'edit/' . $travel['Travel']['id'], 'intent'=>'edit')); ?>
-                <br/>
-            </div>
+        <div id='travel-form' style="display:none">
+            <legend>Edita los datos de este viaje antes de confirmar <div><a href="#!" class="cancel-edit-travel">&ndash; no editar este viaje</a></div></legend>
+            <?php echo $this->element('travel_form', array('do_ajax' => true, 'form_action' => 'edit/' . $travel['Travel']['id'], 'intent'=>'edit')); ?>
+            <br/>
+        </div>
         <?php endif?>
+        
+        <br/>        
         
         <br/>
         <?php echo $this->Html->link("<i class='glyphicon glyphicon-bell'></i> <big>Ver todos mis anuncios</big>", array('controller'=>'travels', 'action'=>'index'), array('escape'=>false))?>
-    </div>    
+    </div>
+    
+    
+    <div class="col-md-4 col-md-offset-1">
+        <?php if(!$isConfirmed):?>
+        
+            <legend>Sobre este viaje:</legend>
+            <ul style="list-style-type: none;padding-left:20px">
+                <li style="padding-bottom: 15px">
+                    <i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> 
+                    Este viaje está sin confirmar y no ha sido enviado a ningún chofer todavía.
+                    <b>Hasta que confirmes este viaje, tu anuncio no será atendido</b>.
+                </li>
+                <li style="padding-bottom: 15px">
+                    <i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> 
+                    <b>Puedes hacer modificaciones a los datos del viaje antes de confirmalo</b>.
+                    Al confirmarlo, ya no podrás hacer cambios al anuncio.
+                </li>
+                <li style="padding-bottom: 15px">
+                    <i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> 
+                    Al confirmar el viaje, varios choferes que pudieran atenderte serán notificados.
+                    <b>Los choferes interesados contactarán contigo por la vía que indiques en los contactos</b>.
+                </li>
+                <li style="padding-bottom: 15px">
+                    <i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> 
+                    <b>Asegúrate de que los datos del viaje son correctos antes de confirmarlo</b>. Esto evita que los choferes sean
+                    notificados y tú contactado equivocadamente.
+                </li>
+            </ul>
+            
+        <?php endif;?>
+    </div>
+    
 </div>
 </div>
 

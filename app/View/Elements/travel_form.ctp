@@ -20,7 +20,7 @@ if ($is_modal)
     $buttonStyle = 'display:inline-block;float:left';
 
 if (empty($this->request->data))
-    $saveButtonText = 'Crear Viaje';
+    $saveButtonText = 'Crear Anuncio';
 else
     $saveButtonText = 'Salvar Datos';
 

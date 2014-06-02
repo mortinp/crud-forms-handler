@@ -32,7 +32,7 @@
         </div>
         
         <div class="col-md-6 col-md-offset-1">
-            <legend>Crea un anuncio de viaje</legend>
+            <legend>Crear Anuncio de Viaje</legend>
             <?php echo $this->element('travel_form')?>
         </div>
 

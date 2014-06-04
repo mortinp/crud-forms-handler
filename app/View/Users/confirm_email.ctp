@@ -10,8 +10,8 @@
             <div>
                 <ul style="list-style-type: none; padding-left: 0px">
                 <?php if($isLoggedIn): ?>
-                   <li><?php echo $this->Html->link("<i class='glyphicon glyphicon-bell'></i> <big>Ver todos mis anuncios</big>", array('controller'=>'travels', 'action'=>'index'), array('escape'=>false));?></li>
-                   <li><?php echo $this->Html->link(__('<i class="glyphicon glyphicon-flag"></i> <big>Anunciar viaje</big>'), array('controller' => 'travels', 'action' => 'add'), array('escape'=>false));?></li>
+                   <li><?php echo $this->Html->link("<big>Ver todos mis Anuncios</big>", array('controller'=>'travels', 'action'=>'index'), array('escape'=>false));?></li>
+                   <li><?php echo $this->Html->link(__('<big>Anunciar Viaje</big>'), array('controller' => 'travels', 'action' => 'add'), array('escape'=>false));?></li>
                 <?php else: ?>
                     <li><big><?php echo $this->Html->link(__('Entra ahora'), array('controller' => 'users', 'action' => 'login'), array('escape'=>false));?> para crear anuncios de viajes</big></li>
                 <?php endif ?>

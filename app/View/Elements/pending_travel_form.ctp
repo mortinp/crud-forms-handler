@@ -103,7 +103,10 @@ if($intent == 'add_pending') {
         <?php
         if($intent == 'add_pending'):?>
         <br/>
-        <div class="alert alert-warning">La <b>Información de Contacto</b> es importante para que los choferes lleguen a tí. Asegúrate de que esta información sea correcta</div>
+        <div class="alert alert-warning">
+            La <b>Información de Contacto</b> es importante para que los choferes lleguen a tí. 
+            Asegúrate de que esta información sea correcta.
+        </div>
         <?php endif?>
     </div>
 <?php endif?>

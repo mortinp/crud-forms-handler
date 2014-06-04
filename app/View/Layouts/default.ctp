@@ -68,8 +68,7 @@ if($isLoggedIn) {
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <div class="navbar-brand"><!--<i class="glyphicon glyphicon-road"></i> -->YoTeLlevo</div>
-                        <!--<big><?php echo $this->Html->link('<i class="glyphicon glyphicon-road"></i> YoTeLlevo', '/', array('class' => 'navbar-brand', 'escape' => false));?></big>-->
+                        <div class="navbar-brand">YoTeLlevo</div>
                     </div>
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -77,10 +76,12 @@ if($isLoggedIn) {
                             <?php if ($isLoggedIn) :?>
                             
                                 <?php if($role === 'regular' || $role === 'admin' || $role === 'tester') :?>
-                                    <li><?php echo $this->Html->link(__('<i class="glyphicon glyphicon-bell"></i> Mis anuncios'), array('controller' => 'travels', 'action' => 'index'), array('escape'=>false));?></li>
-                                    <li><?php echo $this->Html->link(__('<i class="glyphicon glyphicon-flag"></i> <b>Anunciar viaje</b>'), array('controller' => 'travels', 'action' => 'add'), array('escape'=>false));?></li> 
+                                    <li><?php echo $this->Html->link(__('Mis Anuncios'), array('controller' => 'travels', 'action' => 'index'), array('escape'=>false));?></li>
+                                    <li class="divider-vertical"></li>
+                                    <li><?php echo $this->Html->link(__('<b>Anunciar Viaje</b>'), array('controller' => 'travels', 'action' => 'add'), array('escape'=>false));?></li> 
                                     
                                     <?php if($role === 'admin') :?>
+                                    <li class="divider-vertical"></li>
                                     <li class="dropdown">
                                         <a href="#" data-toggle="dropdown" class="dropdown-toggle">
                                             Administrar
@@ -93,6 +94,8 @@ if($isLoggedIn) {
                                             <li><?php echo $this->Html->link(__('Provincias'), array('controller' => 'provinces', 'action' => 'index')) ?></li>
                                             <li><?php echo $this->Html->link(__('Localidades'), array('controller' => 'localities', 'action' => 'index')) ?></li>
                                             <li><?php echo $this->Html->link(__('Tesauro'), array('controller' => 'locality_thesaurus', 'action' => 'index')) ?></li>
+                                            <li class="divider"></li>
+                                            <li><?php echo $this->Html->link(__('Viajes (Todos)'), array('controller' => 'travels', 'action' => 'all')) ?></li>
                                         </ul>
                                     </li>
                                     <?php endif;?>

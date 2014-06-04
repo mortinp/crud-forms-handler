@@ -19,7 +19,7 @@ if(!isset ($creator_role)) $creator_role = 'regular';
 
 <?php if(isset ($admin)):?>
     <p>
-        Usted recibió este correo porque es Administrador de <a href='<?php echo $this->Html->url('/', true)?>'><em>YoTeLlevo</em></a>.
+        Usted recibió este correo porque es Administrador de <em>YoTeLlevo</em>.
     </p>
     <?php if(isset ($admin['drivers']) && count($admin['drivers']) > 0):?>
         <p>
@@ -42,8 +42,7 @@ if(!isset ($creator_role)) $creator_role = 'regular';
     <?php endif?>
 <?php else: ?>
     <p>
-        Usted recibió este correo porque está registrado en 
-        <a href='<?php echo $this->Html->url('/', true)?>'><em>YoTeLlevo</em></a> 
+        Usted recibió este correo porque está registrado en <em>YoTeLlevo</em>
         como chofer que atiende viajes desde/hasta <?php echo $travel['TravelByEmail']['matched']?>.
     </p>
 <?php endif?>

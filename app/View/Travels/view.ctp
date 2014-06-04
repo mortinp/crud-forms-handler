@@ -49,7 +49,7 @@ if($isConfirmed) {
         <?php endif?>
         
         <br/>
-        <?php echo $this->Html->link("<i class='glyphicon glyphicon-bell'></i> <big>Ver todos mis anuncios</big>", array('controller'=>'travels', 'action'=>'index'), array('escape'=>false))?>
+        <?php echo $this->Html->link("<big>Ver todos mis Anuncios</big>", array('controller'=>'travels', 'action'=>'index'), array('escape'=>false))?>
     </div>    
 </div>
 </div>

@@ -2,7 +2,7 @@
 <h4>Hola y bienvenido a <em>YoTeLlevo</em>. <small>Ahora te será mucho más fácil viajar en Cuba.</small></h4>
 
 <p>
-    Ya puedes comenzar a crear viajes en <a href='<?php echo $this->Html->url('/', true) ?>'><em>YoTeLlevo</em></a>. Podrás crear 1 anuncio de viaje
+    Ya puedes comenzar a crear viajes en <em>YoTeLlevo</em>. Podrás crear 1 anuncio de viaje
     sin verificar tu cuenta de correo electrónico, pero tendrás que verificarla para crear más anuncios.
 </p>
 <p> 

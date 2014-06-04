@@ -101,6 +101,14 @@ if($intent == 'add') {
         </fieldset>
     <?php echo $this->Form->end(); ?>
         </div>
+        <?php
+        if($intent == 'add'):?>
+        <br/>
+        <div class="alert alert-warning">
+            La <b>Información de Contacto</b> es importante para que los choferes lleguen a tí. 
+            Asegúrate de que esta información sea correcta.
+        </div>
+        <?php endif?>
     </div>
 <?php endif?>
 

@@ -67,7 +67,7 @@ class TravelsController extends AppController {
     
     public function view_pending($id) {
         $travel = $this->PendingTravel->findById($id);
-        $travel['PendingTravel']['state'] = Travel::$STATE_PENDING;
+        $travel['PendingTravel']['state'] = Travel::$STATE_UNCONFIRMED;
         
         $this->set('localities', $this->Locality->getAsList());
         $this->set('travel', $travel);

@@ -17,8 +17,7 @@
             <?php endif; ?>
             <?php if(!empty ($travels_by_email)): ?>
                 <br/>
-                <big><b>&mdash; Creados por Correo &mdash;</b></big>
-                <br/>
+                <h3>Creados por Correo</h3>
                 <br/>
 
                 <ul style="list-style-type: none;padding: 0px">

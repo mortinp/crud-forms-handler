@@ -14,7 +14,7 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
     <br/>-->
     <div class="row">
         <div class="col-md-5">
-           <div style="font-size: 40pt"><!--<i class="glyphicon glyphicon-road"></i>-->YoTeLlevo</div>
+           <div style="font-size: 40pt">YoTeLlevo</div>
             <div style="font-size: 16pt">
                 <p>
                     Consigue un chofer con carro que te lleve a cualquier parte de Cuba, de la manera más fácil, cómoda y rápida. Garantizado.

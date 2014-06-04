@@ -2,7 +2,7 @@
     <div class="row">
     <?php if(!empty ($travels) || !empty ($travels_by_email)): ?>
         <div class="col-md-6 col-md-offset-3">
-            <h3>Anuncios de Viajes</h3>
+            <h3>Anuncios de Viajes (Todos)</h3>
             <?php if(!empty ($travels)): ?>                
                 <br/>
 

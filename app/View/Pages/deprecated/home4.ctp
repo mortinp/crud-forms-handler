@@ -40,7 +40,7 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
             <br/>
             <p><b>¿Ya estás registrado en <em>YoTeLlevo</em>?</b> <big><?php echo $this->Html->link(__('Entra con tu cuenta'), array('controller' => 'users', 'action' => 'login')) ?></big></p>
               
-            <!--<br/>
+            <br/>
             <br/>
             <div class="text-muted" style="/*padding: 40px;*/">
                 <big>
@@ -51,9 +51,16 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
                     <small>Creador de <em>YoTeLlevo</em></small>
                     </blockquote>
                 </big>
-            </div>-->
+            </div>
         </div>
-        <div class="col-md-6 col-md-offset-1">
+        <div class="col-md-6 col-md-offset-1" style="/*margin-top:-20px*/">
+            <!--<h3>Comienza registrándote en <em>YoTeLlevo</em> <p><small>Enseguida podrás hacer anuncios de viajes y encontrar un chofer que te lleve</small></p></h3>
+            <br/>
+            <?php echo $this->element('register_form')?>
+            <br/>
+            <div><big><b>O puedes</b></big></div>
+            <br/>-->
+            
             <h2>¿Cómo funciona?</h2>
             <br/>
             <big>
@@ -71,7 +78,8 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
                 <li style="padding-bottom: 15px">
                     <i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> 
                     Cuando confirmas el anuncio de viaje, <b>varios choferes son notificados con los detalles del mismo y 
-                    la información de contacto que hayas brindado</b>.
+                    la información de contacto que hayas brindado</b>.<!-- De esta forma, puedes <b>esperar a que un chofer te contacte 
+                    en poco tiempo para acordar los términos del viaje contigo directamente</b>; no hay intermediarios.-->
                 </li>
                 <li style="padding-bottom: 15px">
                     <i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> 
@@ -123,6 +131,27 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
         </div>
     </div>
 </div>
+
+<br/>
+<br/>
+
+<!--<?php if(!$isLoggedIn):?>
+<div class="container" style="background-color: lightblue">
+    <div class="row">
+        <div class="col-md-6">
+            <legend class="text-info">
+                <b>¿No tienes una cuenta todavía?</b> Regístrate ahora: 
+            </legend>
+            <?php echo $this->element('register_form')?>
+        </div>  
+        
+        <div class="col-md-6">
+            <h1><small class="text-info">Deja de buscar choferes con carro por ahí. Anúnciate en <em>YoTeLlevo</em> y espera a que un chofer te contacte para llevarte.</small></h1>
+        </div>         
+    </div>
+    <br/>
+</div>
+<?php endif?>-->
 
 
 <?php $this->Html->css('home', null, array('inline' => false));?>

@@ -14,7 +14,7 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
     <br/>-->
     <div class="row">
         <div class="col-md-5">
-            <div style="font-size: 40pt">
+            <div style="font-size: 40pt;display: inline-block">
                 <?php echo $this->Html->image('i.jpg')?>
             </div>
             <br/>
@@ -32,17 +32,17 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
             </div>-->  
             <br/>
             <?php echo $this->Html->link('Crear un Anuncio de Viaje ahora mismo 
-                <div style="font-size:10pt;padding-left:50px;padding-right:50px">En poco tiempo te contactará un chofer para acordar los términos del viaje</div>', 
+                <div style="font-size:12pt;padding-left:50px;padding-right:50px">En poco tiempo te contactará un chofer para acordar los términos del viaje</div>', 
                     array('controller'=>'travels', 'action'=>'add_pending'), 
-                    array('class'=>'btn btn-success', 'style'=>'font-size:16pt;white-space: normal;', 'escape'=>false));?>
+                    array('class'=>'btn btn-info', 'style'=>'font-size:18pt;white-space: normal;', 'escape'=>false));?>
                         
             <br/>
             <br/>
             <p><b>¿Ya estás registrado en <em>YoTeLlevo</em>?</b> <big><?php echo $this->Html->link(__('Entra con tu cuenta'), array('controller' => 'users', 'action' => 'login')) ?></big></p>
               
-            <!--<br/>
             <br/>
-            <div class="text-muted" style="/*padding: 40px;*/">
+            <br/>
+            <div class="text-muted">
                 <big>
                     <blockquote>Con <em>YoTeLlevo</em> las personas no dependen de nadie que les gestione sus viajes. 
                     Uno mismo puede gestionárselos entrando a la página web y publicando un anuncio. 
@@ -51,7 +51,7 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
                     <small>Creador de <em>YoTeLlevo</em></small>
                     </blockquote>
                 </big>
-            </div>-->
+            </div>
         </div>
         <div class="col-md-6 col-md-offset-1">
             <h2>¿Cómo funciona?</h2>

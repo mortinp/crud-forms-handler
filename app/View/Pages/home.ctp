@@ -124,10 +124,19 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
         <div class="col-md-12 text-muted">
             <big>
                 <blockquote>Con <em>YoTeLlevo</em> las personas no dependen de nadie que les gestione sus viajes. 
-                Uno mismo puede gestionárselos entrando a la página web y publicando un anuncio. 
-                Es tan fácil como llenar los datos de un formulario, enviarlo, y esperar a que los mismos choferes te contacten.
-                Y es gratis.
-                <small>Creador de <em>YoTeLlevo</em></small>
+                    Uno mismo puede gestionárselos entrando a la página web y publicando un anuncio. 
+                    Es tan fácil como llenar los datos de un formulario, enviarlo, y esperar a que los mismos choferes te contacten.
+                    Y es gratis.
+                    <small>Creador de <em>YoTeLlevo</em></small>
+                </blockquote>
+            </big>
+        </div>
+        <div class="col-md-12 text-muted">
+            <big>
+                <blockquote>Esta aplicación pone a varios choferes de distintos lugares de Cuba al alcance de los viajeros.
+                    La distancia entre los viajeros y los choferes está a solo un click, o un correo. 
+                    Siempre puedes optar por la mejor opción de taxi dependiendo del lugar donde te encuentres; el proceso es muy rápido.
+                    <small>CEO de <em>Casabe&trade;</em></small>
                 </blockquote>
             </big>
         </div>

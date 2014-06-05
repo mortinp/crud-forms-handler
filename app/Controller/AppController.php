@@ -103,7 +103,7 @@ class AppController extends Controller {
     }
     
     private function setPageTitle() {
-        $page_title = 'Encuentra un chofer con carro que te lleve a cualquier lado';
+        $page_title = 'Consigue un taxi para ir a cualquier lado en Cuba';
         $key = $this->request->params['controller'].'.'.$this->request->params['action'];
         
         if(isset ($this->pageTitles[$key])) {

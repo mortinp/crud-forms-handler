@@ -15,7 +15,7 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
     <div class="row">
         <div class="col-md-5">
             <div style="font-size: 40pt;display: inline-block">
-                <?php echo $this->Html->image('i.jpg')?>
+                <?php echo $this->Html->image('i.jpg', array('alt'=>'YoTeLlevo', 'class'=>'img-responsive'))?>
             </div>
             <br/>
             <div style="font-size: 16pt">
@@ -23,18 +23,12 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
                     Consigue un chofer con carro que te lleve a cualquier parte de Cuba, de la manera más fácil, cómoda y rápida. Garantizado.
                 </p>
             </div>
-            
-            <!--<div>
-                <big><b><em>YoTeLlevo</em> te permite encontrar un chofer con carro para que te lleve a cualquier lugar en Cuba.</b> 
-                Avísale a los choferes sobre tu necesidad de viaje directamente a través de nuestra página web, 
-                llenando un formulario con los datos del viaje. No tienes que contactarlos; ellos te contactarán a tí.
-                </big>
-            </div>-->  
+ 
             <br/>
-            <?php echo $this->Html->link('Crear un Anuncio de Viaje ahora mismo 
+            <?php echo $this->Html->link('Crear un Anuncio de Viaje 
                 <div style="font-size:12pt;padding-left:50px;padding-right:50px">En poco tiempo te contactará un chofer para acordar los términos del viaje</div>', 
                     array('controller'=>'travels', 'action'=>'add_pending'), 
-                    array('class'=>'btn btn-info', 'style'=>'font-size:18pt;white-space: normal;', 'escape'=>false));?>
+                    array('class'=>'btn btn-success', 'style'=>'font-size:18pt;white-space: normal;', 'escape'=>false));?>
                         
             <br/>
             <br/>

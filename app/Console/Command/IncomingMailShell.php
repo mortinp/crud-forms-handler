@@ -78,8 +78,10 @@ class IncomingMailShell extends AppShell {
                 $log = fopen('/tmp/email_receiver.log', 'a');
                 fprintf($log, "($now) $sender ($origin => $destination)\n");
                 fclose($log);*/
+                
+                preg_match_all('/(?<!\w)#\w+/', $description, $hashtags);
 
-                $this->do_process($sender, $origin, $destination, $description);
+                $this->do_process($sender, $origin, $destination, $description, $hashtags[0]);
             } else {
                 $this->out('Fail');
                 if(Configure::read('enqueue_mail')) {
@@ -136,7 +138,7 @@ class IncomingMailShell extends AppShell {
         }    
     }
     
-    private function do_process($sender, $origin, $destination, $description) {
+    private function do_process($sender, $origin, $destination, $description, $hashtags = array()) {
         $shortest = -1;
         $closest = array();
         $perfectMatch = false;
@@ -227,6 +229,18 @@ class IncomingMailShell extends AppShell {
             $travel['TravelByEmail']['user_id'] = $userId;
             $travel['TravelByEmail']['state'] = Travel::$STATE_CONFIRMED;
             $travel['User'] = $user['User'];
+            
+            
+            print_r($hashtags);
+            $travel['TravelByEmail']['need_modern_car'] = false;
+            $travel['TravelByEmail']['need_air_conditioner'] = false;
+            if($hashtags != null && !empty ($hashtags)) {
+                foreach ($hashtags as $tag) {
+                    echo strtolower($tag);
+                    if(strtolower($tag) === '#moderno') $travel['TravelByEmail']['need_modern_car'] = true;
+                    else if(strtolower($tag) === '#aire') $travel['TravelByEmail']['need_air_conditioner'] = true;
+                }
+            }
             
             
             $this->TravelLogic =& new TravelLogicComponent(new ComponentCollection());

@@ -34,7 +34,7 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
             <br/>
             <p><b>¿Ya estás registrado en <em>YoTeLlevo</em>?</b> <big><?php echo $this->Html->link(__('Entra con tu cuenta'), array('controller' => 'users', 'action' => 'login')) ?></big></p>
               
-            <br/>
+            <!--<br/>
             <br/>
             <div class="text-muted">
                 <big>
@@ -45,7 +45,7 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
                     <small>Creador de <em>YoTeLlevo</em></small>
                     </blockquote>
                 </big>
-            </div>
+            </div>-->
         </div>
         <div class="col-md-6 col-md-offset-1">
             <h2>¿Cómo funciona?</h2>
@@ -77,14 +77,10 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
             <p><b>¿Quieres saber más?</b> Las <?php echo $this->Html->link('Preguntas Frecuentes', array('action'=>'faq'))?> pudieran ayudarte.</p>              
         </div>
     </div>
-</div>
-
-<br/>
-<br/>
-<br/>
-
-<div class="container" style="background-color: lightblue">
-    <div class="row">
+    
+    <br/>
+    <br/>
+    <div class="row" style="background-color: lightblue">
         
         <div class="col-md-2">
           <h3>Base de choferes</h3>
@@ -114,6 +110,26 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
         <div class="col-md-2">
           <h3>Datos privados</h3>
           <p>Los datos de tu viaje lo pueden ver exclusivamente tú y algunos choferes que pudieran atender tu petición.</p>
+        </div>
+    </div>
+    
+    <br/>
+    <br/>
+    <br/>
+    <div class="row">
+        
+        <!--<div class="col-md-6 text-muted">
+            <h2 class="text-info" style="margin-top: 0px">Contacta con un chofer directamente para acordar los términos del viaje. Consigue la mejor opción de taxi para tus necesidades.</h2>
+        </div>-->
+        <div class="col-md-12 text-muted">
+            <big>
+                <blockquote>Con <em>YoTeLlevo</em> las personas no dependen de nadie que les gestione sus viajes. 
+                Uno mismo puede gestionárselos entrando a la página web y publicando un anuncio. 
+                Es tan fácil como llenar los datos de un formulario, enviarlo, y esperar a que los mismos choferes te contacten.
+                Y es gratis.
+                <small>Creador de <em>YoTeLlevo</em></small>
+                </blockquote>
+            </big>
         </div>
     </div>
 </div>

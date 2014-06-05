@@ -43,8 +43,8 @@ class AppController extends Controller {
         'users.index' =>'Usuarios',
         'users.add' =>'Crear Nuevo Usuario',
         
-        'users.login' =>'Entrar',
-        'users.register' =>'Registrarse',
+        'users.login' =>'Entra y encuentra un taxi enseguida',
+        'users.register' =>'Regístrate y encuentra un taxi enseguida',
         'users.profile' =>'Preferencias',
         
         'users.change_password' =>'Cambiar Contraseña',
@@ -103,7 +103,7 @@ class AppController extends Controller {
     }
     
     private function setPageTitle() {
-        $page_title = 'Consigue un taxi para ir a cualquier lado en Cuba';
+        $page_title = 'Consigue un taxi para ir a cualquier parte de Cuba';
         $key = $this->request->params['controller'].'.'.$this->request->params['action'];
         
         if(isset ($this->pageTitles[$key])) {

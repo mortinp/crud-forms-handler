@@ -23,9 +23,9 @@ if($isLoggedIn) {
 <html>
     <head>        
         <?php echo $this->Html->charset(); ?>
-        <title>
-            <?php echo "YoTeLlevo | ".$page_title ?>
-        </title>
+        <title><?php echo "YoTeLlevo - Cuba | ".$page_title ?></title>
+        <meta name="description" content="¿Necestitas alquilar un taxi para ir a cualquier parte de Cuba? Crea un anuncio de viaje en YoTeLlevo y enseguida conseguirás un chofer con carro que te lleve."/>
+        
         <?php
         // META
         $this->Html->meta('icon');

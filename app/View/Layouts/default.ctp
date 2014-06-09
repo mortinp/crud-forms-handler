@@ -24,7 +24,7 @@ if($isLoggedIn) {
     <head>        
         <?php echo $this->Html->charset(); ?>
         <title><?php echo "YoTeLlevo - Cuba | ".$page_title ?></title>
-        <meta name="description" content="¿Necestitas alquilar un taxi para ir a cualquier parte de Cuba? Crea un anuncio de viaje en YoTeLlevo y enseguida conseguirás un chofer con carro que te lleve."/>
+        <meta name="description" content="¿Necesitas alquilar un taxi para ir a cualquier parte de Cuba? Crea un anuncio de viaje en YoTeLlevo y enseguida conseguirás un chofer con carro que te lleve."/>
         
         <?php
         // META
@@ -58,11 +58,11 @@ if($isLoggedIn) {
     </head>
     <body>
         <div id="container">
-            <nav id="myNavbar" class="navbar navbar-default" role="navigation">
+            <nav id="app-navbar" class="navbar navbar-default" role="navigation">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="container-fluid">
                     <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#app-navbar-collapse">
                             <span class="sr-only">Toggle navigation</span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
@@ -71,7 +71,7 @@ if($isLoggedIn) {
                         <div class="navbar-brand">YoTeLlevo</div>
                     </div>
                     <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <div class="collapse navbar-collapse" id="app-navbar-collapse">
                         <ul class="nav navbar-nav">
                             <?php if ($isLoggedIn) :?>
                             

@@ -38,7 +38,8 @@ class AppController extends Controller {
             'contact'=>'Contactar', 
             'use_terms'=>'Términos de Uso', 
             'tour'=>'¿Cómo usarlo?',
-            'faq'=>'Preguntas Frecuentes'),
+            'faq'=>'Preguntas Frecuentes',
+            'by_email'=>'Consigue un taxi usando tu correo electrónico'),
         
         'users.index' =>'Usuarios',
         'users.add' =>'Crear Nuevo Usuario',
@@ -103,7 +104,7 @@ class AppController extends Controller {
     }
     
     private function setPageTitle() {
-        $page_title = 'Consigue un taxi para ir a cualquier parte de Cuba';
+        $page_title = 'Consigue un taxi para ir a cualquier parte del país';
         $key = $this->request->params['controller'].'.'.$this->request->params['action'];
         
         if(isset ($this->pageTitles[$key])) {

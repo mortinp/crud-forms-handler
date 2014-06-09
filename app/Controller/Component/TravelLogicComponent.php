@@ -41,7 +41,7 @@ class TravelLogicComponent extends Component {
                     $OK = false;
                 }
             } else {
-                $errorMessage = 'No hay choferes para atender este viaje. Intente confirmarlo más tarde. Ya estamos trabajando para resolver este problema.';
+                $errorMessage = 'No hay choferes para atender este viaje. Intente confirmarlo más tarde.';
                 $OK = false;
             }
             

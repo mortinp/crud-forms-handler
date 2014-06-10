@@ -1,7 +1,3 @@
-<?php 
-$isLoggedIn = AuthComponent::user('id') ? true : false;
-?>
-
 <div class="container">
 
     <div class="row">
@@ -12,23 +8,24 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
             <div><span class="text-muted" style="font-size: 20pt"><small>Por correo electrónico</small></span></div>
 
             <h2 style="font-size: 16pt;line-height: 28px">
-                Usa tu correo electrónico para conseguir un taxi que te lleve a cualquier parte de Cuba.
+                Usa tu correo electrónico para conseguir un taxi que te lleve a cualquier parte de Cuba. 
+                Planifica tu viaje por correo.
             </h2>
  
-            <br/>
+            <!--<br/>
             <a href="mailto:viajes@yotellevo.ahiteva.net" class="btn btn-success" style="font-size:18pt;white-space: normal;">
                 Crear un Anuncio de Viaje por correo
                 <div style="font-size:12pt;padding-left:50px;padding-right:50px">En poco tiempo te contactará un chofer para acordar los términos del viaje</div>
-            </a>
+            </a>-->
                                     
-            <br/>
-            <br/>
+            <!--<br/>
+            <br/>-->
             <br/>
             <p><b>¿Prefieres crear tu anuncio por la vía online?</b> <big><?php echo $this->Html->link(__('Ve al Inicio'), array('action' => 'home')) ?></big></p>
-            <p><b>¿Ya estás registrado en <em>YoTeLlevo</em>?</b> <big><?php echo $this->Html->link(__('Entra con tu cuenta'), array('controller' => 'users', 'action' => 'login')) ?></big></p>
+            <!--<p><b>¿Ya estás registrado en <em>YoTeLlevo</em>?</b> <big><?php echo $this->Html->link(__('Entra con tu cuenta'), array('controller' => 'users', 'action' => 'login')) ?></big></p>-->
         
         </div>
-        <div class="col-md-6 col-md-offset-1">
+        <div class="col-md-6 col-md-offset-1 well">
             <h2>¿Cómo hacerlo?</h2>
             <br/>
             <big>
@@ -59,13 +56,13 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
                 </li>
             </ul>
             </big>
-            <p><b>¿Quieres saber más?</b> Las <?php echo $this->Html->link('Preguntas Frecuentes', array('action'=>'faq'))?> pudieran ayudarte.</p>              
+            <!--<p><b>¿Quieres saber más?</b> Las <?php echo $this->Html->link('Preguntas Frecuentes', array('action'=>'faq'))?> pudieran ayudarte.</p>-->
         </div>
     </div>
     
+    <!--<br/>
     <br/>
-    <br/>
-    <?php echo $this->element('features')?>
+    <?php echo $this->element('features')?>-->
 </div>
 
 

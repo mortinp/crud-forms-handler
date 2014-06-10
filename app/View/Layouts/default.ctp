@@ -139,6 +139,29 @@ if($isLoggedIn) {
             <div id="content" class="container-fluid">
                 <?php echo $this->Session->flash(); ?>
                 <?php echo $this->fetch('content'); ?>
+                
+                <?php if( ROOT != 'C:\wamp\www\yotellevo' && (!$isLoggedIn || $role === 'regular') ):?>
+                    <!-- Start 1FreeCounter.com code -->
+
+                      <script language="JavaScript">
+                      var data = '&r=' + escape(document.referrer)
+                            + '&n=' + escape(navigator.userAgent)
+                            + '&p=' + escape(navigator.userAgent)
+                            + '&g=' + escape(document.location.href);
+
+                      if (navigator.userAgent.substring(0,1)>'3')
+                        data = data + '&sd=' + screen.colorDepth 
+                            + '&sw=' + escape(screen.width+'x'+screen.height);
+
+                      document.write('<a href="http://www.1freecounter.com/stats.php?i=107146" target=\"_blank\" >');
+                      document.write('<img alt="Free Counter" border=0 hspace=0 '+'vspace=0 src="http://www.1freecounter.com/counter.php?i=107146' + data + '">');
+                      document.write('</a>');
+                      </script>
+
+                    <!-- End 1FreeCounter.com code -->
+                <?php endif;?>
+                
+                
             </div>
 
             <div id="footer">

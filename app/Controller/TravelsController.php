@@ -96,6 +96,32 @@ class TravelsController extends AppController {
         $this->set('localities', $this->Locality->getAsList());
     }
     
+    public function add_nice() {
+        if ($this->request->is('post')) {            
+            $this->Travel->create();
+
+            $this->request->data['Travel']['user_id'] = $this->Auth->user('id');
+            $this->request->data['Travel']['state'] = Travel::$STATE_DEFAULT;
+            $this->request->data['Travel']['created_from_ip'] = $this->request->clientIp();
+            if ($this->Travel->save($this->request->data)) {
+                //$this->setSuccessMessage('Este viaje ha sido creado exitosamente.');
+                
+                $id = $this->Travel->getLastInsertID();
+                return $this->redirect(array('action' => 'view/' . $id));
+            }
+            $this->setErrorMessage(__('Error al crear el viaje'));
+            $this->set('localities', $this->Locality->getAsList());
+            return;
+        }
+        
+        $localities = $this->Locality->find('all');
+        $list = array();
+        foreach ($localities as $l) {
+            $list[] = $l['Locality'];
+        }
+        $this->set('localities', $list);
+    }
+    
     public function add_pending() {
         if ($this->request->is('post')) {            
             $this->PendingTravel->create();

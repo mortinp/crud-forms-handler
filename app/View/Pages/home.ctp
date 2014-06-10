@@ -29,7 +29,7 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
             <br/>    
             <div>
                 <div class="label label-success" style="font-size: 14px;float:left"><b>NUEVO</b></div>
-                <div style="text-align: center;"><b><?php echo $this->Html->link('CONSIGUE UN TAXI USANDO TU CORREO ELECTRÓNICO, SIN NECESIDAD DE TENER INTERNET', array('action'=>'by_email'), array('class'=>'text-success', 'escape'=>false))?></b></div>
+                <div style="text-align: center;"><b><?php echo $this->Html->link('PUEDES CONSEGUIR UN TAXI USANDO TU CORREO ELECTRÓNICO, SIN NECESIDAD DE TENER INTERNET', array('action'=>'by_email'), array('class'=>'text-success', 'escape'=>false))?></b></div>
             </div>
             
         </div>
@@ -40,17 +40,17 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
             <ul style="list-style-type: none;padding-left:20px">
                 <li style="padding-bottom: 15px">
                     <i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> 
-                    <b>Creas un anuncio de viaje especificando los detalles</b>: origen, destino, cantidad de personas, fecha del viaje, etc. 
-                    Puedes especificar también si tienes alguna preferencia como un carro moderno y/o aire acondicionado.
+                    <b>Creas un anuncio de viaje especificando los detalles</b>: origen, destino, fecha del viaje, etc. 
+                    Puedes especificar también si prefieres un carro moderno y aire acondicionado.
                 </li>
                 <li style="padding-bottom: 15px">
                     <i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> 
-                    En el anuncio <b>debes especificar alguna información para que el chofer te contacte</b>; puede ser un número de teléfono, 
-                    correo electrónico o cualquier otro dato.
+                    En el anuncio <b>debes especificar alguna información para que el chofer te contacte</b>; puede ser un número de teléfono o 
+                    correo electrónico.
                 </li>
                 <li style="padding-bottom: 15px">
                     <i class="glyphicon glyphicon-ok" style="margin-left: -20px"></i> 
-                    Cuando confirmas el anuncio de viaje, <b>varios choferes son notificados con los detalles del mismo y 
+                    Cuando confirmas el anuncio de viaje, <b>los choferes son notificados con los detalles del mismo y 
                     la información de contacto que hayas brindado</b>.
                 </li>
                 <li style="padding-bottom: 15px">
@@ -95,25 +95,3 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
 </div>
 
 <?php $this->Html->css('home', null, array('inline' => false));?>
-
-<?php if(ROOT != 'C:\wamp\www\yotellevo'):?>
-<!-- Start 1FreeCounter.com code -->
-  
-  <script language="JavaScript">
-  var data = '&r=' + escape(document.referrer)
-	+ '&n=' + escape(navigator.userAgent)
-	+ '&p=' + escape(navigator.userAgent)
-	+ '&g=' + escape(document.location.href);
-
-  if (navigator.userAgent.substring(0,1)>'3')
-    data = data + '&sd=' + screen.colorDepth 
-	+ '&sw=' + escape(screen.width+'x'+screen.height);
-
-  document.write('<a href="http://www.1freecounter.com/stats.php?i=107146" target=\"_blank\" >');
-  document.write('<img alt="Free Counter" border=0 hspace=0 '+'vspace=0 src="http://www.1freecounter.com/counter.php?i=107146' + data + '">');
-  document.write('</a>');
-  </script>
-
-<!-- End 1FreeCounter.com code -->
-<?php endif;?>
-

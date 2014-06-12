@@ -6,9 +6,9 @@ App::uses('Travel', 'Model');
 
 class TravelsController extends AppController {
     
-    public $uses = array('Travel', 'TravelByEmail', 'PendingTravel', 'Locality', 'User', 'DriverLocality', 'Province');
+    public $uses = array('Travel', 'TravelByEmail', 'PendingTravel', 'Locality', 'User', 'DriverLocality', 'Province', 'LocalityThesaurus');
     
-    public $components = array('TravelLogic');
+    public $components = array('TravelLogic', 'LocalityRouter');
     
     public function beforeFilter() {
         parent::beforeFilter();
@@ -46,30 +46,24 @@ class TravelsController extends AppController {
         $this->set('travels', $travels); 
         $this->set('travels_by_email', $travels_by_email); 
         
-        $this->set('localities', $this->Locality->getAsList());
+        $this->set('localities', $this->getLocalitiesList());
     }
     
     // Admins only
     public function all() {
-        //$this->User->recursive = 0;
         $this->set('travels', $this->Travel->find('all', array('conditions'=>array('User.role'=>'regular'))));
         $this->set('travels_by_email', $this->TravelByEmail->find('all', array('conditions'=>array('User.role'=>'regular'))));
+    }
+    
+    // Admins only
+    public function all_pending() {
+        $this->set('travels', $this->PendingTravel->find('all'));
     }
 
     public function view($id) {
         $travel = $this->Travel->findById($id);
         
-        $this->set('localities', $this->Locality->getAsList());
-        $this->set('travel', $travel);
-        
-        $this->request->data = $travel;
-    }
-    
-    public function view_pending($id) {
-        $travel = $this->PendingTravel->findById($id);
-        $travel['PendingTravel']['state'] = Travel::$STATE_UNCONFIRMED;
-        
-        $this->set('localities', $this->Locality->getAsList());
+        $this->set('localities', $this->getLocalitiesList());
         $this->set('travel', $travel);
         
         $this->request->data = $travel;
@@ -77,69 +71,30 @@ class TravelsController extends AppController {
 
     public function add() {
         if ($this->request->is('post')) {            
-            $this->Travel->create();
+            $closest = $this->LocalityRouter->getMatch($this->request->data['Travel']['origin'], $this->request->data['Travel']['destination']);
+            
+            if($closest != null && !empty ($closest)) {
+                $this->Travel->create();
 
-            $this->request->data['Travel']['user_id'] = $this->Auth->user('id');
-            $this->request->data['Travel']['state'] = Travel::$STATE_DEFAULT;
-            $this->request->data['Travel']['created_from_ip'] = $this->request->clientIp();
-            if ($this->Travel->save($this->request->data)) {
-                //$this->setSuccessMessage('Este viaje ha sido creado exitosamente.');
+                $this->request->data['Travel']['locality_id'] = $closest['locality_id'];
+                $this->request->data['Travel']['direction'] = $closest['direction'];
+                $this->request->data['Travel']['user_id'] = $this->Auth->user('id');
+                $this->request->data['Travel']['state'] = Travel::$STATE_DEFAULT;
+                $this->request->data['Travel']['created_from_ip'] = $this->request->clientIp();
                 
-                $id = $this->Travel->getLastInsertID();
-                return $this->redirect(array('action' => 'view/' . $id));
+                if ($this->Travel->save($this->request->data)) {
+                    $id = $this->Travel->getLastInsertID();
+                    return $this->redirect(array('action' => 'view/' . $id));
+                }
+                $this->setErrorMessage(__('Error al crear el viaje'));                
+            } else {
+                $this->setErrorMessage(__('El origen y el destino del viaje no son reconocidos.'));
+                $this->redirect($this->referer());
             }
-            $this->setErrorMessage(__('Error al crear el viaje'));
-            $this->set('localities', $this->Locality->getAsList());
-            return;
         }
         
-        $this->set('localities', $this->Locality->getAsList());
-    }
-    
-    public function add_nice() {
-        if ($this->request->is('post')) {            
-            $this->Travel->create();
-
-            $this->request->data['Travel']['user_id'] = $this->Auth->user('id');
-            $this->request->data['Travel']['state'] = Travel::$STATE_DEFAULT;
-            $this->request->data['Travel']['created_from_ip'] = $this->request->clientIp();
-            if ($this->Travel->save($this->request->data)) {
-                //$this->setSuccessMessage('Este viaje ha sido creado exitosamente.');
-                
-                $id = $this->Travel->getLastInsertID();
-                return $this->redirect(array('action' => 'view/' . $id));
-            }
-            $this->setErrorMessage(__('Error al crear el viaje'));
-            $this->set('localities', $this->Locality->getAsList());
-            return;
-        }
-        
-        $localities = $this->Locality->find('all');
-        $list = array();
-        foreach ($localities as $l) {
-            $list[] = $l['Locality'];
-        }
-        $this->set('localities', $list);
-    }
-    
-    public function add_pending() {
-        if ($this->request->is('post')) {            
-            $this->PendingTravel->create();
-
-            $this->request->data['PendingTravel']['created_from_ip'] = $this->request->clientIp();
-            if ($this->PendingTravel->save($this->request->data)) {
-                //$this->setSuccessMessage('Este viaje ha sido creado exitosamente.');
-                
-                $id = $this->PendingTravel->getLastInsertID();
-                return $this->redirect(array('action' => 'view_pending/' . $id));
-            }
-            $this->setErrorMessage(__('Error al crear el viaje'));
-            $this->set('localities', $this->Locality->getAsList());
-            return;
-        }
-        
-        $this->set('localities', $this->Locality->getAsList());
-    }
+        $this->set('localities', $this->getLocalitiesList());
+    } 
     
     public function confirm($id) {
         $travel = $this->Travel->findById($id);
@@ -177,48 +132,37 @@ class TravelsController extends AppController {
         }
 
         $editing = $this->request->is('ajax') || $this->request->is('post') || $this->request->is('put');
-        if($editing) {            
-            if ($this->Travel->save($travel)) {
-                if($this->request->is('ajax')) {
-                    echo json_encode(array('object'=>$travel['Travel']));
-                    return;
+        if($editing) {
+            
+            $closest = $this->LocalityRouter->getMatch($this->request->data['Travel']['origin'], $this->request->data['Travel']['destination']);
+            if($closest != null && !empty ($closest)) {
+                
+                $travel['Travel']['locality_id'] = $closest['locality_id'];
+                $travel['Travel']['direction'] = $closest['direction'];
+                
+                if ($this->Travel->save($travel)) {
+                    if($this->request->is('ajax')) {
+                        echo json_encode(array('object'=>$travel['Travel']));
+                        return;
+                    }
+                    return $this->redirect(array('action' => 'index'));
                 }
-                return $this->redirect(array('action' => 'index'));
+                $this->setErrorMessage(__('Ocurrió un error guardando los datos de este viaje. Intenta de nuevo.'));
+            } else {
+                if($this->autoRender == false) {
+                    throw new NotFoundException('El origen y el destino del viaje no son reconocidos.');
+                } else {
+                    $this->setErrorMessage(__('El origen y el destino del viaje no son reconocidos.'));
+                    $this->redirect($this->referer());
+                }
             }
-            $this->setErrorMessage(__('Ocurrió un error guardando los datos de este viaje. Intenta de nuevo.'));
         }
         
         $travel = $this->Travel->findById($tId);
         if (!$this->request->data) {
             $this->request->data['Travel'] = $travel['Travel'];
         }
-    }
-    
-    public function edit_pending($tId) {        
-        if ($this->request->is('ajax')) {
-            $this->autoRender = false;
-            $travel = $this->data;
-        } else if ($this->request->is('post') || $this->request->is('put')) {
-            $travel = $this->request->data;
-        }
-
-        $editing = $this->request->is('ajax') || $this->request->is('post') || $this->request->is('put');
-        if($editing) {            
-            if ($this->PendingTravel->save($travel)) {
-                if($this->request->is('ajax')) {
-                    echo json_encode(array('object'=>$travel['PendingTravel']));
-                    return;
-                }
-                return $this->redirect(array('action' => 'index'));
-            }
-            $this->setErrorMessage(__('Ocurrió un error guardando los datos de este viaje. Intenta de nuevo.'));
-        }
-        
-        $travel = $this->PendingTravel->findById($tId);
-        if (!$this->request->data) {
-            $this->request->data['PendingTravel'] = $travel['PendingTravel'];
-        }
-    }
+    }    
 
     public function delete($tId) {
         $travel = $this->Travel->findById($tId);
@@ -237,6 +181,110 @@ class TravelsController extends AppController {
         }
         
         $this->redirect($this->referer());
+    }
+    
+    
+    
+    /**
+     * PENDING
+     */
+    
+    public function view_pending($id) {
+        $travel = $this->PendingTravel->findById($id);
+        $travel['PendingTravel']['state'] = Travel::$STATE_UNCONFIRMED;
+        
+        $this->set('localities', $this->getLocalitiesList());
+        $this->set('travel', $travel);
+        
+        $this->request->data = $travel;
+    }
+    
+    public function add_pending() {
+        if ($this->request->is('post')) {
+            
+            $closest = $this->LocalityRouter->getMatch($this->request->data['PendingTravel']['origin'], $this->request->data['PendingTravel']['destination']);
+            
+            if($closest != null && !empty ($closest)) {
+                $this->PendingTravel->create();
+
+                $this->request->data['PendingTravel']['locality_id'] = $closest['locality_id'];
+                $this->request->data['PendingTravel']['direction'] = $closest['direction'];
+                $this->request->data['PendingTravel']['state'] = Travel::$STATE_UNCONFIRMED;
+                $this->request->data['PendingTravel']['created_from_ip'] = $this->request->clientIp();
+                
+                if ($this->PendingTravel->save($this->request->data)) {
+                    $id = $this->PendingTravel->getLastInsertID();
+                    return $this->redirect(array('action' => 'view_pending/' . $id));
+                }
+                $this->setErrorMessage(__('Error al crear el viaje'));                
+            } else {
+                $this->setErrorMessage(__('El origen y el destino del viaje no son reconocidos.'));
+                $this->redirect($this->referer());
+            }
+        }
+        
+        $this->set('localities', $this->getLocalitiesList());
+    }
+    
+    public function edit_pending($tId) {        
+        if ($this->request->is('ajax')) {
+            $this->autoRender = false;
+            $travel = $this->data;
+        } else if ($this->request->is('post') || $this->request->is('put')) {
+            $travel = $this->request->data;
+        }
+
+        $editing = $this->request->is('ajax') || $this->request->is('post') || $this->request->is('put');
+        if($editing) {
+            $closest = $this->LocalityRouter->getMatch($this->request->data['PendingTravel']['origin'], $this->request->data['PendingTravel']['destination']);
+            if($closest != null && !empty ($closest)) {
+                
+                $travel['PendingTravel']['locality_id'] = $closest['locality_id'];
+                $travel['PendingTravel']['direction'] = $closest['direction'];
+                
+                if ($this->PendingTravel->save($travel)) {
+                    if($this->request->is('ajax')) {
+                        echo json_encode(array('object'=>$travel['PendingTravel']));
+                        return;
+                    }
+                    return $this->redirect(array('action' => 'index'));
+                }
+                $this->setErrorMessage(__('Ocurrió un error guardando los datos de este viaje. Intenta de nuevo.'));
+            } else {
+                if($this->autoRender == false) {
+                    throw new NotFoundException('El origen y el destino del viaje no son reconocidos.');
+                } else {
+                    $this->setErrorMessage(__('El origen y el destino del viaje no son reconocidos.'));
+                    $this->redirect($this->referer());
+                }
+            }
+        }
+        
+        $travel = $this->PendingTravel->findById($tId);
+        if (!$this->request->data) {
+            $this->request->data['PendingTravel'] = $travel['PendingTravel'];
+        }
+    }
+    
+    
+    
+    
+    /**
+     * AUX
+     */
+    
+    private function getLocalitiesList() {
+        $localities = $this->Locality->find('all');
+        $list = array();
+        foreach ($localities as $l) {
+            $list[] = $l['Locality'];
+        }
+        $thes = $this->LocalityThesaurus->find('all', array('conditions'=>array('use_as_hint'=>true)));
+        foreach ($thes as $t) {
+            $list[] = array('id'=>$t['LocalityThesaurus']['id'], 'name'=>$t['LocalityThesaurus']['fake_name']);
+        }
+        
+        return $list;
     }
 }
 

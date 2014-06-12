@@ -2,25 +2,6 @@
 App::uses('AppModel', 'Model');
 class PendingTravel extends AppModel {
     
-    /*public $travelType = '';
-    
-    public static $STATE = array(
-        'U' => array('color'=>'goldenrod', 'label'=>'Sin Confirmar'),
-        'C' => array('color'=>'lightskyblue', 'label'=>'Confirmado'),
-        'E' => array('color'=>'lightcoral', 'label'=>'Expirado'),
-    );
-    
-    public static $STATE_UNCONFIRMED = 'U';
-    public static $STATE_CONFIRMED = 'C';
-    public static $STATE_SOLVED = 'S';
-    
-    public static $STATE_DEFAULT = 'U';
-    
-    public static $preferences = array(
-        'need_modern_car'=>'Carro Moderno',
-        'need_air_conditioner'=>'Aire Acondicionado'
-    );*/
-    
     public $order = 'PendingTravel.id DESC';
     
     public $belongsTo = array(

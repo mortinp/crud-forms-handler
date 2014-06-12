@@ -1,0 +1,1 @@
+ALTER TABLE  `localities_thesaurus` ADD  `use_as_hint` BOOLEAN NOT NULL

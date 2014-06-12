@@ -20,20 +20,27 @@ $buttonStyle = '';
 if ($is_modal)
     $buttonStyle = 'display:inline-block;float:left';
 
-if (empty($this->request->data))
+/*if (empty($this->request->data))
     $saveButtonText = 'Crear Anuncio';
 else
-    $saveButtonText = 'Salvar Datos';
+    $saveButtonText = 'Salvar Datos';*/
 
-$labelOrigin = 'Origen del viaje';
-$labelDestination = 'Destino del Viaje';
-if($intent == 'add_pending') {
-    $labelOrigin .= ' <div style="display:inline"><a href="#!" class="travel-switch">&ndash; Prefiero usar esta lista como <em><b>Destino del Viaje</b></em></a></div>';
-    $labelDestination .= ' <div style="display:inline"><a href="#!" class="travel-switch">&ndash; Prefiero usar esta lista como <em><b>Origen del Viaje</b></em></a></div>';
+$origin = '';
+$destination = '';
+if(isset ($travel) && !empty ($travel)) {
+    $saveButtonText = 'Salvar Datos';
+    
+    $origin = $travel['PendingTravel']['origin'];
+    $destination = $travel['PendingTravel']['destination'];
+    
+} else {
+    $saveButtonText = 'Crear Anuncio';
 }
+
+$form_disabled = !User::canCreateTravel()/*AuthComponent::user('travel_count') > 0 && !AuthComponent::user('email_confirmed')*/;
 ?>
 
-<?php if(/*$intent === 'add_pending' && $form_disabled*/false):?>
+<?php if($intent === 'add' && $form_disabled):?>
     <div class="alert alert-warning">
         <b>Verifica tu cuenta de correo electrónico</b> para crear más anuncios de viajes. 
         El formulario de viajes permanecerá desactivado hasta que verifiques tu cuenta. 
@@ -46,51 +53,19 @@ if($intent == 'add_pending') {
     <div>
         <div id='travel-ajax-message'></div>
         <div id="TravelFormDiv">
-            <?php
-            echo $this->Form->create('PendingTravel', array('default' => !$do_ajax, 'url' => array('controller' => 'travels', 'action' => $form_action), 'style' => $style, 'id' => 'TravelForm'));
-            ?>
-        
+        <?php echo $this->Form->create('PendingTravel', array('default' => !$do_ajax, 'url' => array('controller' => 'travels', 'action' => $form_action), 'style' => $style, 'id'=>'TravelForm'));?>
         <fieldset>
             <?php
-            
-            //$travel_out_switcher = 'Selecciona el <b>Origen del viaje</b> <div style="display:inline"><a href="#!" class="travel-switch">&ndash; Prefiero seleccionar el <b>Destino del viaje</b></a></div><br/><br/>';
-            //$travel_in_switcher = 'Selecciona el <b>Destino del viaje</b> <div style="display:inline"><a href="#!" class="travel-switch">&ndash; Prefiero seleccionar el <b>Origen del viaje</b></a></div><br/><br/>';
-            
-            // Viajes que son desde una localidad, hacia otro lugar
-            $travel_out =
-                $this->Form->input('locality_id', array('type' => 'select', 'options' => $localities, 'showParents' => true,
-                'label' => __($labelOrigin), 'id'=>'TravelLocalityId')).
-                $this->Form->input('where', array('type' => 'text', 'label' => __('Destino del viaje'), 'placeholder' => 'Nombre de tu destino (puede ser cualquier lugar)')).
-                $this->Form->input('direction', array('type'=>'hidden', 'value'=>'0'));
-            
-            // Viajes que son desde otro lugar hacia una localidad
-            $travel_in =                
-                $this->Form->input('where', array('type' => 'text', 'label' => __('Origen del viaje'), 'placeholder' => 'Nombre de tu origen de viaje (puede ser cualquier lugar)')).
-                    $this->Form->input('locality_id', array('type' => 'select', 'options' => $localities, 'showParents' => true,
-                'label' => __($labelDestination), 'id'=>'TravelLocalityId')).
-                $this->Form->input('direction', array('type'=>'hidden', 'value'=>'1'));
-            
-            ?>
-            
-            <div id="travel-def">
-                <?php
-                    if($intent == 'add_pending') {
-                        echo /*$travel_out_switcher.*/$travel_out;
-                    } else {
-                         if($travel['PendingTravel']['direction'] == 0) echo $travel_out;
-                         else echo $travel_in;
-                    }   
-                ?>
-            </div>
-            
-            <?php
+            echo $this->Form->input('origin', array('type' => 'text', 'class'=>'locality-typeahead', 'label' => 'Origen del Viaje', 'required'=>true, 'value'=>$origin, 'autofocus'=>'autofocus'));
+            echo $this->Form->input('destination', array('type' => 'text', 'class'=>'locality-typeahead', 'label' => 'Destino del Viaje', 'required'=>true, 'value'=>$destination));
+
             echo $this->Form->custom_date('date', array('label' => __('Cuándo'), 'dateFormat' => 'dd/mm/yyyy'));
             echo $this->Form->input('people_count', array('label' => __('Personas que viajan <small class="text-info">(máximo número de personas)</small>'), 'default' => 1, 'min' => 1));
             echo $this->Form->checkbox_group(Travel::$preferences, array('header'=>'Preferencias <small class="text-info">(selecciona sólo si quieres esto obligatoriamente)</small>'));
             echo $this->Form->input('contact', array('label' => __('Información de Contacto'), 
                 'placeholder' => 'Explica a los choferes la forma de contactarte (número de teléfono, correo electrónico o cualquier otra forma que prefieras). Escribe algo como: llamar al teléfono 12-3456 a Pepito.'));
             echo $this->Form->input('id', array('type' => 'hidden'));
-            
+
             $submitOptions = array('style' => $buttonStyle, 'id'=>'TravelSubmit');
             //if(!$do_ajax) $submitOptions['onclick'] = 'this.value="Espere ...";this.disabled=true;this.form.disabled=true;this.form.submit();';
             echo $this->Form->submit(__($saveButtonText), $submitOptions);
@@ -98,62 +73,45 @@ if($intent == 'add_pending') {
                 echo $this->Form->button(__('Cancelar'), array('id' => 'btn-cancel-travel', 'style' => 'display:inline-block'));
             ?>
         </fieldset>
-    <?php echo $this->Form->end(); ?>
+        <?php echo $this->Form->end(); ?>
         </div>
         <?php
-        if($intent == 'add_pending'):?>
-        <br/>
-        <div class="alert alert-warning">
-            La <b>Información de Contacto</b> es importante para que los choferes lleguen a tí. 
-            Asegúrate de que esta información sea correcta.
-        </div>
+            if($intent == 'add'):?>
+            <br/>
+            <div class="alert alert-warning">
+                La <b>Información de Contacto</b> es importante para que los choferes lleguen a tí. 
+                Asegúrate de que esta información sea correcta.
+            </div>
         <?php endif?>
     </div>
 <?php endif?>
-
 
 
 <?php
 // CSS
 $this->Html->css('bootstrap', array('inline' => false));
 $this->Html->css('vitalets-bootstrap-datepicker/datepicker.min', array('inline' => false));
+$this->Html->css('typeaheadjs-bootstrapcss/typeahead.js-bootstrap', array('inline' => false));
 
 //JS
 $this->Html->script('jquery', array('inline' => false));
-//$this->Html->script('jquery-ui', array('inline' => false)); 
 $this->Html->script('bootstrap', array('inline' => false));
+
 $this->Html->script('vitalets-bootstrap-datepicker/bootstrap-datepicker.min', array('inline' => false));
-//$this->Html->script('vitalets-bootstrap-datepicker/locales/bootstrap-datepicker.es', array('inline' => false));
 
 $this->Html->script('jquery-validation-1.10.0/dist/jquery.validate.min', array('inline' => false));
 $this->Html->script('jquery-validation-1.10.0/localization/messages_es', array('inline' => false));
 
-    
-// Pass to js
-if($intent == 'add_pending' /*&& !$form_disabled*/) {
-    $this->Js->set('travel_on', /*$travel_out_switcher.*/$travel_out);
-    $this->Js->set('travel_off', /*$travel_in_switcher.*/$travel_in);
-    echo $this->Js->writeBuffer(array('inline' => false));
-}
+$this->Html->script('typeaheadjs/typeahead-martin', array('inline' => false));
+
+
+$this->Js->set('localities', $localities);
+echo $this->Js->writeBuffer(array('inline' => false));
+
 ?>
 
-<script type="text/javascript">
-    $(document).ready(function() {
-        <?php if($intent == 'add_pending' /*&& !$form_disabled*/):?>
-        var travelOn = window.app.travel_on;
-        var travelOff = window.app.travel_off;
-        var switcher = function() {
-            $('#travel-def').empty().append(travelOff);
-            var temp = travelOn;
-            travelOn = travelOff;
-            travelOff = temp;
-            $('.travel-switch').click(switcher);
-            //$('.popover-info').popover({html:true});
-        };
-        $('.travel-switch').click(switcher);
-        <?php endif?>
-        //$('.popover-info').popover({html:true});
-        
+<script type="text/javascript">    
+    $(document).ready(function() {        
         $('.datepicker').datepicker({
             format: "dd/mm/yyyy",
             language: 'es',
@@ -181,4 +139,51 @@ if($intent == 'add_pending' /*&& !$form_disabled*/) {
             })
         <?php endif?>
     })
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('input.locality-typeahead').typeahead({
+            //name: 'localities',
+            //header: '<b>Localidades</b>',
+            valueKey: 'name',
+            local: window.app.localities
+        }).on('typeahead:selected', function(event, datum) {
+            /*if($(event.target).attr('id') == 'TravelOrigin') {
+                $('#TravelForm').find('#TravelOriginId').remove();
+                $('#TravelForm').append('<input type="hidden" id="TravelOriginId" name="data[Travel][origin_id]" value="' + datum.id + '">');
+            } else if($(event.target).attr('id') == 'TravelDestination') {
+                $('#TravelForm').find('#TravelDestinationId').remove();
+                $('#TravelForm').append('<input type="hidden" id="TravelDestinationId" name="data[Travel][destination_id]" value="' + datum.id + '">');
+            }*/
+        });
+        
+        $('input.tt-hint').addClass('form-control');
+        $('.twitter-typeahead').css('display', 'block');
+    });
+    
+    /*var substringMatcher = function(strs) {
+        return function findMatches(q, cb) {
+            var matches, substringRegex;
+
+            // an array that will be populated with substring matches
+            matches = [];
+
+            // regex used to determine if a string contains the substring `q`
+            substrRegex = new RegExp(q, 'i');
+
+            // iterate through the pool of strings and for any string that
+            // contains the substring `q`, add it to the `matches` array
+            $.each(strs, function(i, str) {
+                if (substrRegex.test(str)) {
+                    // the typeahead jQuery plugin expects suggestions to a
+                    // JavaScript object, refer to typeahead docs for more info
+                    matches.push({ value: str });
+                }
+            });
+
+            cb(matches);
+        };
+    };*/
+
 </script>

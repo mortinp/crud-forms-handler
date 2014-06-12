@@ -47,7 +47,7 @@ function _ajaxifyForm(form, obj, alias, onSuccess) {
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    messageDiv.append("<div class='alert alert-danger'><b>" + alias[0].toUpperCase() + alias.substring(1) + "</b> data could not be saved.</div>");
+                    messageDiv.append("<div class='alert alert-danger'>" + jqXHR.responseText + "</div>");
                 },
                 complete: function() {
                     $('#' + upperAlias + 'Submit').attr('disabled', false);
@@ -97,8 +97,8 @@ var weekDays = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viern
 
 $(document).ready(function() {
     _ajaxifyForm($("#TravelForm"), null, "travel", function(obj) {
-        $('#travel-locality-label').text($("#TravelLocalityId option:selected").text());
-        $('#travel-where-label').text(obj.where);            
+        $('#travel-locality-label').text(obj.origin);
+        $('#travel-where-label').text(obj.destination);
 
         var d = obj.date.split('/');
         var dd = new Date(d[1] + '/' + d[0] + '/' + d[2]);

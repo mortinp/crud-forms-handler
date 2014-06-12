@@ -50,15 +50,9 @@ foreach (Travel::$preferences as $key => $value) {
     <small><i title="<?php echo $notice['label']?>" class="glyphicon glyphicon-flag" style="margin-left:-20px;color:<?php echo $notice['color']?>;display: inline-block"></i></small>
     
     <big>
-        <?php if($travel['PendingTravel']['direction'] == 0):?>
-        <span id='travel-locality-label'><?php echo $travel['Locality']['name']?></span> 
+        <span id='travel-locality-label'><?php echo $travel['PendingTravel']['origin']?></span> 
         - 
-        <span id='travel-where-label'><?php echo $travel['PendingTravel']['where']?></span>
-        <?php else:?>
-        <span id='travel-where-label'><?php echo $travel['PendingTravel']['where']?></span> 
-        - 
-        <span id='travel-locality-label'><?php echo $travel['Locality']['name']?></span>
-        <?php endif?>
+        <span id='travel-where-label'><?php echo $travel['PendingTravel']['destination']?></span>        
     </big> 
     <div style="display:inline-block"><small class="text-muted"><span id='travel-prettypeoplecount-label'><?php echo $pretty_people_count?></span></small></div>
     

@@ -96,6 +96,7 @@ if($isLoggedIn) {
                                             <li><?php echo $this->Html->link(__('Tesauro'), array('controller' => 'locality_thesaurus', 'action' => 'index')) ?></li>
                                             <li class="divider"></li>
                                             <li><?php echo $this->Html->link(__('Viajes (Todos)'), array('controller' => 'travels', 'action' => 'all')) ?></li>
+                                            <li><?php echo $this->Html->link(__('Pendientes (Todos)'), array('controller' => 'travels', 'action' => 'all_pending')) ?></li>
                                         </ul>
                                     </li>
                                     <?php endif;?>

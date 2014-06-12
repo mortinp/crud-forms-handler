@@ -56,7 +56,7 @@
                 </li>
             </ul>
             </big>
-            <!--<p><b>¿Quieres saber más?</b> Las <?php echo $this->Html->link('Preguntas Frecuentes', array('action'=>'faq'))?> pudieran ayudarte.</p>-->
+            <p><b>¿Quieres saber más?</b> Escribe un correo a <b>info@yotellevo.ahiteva.net</b></p>
         </div>
     </div>
     

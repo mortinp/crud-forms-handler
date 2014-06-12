@@ -294,7 +294,7 @@ class UsersController extends AppController {
         }
         
         if($OK) {
-            if($welcome) $template = 'welcome';
+            /*if($welcome) $template = 'welcome';
             else $template = 'email_confirmation';
             
             $Email = new CakeEmail('no_responder');
@@ -307,7 +307,7 @@ class UsersController extends AppController {
                 $Email->send();
             } catch ( Exception $e ) {
                 $OK = false;
-            }
+            }*/
         } 
         
         return $OK;

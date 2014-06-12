@@ -14,6 +14,7 @@ class ProvincesController extends AppController {
             $this->Province->create();
             if ($this->Province->save($this->request->data)) {
                 Cache::delete('localities');
+                Cache::delete('localities_suggestion');
                 
                 $this->setInfoMessage(__('La provincia se guardó exitosamente.'));
                 return $this->redirect(array('action' => 'index'));                
@@ -31,6 +32,7 @@ class ProvincesController extends AppController {
             
             if ($this->Province->save($this->request->data)) {
                 Cache::delete('localities');
+                Cache::delete('localities_suggestion');
                 
                 $this->setInfoMessage('La provincia se guardó exitosamente.');
                 return $this->redirect(array('action' => 'index'));
@@ -48,6 +50,7 @@ class ProvincesController extends AppController {
         }
         if ($this->Province->delete()) {
             Cache::delete('localities');
+            Cache::delete('localities_suggestion');
             
             $this->setInfoMessage('La provincia se eliminó exitosamente.');
         } else {

@@ -274,16 +274,19 @@ class TravelsController extends AppController {
      */
     
     private function getLocalitiesList() {
-        $localities = $this->Locality->find('all');
-        $list = array();
-        foreach ($localities as $l) {
-            $list[] = $l['Locality'];
-        }
-        $thes = $this->LocalityThesaurus->find('all', array('conditions'=>array('use_as_hint'=>true)));
-        foreach ($thes as $t) {
-            $list[] = array('id'=>$t['LocalityThesaurus']['id'], 'name'=>$t['LocalityThesaurus']['fake_name']);
-        }
-        
+        $list = Cache::read('localities_suggestion');
+        if (!$list) {
+            $localities = $this->Locality->find('all');
+            $list = array();
+            foreach ($localities as $l) {
+                $list[] = $l['Locality'];
+            }
+            $thes = $this->LocalityThesaurus->find('all', array('conditions'=>array('use_as_hint'=>true)));
+            foreach ($thes as $t) {
+                $list[] = array('id'=>$t['LocalityThesaurus']['id'], 'name'=>$t['LocalityThesaurus']['fake_name']);
+            }
+            Cache::write('localities_suggestion', $list);
+        }        
         return $list;
     }
 }

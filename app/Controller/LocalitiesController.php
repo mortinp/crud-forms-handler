@@ -16,6 +16,7 @@ class LocalitiesController extends AppController {
             $this->Locality->create();
             if ($this->Locality->save($this->request->data)) {
                 Cache::delete('localities');
+                Cache::delete('localities_suggestion');
                 
                 $this->setInfoMessage(__('La localidad se guardó exitosamente.'));
                 return $this->redirect(array('action' => 'index'));                
@@ -34,6 +35,7 @@ class LocalitiesController extends AppController {
             
             if ($this->Locality->save($this->request->data)) {
                 Cache::delete('localities');
+                Cache::delete('localities_suggestion');
                 
                 $this->setInfoMessage('La localidad se guardó exitosamente.');
                 return $this->redirect(array('action' => 'index'));
@@ -56,6 +58,7 @@ class LocalitiesController extends AppController {
         
         if ($this->Locality->delete()) {
             Cache::delete('localities');
+            Cache::delete('localities_suggestion');
             
             $datasource->commit();
             $this->setInfoMessage('La localidad se eliminó exitosamente.');

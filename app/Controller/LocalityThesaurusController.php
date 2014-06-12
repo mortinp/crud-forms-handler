@@ -16,6 +16,7 @@ class LocalityThesaurusController extends AppController {
             $this->LocalityThesaurus->create();
             if ($this->LocalityThesaurus->save($this->request->data)) {
                 //Cache::delete('localities');
+                Cache::delete('localities_suggestion');
                 
                 $this->setInfoMessage(__('La entrada se guardó exitosamente.'));
                 return $this->redirect(array('action' => 'index'));                
@@ -34,6 +35,7 @@ class LocalityThesaurusController extends AppController {
             
             if ($this->LocalityThesaurus->save($this->request->data)) {
                 //Cache::delete('localities');
+                Cache::delete('localities_suggestion');
                 
                 $this->setInfoMessage('La entrada se guardó exitosamente.');
                 return $this->redirect(array('action' => 'index'));
@@ -52,6 +54,7 @@ class LocalityThesaurusController extends AppController {
         }
         if ($this->LocalityThesaurus->delete()) {
             //Cache::delete('localities');
+            Cache::delete('localities_suggestion');
             
             $this->setInfoMessage('La entrada se eliminó exitosamente.');
         } else {

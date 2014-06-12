@@ -7,6 +7,7 @@ App::uses('AppModel', 'Model');
  *
  */
 class EmailQueue extends AppModel {
+        public $order = 'id DESC';
 
 /**
  * Name

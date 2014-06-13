@@ -137,7 +137,7 @@ class IncomingMailShell extends AppShell {
                     $closest = $result + array('locality_id'=>$munId);                    
                     $shortest = $closest['distance'];
                     
-                    $this->out($munName.':'.$shortest);
+                    //$this->out($munName.':'.$shortest);
                     
                     if($shortest == 0) {
                         $perfectMatch = true;
@@ -154,7 +154,10 @@ class IncomingMailShell extends AppShell {
             foreach ($thesaurus as $t) {
                 
                 $target = $t['LocalityThesaurus']['fake_name'];
+                $split = explode('|', $target);
+                $target = $split[0];
                 //$this->out($t['LocalityThesaurus']['fake_name']);
+                
                 
                 $result = $this->match($origin, $destination, $target, $shortest);
                 if($result != null && !empty ($result)) {
@@ -323,8 +326,8 @@ class IncomingMailShell extends AppShell {
         $percentOrigin = $levOrigin/strlen($target);
         $percentDestination = $levDestination/strlen($target);
         
-        $this->out($origin.'|'.$target.': '.$percentOrigin);
-        $this->out($destination.'|'.$target.': '.$percentDestination);
+        //$this->out($origin.'|'.$target.': '.$percentOrigin);
+        //$this->out($destination.'|'.$target.': '.$percentDestination);
 
         // Calculate only if inside offset
         if($percentOrigin > IncomingMailShell::$MAX_MATCHING_OFFSET && 

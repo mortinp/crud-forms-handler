@@ -78,7 +78,7 @@ if($isLoggedIn) {
                                 <?php if($role === 'regular' || $role === 'admin' || $role === 'tester') :?>
                                     <li><?php echo $this->Html->link(__('Mis Anuncios'), array('controller' => 'travels', 'action' => 'index'), array('escape'=>false));?></li>
                                     <li class="divider-vertical"></li>
-                                    <li><?php echo $this->Html->link(__('<b>Anunciar Viaje</b>'), array('controller' => 'travels', 'action' => 'add'), array('escape'=>false));?></li> 
+                                    <li><?php echo $this->Html->link(__('<span class="text-info"><b>Anunciar Viaje</b></span>'), array('controller' => 'travels', 'action' => 'add'), array('escape'=>false));?></li> 
                                     
                                     <?php if($role === 'admin') :?>
                                     <li class="divider-vertical"></li>

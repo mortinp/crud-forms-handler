@@ -24,7 +24,7 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
             <br/>
             <br/>
             <br/>
-            <p><b>¿Ya estás registrado en <em>YoTeLlevo</em>?</b> <big><?php echo $this->Html->link(__('Entra con tu cuenta'), array('controller' => 'users', 'action' => 'login')) ?></big></p>
+            <p><b>¿Ya estás registrado en <em>YoTeLlevo</em>?</b> <big><?php echo $this->Html->link(__('Entra y mira tus anuncios'), array('controller' => 'users', 'action' => 'login')) ?></big></p>
               
             <br/>    
             <div>

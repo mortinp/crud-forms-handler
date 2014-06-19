@@ -9,7 +9,7 @@
             para crear anuncios de viajes.
         </div>
         <br/>
-        <legend><?php echo __('Entra (o ' . $this->Html->link('Regístrate', array('controller' => 'users', 'action' => 'register')) . ' si no tienes cuenta)'); ?></legend>
+        <legend><?php echo __('Entra y mira tus anuncios'); ?></legend>
         <?php echo $this->Form->create('User'); ?>
         <fieldset>
             <?php

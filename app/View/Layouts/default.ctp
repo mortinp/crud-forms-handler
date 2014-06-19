@@ -88,17 +88,34 @@ if($isLoggedIn) {
                                             <b class="caret"></b>
                                         </a>
                                         <ul class="dropdown-menu">
-                                            <li><?php echo $this->Html->link(__('Usuarios'), array('controller' => 'users', 'action' => 'index')) ?></li>
-                                            <li><?php echo $this->Html->link(__('Choferes'), array('controller' => 'drivers', 'action' => 'index')) ?></li>                                            
-                                            <li class="divider"></li>
-                                            <li><?php echo $this->Html->link(__('Provincias'), array('controller' => 'provinces', 'action' => 'index')) ?></li>
-                                            <li><?php echo $this->Html->link(__('Localidades'), array('controller' => 'localities', 'action' => 'index')) ?></li>
-                                            <li><?php echo $this->Html->link(__('Tesauro'), array('controller' => 'locality_thesaurus', 'action' => 'index')) ?></li>
-                                            <li class="divider"></li>
-                                            <li><?php echo $this->Html->link(__('Viajes (Todos)'), array('controller' => 'travels', 'action' => 'all')) ?></li>
-                                            <li><?php echo $this->Html->link(__('Pendientes (Todos)'), array('controller' => 'travels', 'action' => 'all_pending')) ?></li>
-                                            <li class="divider"></li>
-                                            <li><?php echo $this->Html->link(__('Email Queue'), array('controller' => 'email_queues', 'action' => 'index')) ?></li>
+                                            <li class="dropdown-submenu">
+                                                <a tabindex="-1" href="#">Administrar</a>
+                                                <ul class="dropdown-menu">
+                                                    <li><?php echo $this->Html->link(__('Usuarios'), array('controller' => 'users', 'action' => 'index')) ?></li>
+                                                    <li><?php echo $this->Html->link(__('Choferes'), array('controller' => 'drivers', 'action' => 'index')) ?></li>                                            
+                                                    <li class="divider"></li>
+                                                    <li><?php echo $this->Html->link(__('Provincias'), array('controller' => 'provinces', 'action' => 'index')) ?></li>
+                                                    <li><?php echo $this->Html->link(__('Localidades'), array('controller' => 'localities', 'action' => 'index')) ?></li>
+                                                    <li><?php echo $this->Html->link(__('Tesauro'), array('controller' => 'locality_thesaurus', 'action' => 'index')) ?></li>
+                                                </ul>
+                                            </li>
+                                            <li class="dropdown-submenu">
+                                                <a tabindex="-1" href="#">Ver</a>
+                                                <ul class="dropdown-menu">
+                                                    <li><?php echo $this->Html->link(__('Viajes (Todos)'), array('controller' => 'travels', 'action' => 'all')) ?></li>
+                                                    <li><?php echo $this->Html->link(__('Pendientes (Todos)'), array('controller' => 'travels', 'action' => 'all_pending')) ?></li>
+                                                    <li class="divider"></li>
+                                                    <li><?php echo $this->Html->link(__('Email Queue'), array('controller' => 'email_queues', 'action' => 'index')) ?></li>
+                                                </ul>
+                                            </li>
+                                            <li class="dropdown-submenu">
+                                                <a tabindex="-1" href="#">Logs</a>
+                                                <ul class="dropdown-menu">
+                                                    <li><?php echo $this->Html->link(__('Info Requerida'), array('controller' => 'admins', 'action' => 'view_log/info_requested')) ?></li>
+                                                    <li><?php echo $this->Html->link(__('Viajes por Correo'), array('controller' => 'admins', 'action' => 'view_log/travels_by_email')) ?></li>
+                                                    <li><?php echo $this->Html->link(__('Viajes Fallidos'), array('controller' => 'admins', 'action' => 'view_log/travels_failed')) ?></li>
+                                                </ul>
+                                            </li>
                                         </ul>
                                     </li>
                                     <?php endif;?>

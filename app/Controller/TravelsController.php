@@ -88,6 +88,7 @@ class TravelsController extends AppController {
                 }
                 $this->setErrorMessage(__('Error al crear el viaje'));                
             } else {
+                CakeLog::write('travels_failed', 'Travel Failed (add) - Unknown origin and destination: '.$this->request->data['Travel']['origin'].' - '.$this->request->data['Travel']['destination']);
                 $this->setErrorMessage(__('El origen y el destino del viaje no son reconocidos.'));
                 $this->redirect($this->referer());
             }
@@ -149,6 +150,7 @@ class TravelsController extends AppController {
                 }
                 $this->setErrorMessage(__('Ocurrió un error guardando los datos de este viaje. Intenta de nuevo.'));
             } else {
+                CakeLog::write('travels_failed', 'Travel Failed (edit) - Unknown origin and destination: '.$this->request->data['Travel']['origin'].' - '.$this->request->data['Travel']['destination']);
                 if($this->autoRender == false) {
                     throw new NotFoundException('El origen y el destino del viaje no son reconocidos.');
                 } else {
@@ -218,6 +220,7 @@ class TravelsController extends AppController {
                 }
                 $this->setErrorMessage(__('Error al crear el viaje'));                
             } else {
+                CakeLog::write('travels_failed', 'Travel Failed (add_pending) - Unknown origin and destination: '.$this->request->data['PendingTravel']['origin'].' - '.$this->request->data['PendingTravel']['destination']);
                 $this->setErrorMessage(__('El origen y el destino del viaje no son reconocidos.'));
                 $this->redirect($this->referer());
             }
@@ -251,6 +254,7 @@ class TravelsController extends AppController {
                 }
                 $this->setErrorMessage(__('Ocurrió un error guardando los datos de este viaje. Intenta de nuevo.'));
             } else {
+                CakeLog::write('travels_failed', 'Travel Failed (edit_pending) - Unknown origin and destination: '.$this->request->data['PendingTravel']['origin'].' - '.$this->request->data['PendingTravel']['destination']);
                 if($this->autoRender == false) {
                     throw new NotFoundException('El origen y el destino del viaje no son reconocidos.');
                 } else {

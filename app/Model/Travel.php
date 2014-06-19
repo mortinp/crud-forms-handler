@@ -6,7 +6,7 @@ class Travel extends AppModel {
     
     public static $STATE = array(
         'P' => array('color'=>'green', 'label'=>'Pendiente'),
-        'U' => array('color'=>'goldenrod', 'label'=>'Sin Confirmar'),
+        'U' => array('color'=>'goldenrod', 'label'=>'Pendiente de Confirmación'),
         'C' => array('color'=>'#0088cc', 'label'=>'Confirmado'),
         'E' => array('color'=>'lightcoral', 'label'=>'Expirado'),
     );

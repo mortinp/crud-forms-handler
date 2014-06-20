@@ -67,6 +67,24 @@ class Locality extends AppModel {
         
         return $localities;
     }
+    
+    public function getAsSuggestions() {
+        $list = Cache::read('localities_suggestion');
+        if (!$list) {
+            $localities = $this->find('all');
+            $list = array();
+            foreach ($localities as $l) {
+                $list[] = $l['Locality'];
+            }
+            $thesaurusModel = new LocalityThesaurus();
+            $thes = $thesaurusModel->find('all', array('conditions'=>array('use_as_hint'=>true)));
+            foreach ($thes as $t) {
+                $list[] = array('id'=>$t['LocalityThesaurus']['id'], 'name'=>$t['LocalityThesaurus']['fake_name']);
+            }
+            Cache::write('localities_suggestion', $list);
+        }        
+        return $list;
+    }
 }
 
 ?>

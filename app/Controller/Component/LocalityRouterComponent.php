@@ -5,6 +5,13 @@ class LocalityRouterComponent extends Component {
     private static $MAX_MATCHING_OFFSET = 0.3;
     
     public function getMatch($origin, $destination) {
+        $split = explode('|', $origin);
+        $origin = $split[0];
+                
+        $split = explode('|', $destination);
+        $destination = $split[0];
+        
+        
         $shortest = -1;
         $closest = array();
         $perfectMatch = false;
@@ -36,6 +43,8 @@ class LocalityRouterComponent extends Component {
             foreach ($thesaurus as $t) {
                 
                 $target = $t['LocalityThesaurus']['fake_name'];
+                $split = explode('|', $target);
+                $target = $split[0];                
                 
                 $result = $this->match($origin, $destination, $target, $shortest);
                 if($result != null && !empty ($result)) {

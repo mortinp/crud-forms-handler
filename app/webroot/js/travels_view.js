@@ -9,51 +9,57 @@ function _ajaxifyForm(form, obj, alias, onSuccess) {
     if(doAjax == true) {
         var messageDiv = $('#' + alias + '-ajax-message');
         form.submit(function() {
-            // Disable submit button
-            var prevText = $('#' + upperAlias + 'Submit').val();
-            $('#' + upperAlias + 'Submit').attr('disabled', true);
-            $('#' + upperAlias + 'Submit').val('Espere ...');
+            if((form).valid()) {
+                // Disable submit button
+                var prevText = $('#' + upperAlias + 'Submit').val();
+                $('#' + upperAlias + 'Submit').attr('disabled', true);
+                $('#' + upperAlias + 'Submit').val('Espere ...');
 
-            var data = $(this).serialize();
-            var url = $(this).attr('action');
-            $.ajax({
-                type: "POST",
-                data: $(this).serialize(),
-                url: $(this).attr('action'),
-                success: function(response) {
-                    response = JSON.parse(response);
+                var data = $(this).serialize();
+                var url = $(this).attr('action');
+                $.ajax({
+                    type: "POST",
+                    data: $(this).serialize(),
+                    url: $(this).attr('action'),
+                    success: function(response) {
+                        response = JSON.parse(response);
 
-                    var prettyAlias = upperAlias;
-                    if(aliases[alias] != undefined && aliases[alias] != null) prettyAlias = aliases[alias];
-                    messageDiv.empty().append($("<div class='alert alert-success'>Los datos del <b>" + prettyAlias + "</b> fueron salvados exitosamente.</div>"));
-                    setTimeout(function(){
-                        messageDiv.empty();
-                    }, 5000);
+                        var prettyAlias = upperAlias;
+                        if(aliases[alias] != undefined && aliases[alias] != null) prettyAlias = aliases[alias];
+                        messageDiv.empty().append($("<div class='alert alert-success'>Los datos del <b>" + prettyAlias + "</b> fueron salvados exitosamente.</div>"));
+                        setTimeout(function(){
+                            messageDiv.empty();
+                        }, 5000);
 
-                    if(onSuccess) {
-                        if(response != null && typeof response === 'object' && response.object != null) 
-                            onSuccess(response.object);
-                        else {
-                            var inputs = form.find('input, textarea');
-                            var obj = {};
-                            $.each(inputs, function(k, v){
-                                elem = $(v);
-                                if(elem.attr('id') == null) return;
-                                entryName = elem.attr('id').replace(upperAlias, '').toLowerCase();
-                                obj[entryName] = elem.val();
-                            });
-                            onSuccess(obj);
+                        if(onSuccess) {
+                            if(response != null && typeof response === 'object' && response.object != null) 
+                                onSuccess(response.object);
+                            else {
+                                var inputs = form.find('input, textarea');
+                                var obj = {};
+                                $.each(inputs, function(k, v){
+                                    elem = $(v);
+                                    if(elem.attr('id') == null) return;
+                                    entryName = elem.attr('id').replace(upperAlias, '').toLowerCase();
+                                    obj[entryName] = elem.val();
+                                });
+                                onSuccess(obj);
+                            }
                         }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        messageDiv.append("<div class='alert alert-danger'>" + jqXHR.responseText + "</div>");
+                        setTimeout(function(){
+                            messageDiv.empty();
+                        }, 5000);
+                    },
+                    complete: function() {
+                        $('#' + upperAlias + 'Submit').attr('disabled', false);
+                        $('#' + upperAlias + 'Submit').val(prevText);
                     }
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    messageDiv.append("<div class='alert alert-danger'>" + jqXHR.responseText + "</div>");
-                },
-                complete: function() {
-                    $('#' + upperAlias + 'Submit').attr('disabled', false);
-                    $('#' + upperAlias + 'Submit').val(prevText);
-                }
-            });
+                });
+            }
+            
         });
     }
 }

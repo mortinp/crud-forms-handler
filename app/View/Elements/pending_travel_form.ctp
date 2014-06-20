@@ -16,10 +16,6 @@ if (!isset($style))
 if (!isset($is_modal))
     $is_modal = false;
 
-$buttonStyle = '';
-if ($is_modal)
-    $buttonStyle = 'display:inline-block;float:left';
-
 /*if (empty($this->request->data))
     $saveButtonText = 'Crear Anuncio';
 else
@@ -37,6 +33,18 @@ if(isset ($travel) && !empty ($travel)) {
     $saveButtonText = 'Crear Anuncio';
 }
 
+$buttonStyle = '';
+if ($is_modal)
+    $buttonStyle = 'display:inline-block;float:left';
+
+$asLink = false;
+if(isset ($bigButton) && $bigButton == true) {
+    $saveButtonText .= "<div style='font-size:12pt;padding-left:50px;padding-right:50px'>Enseguida te pondremos en contacto con un chofer para que acuerdes los detalles del viaje</div>";
+    $buttonStyle = 'font-size:18pt;white-space: normal;';
+    $asLink = true;
+}
+
+
 $form_disabled = !User::canCreateTravel()/*AuthComponent::user('travel_count') > 0 && !AuthComponent::user('email_confirmed')*/;
 ?>
 
@@ -53,7 +61,9 @@ $form_disabled = !User::canCreateTravel()/*AuthComponent::user('travel_count') >
     <div>
         <div id='travel-ajax-message'></div>
         <div id="TravelFormDiv">
-        <?php echo $this->Form->create('PendingTravel', array('default' => !$do_ajax, 'url' => array('controller' => 'travels', 'action' => $form_action), 'style' => $style, 'id'=>'TravelForm'));?>
+        <?php 
+        $a = $this->Form->create('PendingTravel', array('default' => !$do_ajax, 'url' => array('controller' => 'travels', 'action' => $form_action), 'style' => $style, 'id'=>'TravelForm'));
+        echo $a/*$this->Form->create('PendingTravel', array('default' => !$do_ajax, 'url' => array('controller' => 'travels', 'action' => $form_action), 'style' => $style, 'id'=>'TravelForm'));*/?>
         <fieldset>
             <?php
             echo $this->Form->input('origin', array('type' => 'text', 'class'=>'locality-typeahead', 'label' => 'Origen del Viaje', 'required'=>true, 'value'=>$origin, 'autofocus'=>'autofocus'));
@@ -62,15 +72,12 @@ $form_disabled = !User::canCreateTravel()/*AuthComponent::user('travel_count') >
             echo $this->Form->custom_date('date', array('label' => __('Cuándo'), 'dateFormat' => 'dd/mm/yyyy'));
             echo $this->Form->input('people_count', array('label' => __('Personas que viajan <small class="text-info">(máximo número de personas)</small>'), 'default' => 1, 'min' => 1));
             echo $this->Form->checkbox_group(Travel::$preferences, array('header'=>'Preferencias <small class="text-info">(selecciona sólo si quieres esto obligatoriamente)</small>'));
-            echo $this->Form->input('contact', array('label' => __('Información de Contacto'), 
-                'placeholder' => 'Explica a los choferes la forma de contactarte (número de teléfono, correo electrónico o cualquier otra forma que prefieras). Escribe algo como: llamar al teléfono 12-3456 a Pepito.'));
+            echo $this->Form->input('contact', array('label' => __('Tu Información de Contacto'), 
+                'placeholder' => 'Explica a los choferes la forma de contactarte (número de teléfono, correo electrónico o cualquier otra forma que prefieras). Escribe algo como: Llamar al teléfono 12345678 a Pepito.'));
             echo $this->Form->input('id', array('type' => 'hidden'));
-
-            $submitOptions = array('style' => $buttonStyle, 'id'=>'TravelSubmit');
-            //if(!$do_ajax) $submitOptions['onclick'] = 'this.value="Espere ...";this.disabled=true;this.form.disabled=true;this.form.submit();';
-            echo $this->Form->submit(__($saveButtonText), $submitOptions);
-            if ($is_modal)
-                echo $this->Form->button(__('Cancelar'), array('id' => 'btn-cancel-travel', 'style' => 'display:inline-block'));
+            
+            $submitOptions = array('style' => $buttonStyle, 'id'=>'TravelSubmit', 'escape'=>false);
+            echo $this->Form->submit($saveButtonText, $submitOptions, $asLink);
             ?>
         </fieldset>
         <?php echo $this->Form->end(); ?>
@@ -186,4 +193,22 @@ echo $this->Js->writeBuffer(array('inline' => false));
         };
     };*/
 
+</script>
+
+<script type="text/javascript">
+    //<![CDATA[
+    function get_form( element )
+    {
+        while( element )
+        {
+            element = element.parentNode
+            if( element.tagName.toLowerCase() == "form" )
+            {
+                //alert( element ) //debug/test
+                return element
+            }
+        }
+        return 0; //error: no form found in ancestors
+    }
+    //]]>
 </script>

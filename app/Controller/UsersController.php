@@ -294,7 +294,7 @@ class UsersController extends AppController {
         }
         
         if($OK) {
-            /*if($welcome) $template = 'welcome';
+            if($welcome) $template = 'welcome';
             else $template = 'email_confirmation';
             
             $Email = new CakeEmail('no_responder');
@@ -307,7 +307,7 @@ class UsersController extends AppController {
                 $Email->send();
             } catch ( Exception $e ) {
                 $OK = false;
-            }*/
+            }
         } 
         
         return $OK;
@@ -416,7 +416,7 @@ class UsersController extends AppController {
             }
 
             if($OK) {
-                /*// Send email and redirect to a welcome page
+                // Send email and redirect to a welcome page
                 $Email = new CakeEmail('no_responder');
                 $Email->template('change_password')
                 ->viewVars(array('confirmation_code' => $code))
@@ -427,7 +427,7 @@ class UsersController extends AppController {
                     $Email->send();
                 } catch ( Exception $e ) {
                     $OK = false;
-                }*/
+                }
             }        
 
             if($OK) {

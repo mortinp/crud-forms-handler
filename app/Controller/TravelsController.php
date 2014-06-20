@@ -278,7 +278,9 @@ class TravelsController extends AppController {
      */
     
     private function getLocalitiesList() {
-        $list = Cache::read('localities_suggestion');
+        
+        return $this->Locality->getAsSuggestions();
+        /*$list = Cache::read('localities_suggestion');
         if (!$list) {
             $localities = $this->Locality->find('all');
             $list = array();
@@ -291,7 +293,7 @@ class TravelsController extends AppController {
             }
             Cache::write('localities_suggestion', $list);
         }        
-        return $list;
+        return $list;*/
     }
 }
 

@@ -45,12 +45,19 @@ class BootstrapFormHelper extends FormHelper {
         return parent::checkbox($fieldName, $options);
     }*/
 
-    public function submit($caption = null, $options = array()) {
+    public function submit($caption = null, $options = array(), $asLink = false) {
         $defaultOptions = array(
             'class' => 'btn btn-primary',
         );
         $options = array_merge($defaultOptions, $options);
-        return parent::submit($caption, $options);
+        
+        if(!$asLink) return parent::submit($caption, $options);
+        
+        else {
+            $options['onclick'] = "form=get_form(this);if($(form).valid())form.submit();return false;";
+            return $this->Html->link($caption, 'javascript:void', $options);
+        }
+        
     }
     
     public function button($caption = null, $options = array()) {

@@ -18,7 +18,7 @@ App::uses('Auth', 'Component');
             </div>
             <div id='travel-form' style="display:none">
                 <legend>Edita los datos de este viaje antes de confirmarlo <div><a href="#!" class="cancel-edit-travel">&ndash; no editar este viaje</a></div></legend>
-                <?php echo $this->element('pending_travel_form', array('do_ajax' => true, 'form_action' => 'edit_pending/' . $travel['PendingTravel']['id'], 'intent'=>'edit')); ?>
+                <?php echo $this->element('pending_travel_form', array('do_ajax' => true, 'form_action' => 'edit_pending', 'intent'=>'edit')); ?>
                 <br/>
             </div>
         </div>

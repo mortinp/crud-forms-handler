@@ -1,5 +1,7 @@
 <?php
 App::uses('AppModel', 'Model');
+App::uses('LocalityThesaurus', 'Model');
+
 class Locality extends AppModel {
     
     public $order = 'Locality.id';

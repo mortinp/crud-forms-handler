@@ -101,7 +101,7 @@ class EnhancedHtmlHelper extends HtmlHelper {
     
     
     public function link($title, $url = null, $options = array(), $confirmMessage = false) {
-        if(!isset ($url['plugin'])) $url['plugin'] = '';
+        if(is_array($url) && !isset ($url['plugin'])) $url['plugin'] = '';
         return parent::link($title, $url, $options, $confirmMessage);
     }
 

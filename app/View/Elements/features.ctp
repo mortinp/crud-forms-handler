@@ -20,7 +20,7 @@ if(!isset ($colspan))$colspan = 2;
 
     <div class="col-md-<?php echo $colspan?>">
       <h3>Precio negociado</h3>
-      <p>El precio del viaje lo negocias tú directamente con el chofer del taxi. Todas nuestras ofertas son competentes.</p>
+      <p>El precio del viaje lo negocias tú directamente con el chofer del taxi, sin intermediarios.<!-- Todas nuestras ofertas son competentes.--></p>
     </div>
 
     <div class="col-md-<?php echo $colspan?>">

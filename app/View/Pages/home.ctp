@@ -18,13 +18,19 @@ $isLoggedIn = AuthComponent::user('id') ? true : false;
             <br/> 
             <div style="background-color: lightyellow"><?php echo $this->element('features', array('colspan'=>6))?></div>
             
-            <br/>
+            <!--<br/>
             <br/>
             <p><b>¿Ya estás registrado en <em>YoTeLlevo</em>?</b> <big><?php echo $this->Html->link(__('Entra y mira tus anuncios'), array('controller' => 'users', 'action' => 'login')) ?></big></p>
-            
+            -->
+            <br/>
+            <br/> 
+            <div>
+                <div class="label label-success" style="font-size: 14px;float:left"><b>NUEVO</b></div>
+                <div style="text-align: center;"><b><?php echo $this->Html->link('PUEDES CONSEGUIR UN TAXI USANDO TU CORREO ELECTRÓNICO, SIN NECESIDAD DE TENER INTERNET', array('action'=>'by_email'), array('class'=>'text-success', 'escape'=>false))?></b></div>
+            </div>
         </div>
         <div class="col-md-6 col-md-offset-1 well" style="background-color: lightblue">
-            <legend><big>Crear Anuncio de Viaje</big></legend>
+            <legend><big>Crear Anuncio de Viaje</big> <div><small><small>¿Ya estás registrado en <em>YoTeLlevo</em>? <?php echo $this->Html->link(__('Entra y mira tus anuncios'), array('controller' => 'users', 'action' => 'login')) ?></small></small></div></legend>
             <?php echo $this->element('pending_travel_form', array('bigButton'=>true)); ?>
         </div>
     </div>

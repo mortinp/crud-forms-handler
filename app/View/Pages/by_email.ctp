@@ -59,10 +59,6 @@
             <p><b>¿Quieres saber más?</b> Escribe un correo a <b>info@yotellevo.ahiteva.net</b></p>
         </div>
     </div>
-    
-    <!--<br/>
-    <br/>
-    <?php echo $this->element('features')?>-->
 </div>
 
 

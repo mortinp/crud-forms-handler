@@ -3,6 +3,7 @@
     <?php
     echo $this->Form->input('username', array('label' => 'Correo electrónico', 'type' => 'email', 'id'=>'UserRegisterForm'));
     echo $this->Form->input('password', array('label'=> 'Contraseña', 'placeholder'=>'Escribe la contraseña que usarás para YoTeLlevo'));
+    echo $this->Form->checkbox('remember_me').' Recordarme';
     echo $this->Form->submit(__('Registrarme y Crear mi primer Anuncio de Viaje'));
     ?>
 </fieldset>

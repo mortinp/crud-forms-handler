@@ -43,7 +43,7 @@
             <h3>¿Cuántos anuncios de viajes puedo crear?</h3>
             <p>La cantidad de anuncios es ilimitada. Puedes crear todos los anuncios que quieras.</p>
             
-            <h3>¿Puedo viajar por toda Cuba con un chofer de <em>YoTeLlevo</em>?</h3>
+            <!--<h3>¿Puedo viajar por toda Cuba con un chofer de <em>YoTeLlevo</em>?</h3>
             <p>Actualmente sólo disponemos de choferes radicados en Granma, Santiago de Cuba y Holguín. Estos choferes brindan posibilidad de viajes por toda Cuba,
             pero siempre y cuando el origen o destino del viaje sean esos territorios, o territorios cercanos. Por ejemplo, un chofer de Santiago de Cuba
             puede llevarte a La Habana, o traerte hacia Guantánamo desde Pinar del Río; un chofer de Granma puede llevarte a Varadero, 
@@ -51,7 +51,7 @@
             </p>
             <p class="text-info"><b>Pero espera!!! La idea de <em>YoTeLlevo</em> es abarcar todo el territorio cubano, y nos estamos expandiendo rápidamente. 
             Pronto tendremos choferes en toda Cuba, y estamos listos para anunciar que casi abriremos bases de choferes en Ciego de Ávila y Camagüey.    
-            </b></p>
+            </b></p>-->
             
             <h3>¿Los datos de contacto que yo escribo al crear un anuncio son públicos? ¿Los puede ver cualquier persona?</h3>
             <p>NO. <b>Todos los datos de tus viajes, incluyendo tus contactos, son <big>privados</big></b>. Sólo los choferes que pueden atender tu viaje

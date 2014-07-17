@@ -76,69 +76,8 @@
                 <div><small><small>¿Ya estás registrado en <em>YoTeLlevo</em>? <?php echo $this->Html->link(__('Entra y mira tus anuncios'), array('controller' => 'users', 'action' => 'login')) ?></small></small></div>
             </legend>
             <?php echo $this->Session->flash(); ?>
-            <!--<form action="/yotellevo/travels/edit/153/153" style="" id="TravelForm" onsubmit="event.returnValue = false; return false;" method="post" accept-charset="utf-8"><div style="display:none;"><input type="hidden" name="_method" value="PUT"/></div>        <fieldset>
-                    <div class="col-md-12">
-                        <div class="col-md-6">
-                            <div class="col-md-6 inline-input-left">
-                                <div class="form-group">
-                                    <label for="TravelOrigin">Origen del Viaje</label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
-                                        <input name="data[Travel][origin]" class="form-control locality-typeahead" required="required" value="" autofocus="autofocus" type="text" id="TravelOrigin"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 inline-input-right">
-                                <div class="form-group">
-                                    <label for="TravelDestination">Destino del Viaje</label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
-                                        <input name="data[Travel][destination]" class="form-control locality-typeahead" required="required" value="" type="text" id="TravelDestination"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <label for="TravelDate">Fecha</label>
-                            <div class="form-group input-group required">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                <input name="data[Travel][date]" class="form-control datepicker" dateFormat="dd/mm/yyyy" type="text" value="" id="TravelDate" required="required"/>
-
-                            </div>
-                            <div class="form-group required">
-                                    <label for="TravelPeopleCount">Personas que viajan</label>
-                                <input name="data[Travel][people_count]" class="form-control" min="1" type="number" value="0" id="TravelPeopleCount" required="required"/>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group required">
-                                <label for="TravelContact">Información de Contacto</label>
-                                <textarea name="data[Travel][contact]" class="form-control" placeholder="Explica a los choferes la forma de contactarte (número de teléfono, correo electrónico o cualquier otra forma que prefieras). Escribe algo como: llamar al teléfono 12-3456 a Pepito." cols="30" rows="6" id="TravelContact" required="required"></textarea>
-                            </div>
-                            <div style="clear:both;height:100%;overflow:auto;padding-bottom:10px">
-                                <div>
-                                        <label>Preferencias</label>
-                                </div>
-                                <div style="padding-right:10px;float:left">
-                                    <input type="hidden" name="data[Travel][need_modern_car]" id="TravelNeedModernCar_" value="0"/>
-                                    <input type="checkbox" name="data[Travel][need_modern_car]"  value="1" id="TravelNeedModernCar"/> Auto Moderno
-                                </div>
-                                <div style="padding-right:10px;float:left">
-                                    <input type="hidden" name="data[Travel][need_air_conditioner]" id="TravelNeedAirConditioner_" value="0"/>
-                                    <input type="checkbox" name="data[Travel][need_air_conditioner]"  value="1" id="TravelNeedAirConditioner"/> Aire Acondicionado
-                                </div>
-                            </div>
-                            <input type="hidden" name="data[Travel][id]" class="form-control" value="" id="TravelId"/>
-                        </div>	
-                    </div>
-                    <div class="submit col-md-6 col-md-offset-3">
-                        <a href="javascript:void" class="btn btn-primary" style="font-size:18pt;white-space: normal;" id="TravelSubmit" onclick="form=get_form(this);if($(form).valid())form.submit();return false;">
-								Crear Anuncio
-                            <div style='font-size:12pt;padding-left:50px;padding-right:50px'>
-								Enseguida contactarás con hasta 3 de nuestros choferes
-                            </div>
-                        </a>
-                    </div>
-            </form>-->
             <?php echo $this->element('pending_travel_form', array('bigButton'=>true, 'horizontal'=>true)); ?>
+        </div>
     </div>
 </div>
 
